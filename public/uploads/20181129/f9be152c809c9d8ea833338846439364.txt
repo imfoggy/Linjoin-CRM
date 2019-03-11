@@ -1,0 +1,26 @@
+ip:47.254.69.154
+Bt-Panel: http://47.254.69.154:8888
+username: 2bsj1mth
+password: 099926ef
+ 
+root密码：Sdlz@2018
+ 
+阿里云账号：账号:山东领众  密码 sdlz2018
+
+聚合数据账号：账号linjoin   密码 sdlz2018
+
+
+http://xbl.crm.cc/index.php?m=user&a=login
+
+  
+xinbailing    xinbailing2018
+
+--------
+企业邮箱：
+https://qiye.163.com/login/     zhoutong@linjoin.com   sdlz2018
+--------
+领众CRM公众号
+账号：linjoincrm@163.com
+密码：sdlz2018
+appid:wx3aff743602c13c7a
+appsecret:434f40e6e10192f10186a1775bbc10ea

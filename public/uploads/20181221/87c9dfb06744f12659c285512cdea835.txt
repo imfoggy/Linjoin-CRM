@@ -1,0 +1,51 @@
+---------国外服务器-----
+ip:47.254.69.154
+Bt-Panel: http://47.254.69.154:8890
+username: 2bsj1mth
+password: 099926ef
+root密码：Sdlz@2018
+
+---------国内服务器------
+ip：47.105.49.107
+root密码：Sdlz@2018
+Bt-Panel: http://47.105.49.107:8890/84f1ce0d
+username: kwpgshzr
+password: d7137820
+-------------------
+ 
+阿里云账号：账号:山东领众  密码 sdlz2018
+
+聚合数据账号：账号linjoin   密码 sdlz2018
+
+
+http://xbl.crm.cc/index.php?m=user&a=login
+
+  
+xinbailing    xinbailing2018
+
+--------
+企业邮箱：
+https://qiye.163.com/login/     zhoutong@linjoin.com   sdlz2018
+--------
+领众CRM公众号
+账号：linjoincrm@163.com
+密码：sdlz2018
+appid:wx3aff743602c13c7a
+appsecret:434f40e6e10192f10186a1775bbc10ea
+
+-----------------crm邮箱---------
+info@linjoin.com
+密码：sdlz2018..
+授权码：sE55Y1MyJfcQ2rPJ
+
+域名：
+linjoin.com
+协议类型	服务器地址	默认端口	加密端口（SSL）
+POP	pophm.qiye.163.com	110	995
+SMTP	smtphm.qiye.163.com	25	994
+IMAP	imaphm.qiye.163.com	143	993
+海外客户端配置地址
+协议类型	服务器地址	默认端口	加密端口（SSL）
+POP	hwhkhm.qiye.163.com	110	995
+SMTP	hwhkhm.qiye.163.com	25	994、465
+IMAP	hwhkhm.qiye.163.com	143	993
