@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/litebox.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/liandong.css" rel="stylesheet">
+    <script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+    <script src="__OTHER__/xitong/liandong.js"></script>
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+	<div class="row">
+		<div class="wrapper wrapper-content animated fadeInRight">
+        	<div class="row"  style="margin-left: 0;margin-right: 0;">
+				<div class="col-sm-12">
+			  		<div class="title-bar" style="margin-bottom: 10px;padding: 12px 10px 6px 20px;background-color: #fff;border: 1px solid #ccc;margin: 10px;">
+						<div class="row " id="title-show">
+				  			<ul class="nav pull-left" style="margin:0px 10px 0px 20px;">
+								<span>
+									<img src="__IMG__/contract_view_icon.png" style="margin-bottom:9px;" alt="">
+								</span>
+								<span style="font-size:21px;margin-left:5px">{$info.product_name}</span>&nbsp;&nbsp;
+				  			</ul>
+				  			<div class="pull-right" style="margin-bottom:10px;margin-right: 20px;">
+				  				<a href="{:url('product/edit',['id'=>$info.id])}" class="btn btn-info"><i class="icon-pencil"></i> 修改</a>
+				  				<a href="javascript:;" class="btn btn-info" onclick="window.history.back();"><i class="icon-arrow-left"></i> 返回</a> 
+				  			</div>
+						</div>
+			  		</div>
+			  		<div class="tabs-container">
+						<div class="ibox-content" style="background:#fff;margin: 10px;" id="left-content">
+							<ul class="nav nav-tabs" id="left_list" style="height:40px;">
+								<li class="active"><a href="#tab1" data-toggle="tab" type="tab1" aria-expanded="false">基本信息</a></li>
+								<li class=""><a href="#tab2" data-toggle="tab" type="tab2" aria-expanded="false">产品规格<span class="badge badge-success"></span></a></li>
+								<li class=""><a href="#tab3" data-toggle="tab" type="tab3" aria-expanded="false">产品附件</a></li>
+						  	</ul>
+				  			<div class="tab-content">
+								<div class="tab-pane active in" id="tab1">
+									<div class="panel-body ">
+										<div class="form-horizontal view-group ">
+						                    <div class="form-group">
+						                        <label class="col-lg-2 control-label">创建时间</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info.create_time}</p>
+						                        </div>
+						                        <label class="col-lg-2 control-label">所属供应商</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">
+						                                <a class="role_info" href="javascript:void(0)" rel="1">{$info.supplier.name}</a>
+						                            </p>
+						                        </div>
+						                    </div>
+				                        	<div class="form-group">
+					                            <label class="col-lg-2 control-label">产品类别</label>
+					                            <div class="col-lg-4">  
+					                                <p class="form-p">
+					                                    <span style="color:#">{$info.category.catname}</span>
+					                                </p>
+					                            </div>
+					                            <label class="col-lg-2 control-label">单位</label>
+				                            	<div class="col-lg-4">
+			                                		<p class="form-p">
+			                                    		<span style="color:#333333">{$_config['product_unit'][$info[unit_id]]}</span>
+			                                		</p>
+				                                </div>
+				                        	</div>
+				                        	<div class="form-group">
+					                            <label class="col-lg-2 control-label">产品编号</label>
+					                            <div class="col-lg-4">  
+					                                <p class="form-p">
+					                                    <span style="color:#333333">{$info.sn}</span>
+					                                </p>
+					                            </div>
+					                            <label class="col-lg-2 control-label">描述</label>
+				                            	<div class="col-lg-4">
+				                                	<p class="form-p">
+					                                    <span style="color:#">{$info.desc}</span>
+					                                </p>
+				                                </div>
+				                        	</div>
+				                        	<div class="form-group">
+					                        	<label class="col-lg-2 control-label">是否有样品</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info[is_sample] == 'y' ? '有':'无'}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+					                        	<label class="col-lg-2 control-label" style="color: #1ab394;">是否多规格</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info[is_sku] == 'y' ? '有':'无'}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+					                    	</div>
+					                    	<div class="form-group">
+					                        	<label class="col-lg-2 control-label">成本价</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info.cost_price}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+					                        	<label class="col-lg-2 control-label">采购价</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info.procurement_price}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+					                    	</div>
+					                    	<div class="form-group">
+					                        	<label class="col-lg-2 control-label">供应商价格</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info.supplier_price}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+					                        	<label class="col-lg-2 control-label">销售价格</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info.sale_price}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+					                    	</div>
+
+						                    <div class="form-group">
+						                        <label class="col-lg-2 control-label">产品图片</label>
+						                        <div class="col-lg-4 ">
+						                            <a class="litebox" href="__UPLOADS__/{$info.image}" title="点击查看大图"><img src="__UPLOADS__/{$info.image}" style="max-width: 100px;height: auto;"></a>
+						                        </div>
+						                        <div class="col-lg-6 "></div>
+						                        <label class="col-lg-2 control-label">备注</label>
+						                        <div class="col-lg-4">
+						                            <p class="form-p">{$info.note}</p>
+						                        </div>
+					                        	<div class="col-lg-6"></div>
+						                    </div>
+					                    </div>
+									</div>
+								</div>
+							
+								<div class="tab-pane fade back_box" id="tab2">
+					  				<div class="panel-body">
+							            <div class="ibox" style="border: none;">
+							    			<div class="pull-right" style="padding-bottom: 15px"> 
+							                    <!-- <a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="addSku({$info.product_category_id});" id="add_spec">添加产品规格</a> -->
+							                    <!-- <a class="btn btn-primary btn-sm" href="javascript:void(0);" id="multi_spec" enable_spec="0">禁用多规格</a> -->
+							                </div>	
+							                <div class="table-con">			                					                    
+							                <table class="table select-table table-bordered">
+							                    <tbody>
+							               			<tr class="tabTh" style="border-right: 1px solid #e7eaec;text-align:center;background-color:#f9fafc;padding:14px;color:#999">
+							                            <td>序号</td>
+							                            <td>产品规格</td>
+							                            <td>成本价格 <i class="fa fa-question-circle" title="成本价"></i></td>
+							                            <td>采购价格 <i class="fa fa-question-circle" title="采购价"></i></td>
+							                            <td>供应商价格 <i class="fa fa-question-circle" title="采购价"></i></td>
+							                            <td>销售售价</td>
+							                            <td>状态</td>
+							                            <td></td>
+							                        </tr>
+							                    </tbody>
+							                    <tbody>
+							                    	{volist name="info.sku" id="item"}
+							                        <tr style="text-align:center;padding:14px;color:#666;border-right: 1px solid #e7eaec;" data-id="{$item.id}" class="sku-line">
+						                                <td>{$item.id}</td>
+						                                <td>{$item.attrStr|default='-'}</td>
+						                                <td>{$item.cost_price}</td>
+						                                <td>{$item.procurement_price}</td>
+						                                <td>{$item.supplier_price}</td>
+						                                <td>{$item.sale_price}</td>
+						                                <td class="sku-status" style="color:{$_config['status'][$item['status']]['color']}">{$_config['status'][$item['status']]['name']}</td>
+						                                <td class="dropdown">
+						                                	<span class="dropdown-toggle" data-toggle="dropdown" style="cursor:pointer;color:#8FA1B2">
+						                                        <i class="fa fa-angle-down fa-lg"></i>
+						                                    </span>
+						                                    <ul class="dropdown-menu">
+							                                    <li><a href="javascript:void(0);" class="product_edit" onclick="editSku({$item.id});">修改</a></li>
+							                                    {eq name="item.status" value="1"}
+																<li><a href="javascript:void(0);" class="oper_type lower" onclick="skuStatus({$item.id},2);">下架</a></li>
+																{else/}
+																<li><a href="javascript:void(0);" class="oper_type lower" onclick="skuStatus({$item.id},1);">上架</a></li>
+																{/eq}
+																<li><a href="javascript:void(0);" class="product_edit" onclick="deleteSku({$item.id});">删除</a></li>
+															</ul>
+						                                </td>
+							                        </tr>
+							                        {/volist}			                        
+						                        </tbody>
+							                </table>
+							                </div>						            
+							            </div> 
+							        </div>
+								</div>
+								<div class="tab-pane fade back_box" id="tab3">
+								  	<div class="panel-body">
+										<div class="header1">
+											<div class="alert alert-success col-sm-10" id="file_info" style="display: none;">
+					                            <span id="file_name"></span>
+					                        </div>
+									  		<div class="pull-right"> 
+									  			<a href="javascript:void(0);" class="add_file btn btn-primary">
+									  				<i class="fa fa-upload"></i>&nbsp;&nbsp;上传
+									  			</a> 
+									  		</div>
+									  		<div style="clear:both;"></div>
+										</div>
+										<div class="table-con">
+										<table class="table product-table">
+											<thead>
+												<tr>
+													<td>附件名称</td>
+													<td>大小</td>
+													<td>上传人</td>
+													<td>上传时间</td>
+													<td>操作</td>
+												</tr>
+											</thead>
+											<tbody id="file-insert">
+												{notempty name="info.files"}
+												{volist name="info.files" id="vo"}
+												<tr rel="{$vo.id}">
+													<td><a href="javascript:void(0)">{$vo.orign_name}</a></td>
+													<td>{$vo.size}B</td>
+													<td>{$vo.username}</td>
+													<td>{$vo.create_time}</td>
+													<td class="tdleft">
+														<a href="javascript:void(0);" class="file_delete" rel="{$vo.id}" onclick="delete_file({$vo.id})">删除</a>
+														<a href="{:url('files/download',['id'=>$vo.id])}" rel="{$vo.id}" file="{:request()->domain()}/uploads/{$vo.file}" filename="{$vo.orign_name}">下载</a>
+													</td>											
+												</tr>
+												{/volist}
+												{/notempty}						
+											</tbody>
+										</table>
+										</div>
+								  	</div>
+								</div>
+				  			</div>
+						</div>
+			  		</div>
+				</div>
+		  	</div>
+    	</div>
+	</div>
+
+    <!-- 修改规格 -->
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">编辑规格</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('sku/update')}" id="sku-form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">产品规格</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="attributes" id="attributes" autocomplete="off" required disabled readonly>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">成本价</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="cost_price" id="cost_price" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">采购价</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="procurement_price" id="procurement_price" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">供应商价</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="supplier_price" id="supplier_price" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">销售价</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="sale_price" id="sale_price" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增规格 -->
+    <div id="modal-add-sku" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">增加规格</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="multi_spec_content" style="width:100%; margin:0 auto;">
+                                <div title="扩展信息" tabid="tabItem3">
+                                    <div id="Div1">
+                                        <div position="center" class="">
+                                            <div style="" class="div_content">
+                                                <div class="div_contentlist" style="border: 1px solid #EBEBEB;padding: 10px;box-sizing: border-box;">
+                                                    <!-- <ul class="Father_Item0">
+                                                        <li style="margin-right: 10px;">
+                                                            <ul class="Father_Title">
+                                                                <li>颜色分类</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox3" type="checkbox" class="chcBox_Width" value="军绿色" lay-ignore>军绿色
+                                                                <span class="li_empty" contenteditable="true"></span></label>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox1" type="checkbox" class="chcBox_Width" value="花色" lay-ignore>花色
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                    </ul>
+                                                    <br>
+                                                    <ul class="Father_Item1">
+                                                        <li style="margin-right: 10px;">
+                                                            <ul class="Father_Title">
+                                                                <li>尺寸</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox7" type="checkbox" class="chcBox_Width" value="41" lay-ignore>41
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox8" type="checkbox" class="chcBox_Width" value="42" lay-ignore>42
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox9" type="checkbox" class="chcBox_Width" value="43" lay-ignore>43
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                    </ul>
+                                                    <br/>
+                                                    <ul class="Father_Item2">
+                                                        <li style="margin-right: 10px;">
+                                                            <ul class="Father_Title">
+                                                                <li>规格</li></ul>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox10" type="checkbox" class="chcBox_Width" value="s" lay-ignore>s
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox11" type="checkbox" class="chcBox_Width" value="m" lay-ignore>m
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                        <li class="li_width">
+                                                            <label class="spec_val" style="cursor: pointer;">
+                                                                <input id="Checkbox12" type="checkbox" class="chcBox_Width" value="l" lay-ignore>l
+                                                                <span class="li_empty"></span></label>
+                                                        </li>
+                                                    </ul>
+                                                    <br> -->
+                                                </div>
+                                                <div class="div_contentlist2">
+                                                    <div id="createTable" style="overflow: auto;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="__OTHER__/xitong/images-loaded.min.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/litebox.min.js" type="text/javascript"></script>
+    <script>
+    	function addSku(x){
+    		var v = x;
+            var url = "{:url('product/category',['action'=> 'attributes'])}";
+            $(".div_contentlist").html('');
+            $.ajax({
+                url:url,
+                type:'post',
+                data:{id:v},
+                beforeSend:function(){
+                    before = layer.msg('正在检索SKU属性，请稍后...',{time:0,shade:0.7,icon:4});
+                },
+                success:function(d){
+                    if(d.spec.length > 0){
+                        var str = '';
+                        var index = 0;
+                        $.each(d.spec,function(i,x){
+
+                            str += '<ul class="Father_Item'+index+'">';
+                            str += '<li style="margin-right: 10px;"><ul class="Father_Title"><li>'+x.name+'</li></ul></li>';
+                            if(x.valueArray.values.length > 0){
+                                $.each(x.valueArray.values,function(k,val){
+                                    str += '<li class="li_width"><label class="spec_val" style="cursor: pointer;"><input id="Checkbox'+val.id+'" name="list['+x.id+']['+val.id+']" type="checkbox" class="chcBox_Width" value="'+val.value+'" style="display:inline-block">'+val.value+'<span class="li_empty" contenteditable="true"></span></label></li>';
+                                })
+                            }
+                            index = index + 1;
+                            str += '</ul><br>';
+                        })
+                        $(".div_contentlist").html(str);
+                        $("#modal-add-sku").modal('show');
+                    }else{
+                        layer.msg('此分类下没有多规格属性',{time:1200,shade:0.7});
+                    }
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试~',{time:1200,shade:0.7});
+                }
+            })
+    	}
+    	//修改sku
+        function editSku(x){
+        	if(!x){
+        		layer.msg('sku参数错误',{time:1200,shade:0.7});
+        		return false;
+        	}
+        	$.ajax({
+        		type:'post',
+        		url:"{:url('sku/read')}",
+        		data:{id:x},
+        		beforeSend:function(){
+        			before = layer.msg('正在加载数据，请稍后...',{time:0,shade:0.7,icon:4});
+        		},
+        		success:function(d){
+        			if(d.code == 1){
+        				$("#sku-form").attr("action","{:url('sku/update')}?id="+d.data.id);
+        				$("#attributes").val(d.data.attrStr);
+        				$("#cost_price").val(d.data.cost_price);
+        				$("#procurement_price").val(d.data.procurement_price);
+        				$("#supplier_price").val(d.data.supplier_price);
+        				$("#sale_price").val(d.data.sale_price);
+        				$("#modal-form").modal('show');
+        			}else{
+        				layer.msg(d.msg,{time:1200,shade:0.7});
+        			}
+        		},
+        		complete:function(){
+        			layer.close(before);
+        		},
+        		error:function(){
+        			layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+        		}
+        	})
+        }
+    	//初始化图片查看插件
+        $('.litebox').liteBox({
+            revealSpeed: 400,
+            background: 'rgba(0,0,0,.8)',
+            overlayClose: true,
+            escKey: true,
+            navKey: true,
+            errorMessage: '图片加载失败.'
+        });
+
+    	function deleteSku(x){
+    		swal({
+                title: "您确定要删除这条规格吗？",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = x;
+            	if(!id){
+            		swal("提示", "不存在此规格", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('sku/delete')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:d.msg, type:"success"},function(){
+            					$(".sku-line[data-id="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", d.msg, "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+    	//下架/上架产品
+        function skuStatus(id,status){
+          if(!id){
+              swal('操作失败', '请选择一条信息', 'error');
+              return false;
+          }
+
+          if(status == 1){
+            var title = '上架';
+          }else if(status == 2){
+            var title = '下架';
+          }else{
+            layer.msg('状态错误',{time:1200,shade:0.7});
+            return false;
+          }
+          swal(
+              {title:"您确定要"+title+"此规格么？",
+              text:"",
+              type:"warning",
+              showCancelButton:true,
+              confirmButtonColor:"#DD6B55",
+              confirmButtonText:"是的，我要"+title+"！",
+              cancelButtonText:"取消",
+              closeOnConfirm:false,
+              },
+              function(isConfirm)
+              {
+                  if(isConfirm)
+                  {
+                     $.ajax({
+                          type:'post',
+                          url:"{:url('sku/status')}",
+                          data:{id: id,status:status},
+                          beforeSend:function(){
+                              before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                          },
+                          success:function(d){
+                              if(d.code == 1){
+                                  swal({title:'提示', text:d.msg,type:'success'},function(){
+                                      window.location.reload();
+                                  })
+                              }else{
+                                  swal('提示',d.msg,'error');
+                              }
+                          },
+                          complete:function(){
+                              layer.close(before);
+                          },
+                          error:function(){
+                              layer.msg('网络错误',{shade:0.7});
+                          }
+                     })
+                  }
+              }
+          )
+        }
+
+        function delete_file(x){
+    		swal({
+                title: "您确定要删除这个文件吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = x;
+            	if(!id){
+            		swal("提示", "不存在此文件", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('files/delete')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:d.msg, type:"success"},function(){
+            					$("tr[rel="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", d.msg, "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+        //执行实例
+        var uploadInst = layui.upload.render({
+            elem: '.add_file' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,accept:'file'
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    //保存数据库
+                    $.ajax({
+                    	type:'post',
+                    	url:"{:url('files/save')}",
+                    	data:{
+                    		from:"{:request()->controller()}",
+                    		orign_name:res.data.orignName,
+                    		file:res.data.file,
+                    		ext:res.data.ext,
+                    		size:res.data.size,
+                    		out_id:"{$info.id}",
+                    		username:"{:session('loginUser.username')}"
+                    	},
+                    	beforeSend:function(){
+                    		before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                    	},
+                    	success:function(d){
+                    		if(d.code == 1){
+                    			var str = '';
+                    			str += '<tr>';
+								str += '<td><a href="javascript:void(0)">'+d.data.orign_name+'</a></td>';
+								str += '<td>'+d.data.size+'B</td>';
+								str += '<td>'+d.data.username+'</td>';
+								str += '<td>'+d.data.create_time+'</td>';
+								str += '<td class="tdleft">';
+								str += '<a href="javascript:void(0);" class="file_delete" rel="'+d.data.id+'" onclick="delete_file('+d.data.id+')">删除</a>&nbsp;';
+								str += '<a href="{:url(\"files/download\")}?id='+d.data.id+'" rel="'+d.data.id+'" file="{:request()->domain()}/uploads/'+d.data.file+'" filename="'+d.data.orign_name+'">下载</a>';
+								str += '</td>';											
+							    str += '</tr>';
+							    $("#file-insert").append(str);
+                    		}
+                    	},
+                    	complete:function(){
+                    		layer.close(before);
+                    	},
+                    	error:function(){
+                    		layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    	}
+                    })
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    </script>
+</body>
+
+</html>

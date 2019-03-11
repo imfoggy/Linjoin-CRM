@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+	<!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	<style>
+		*{font-family: 'Microsoft YaHei'}
+		.copy-right{text-align: center;font-family: -webkit-body}
+        .avatar{width: 100px;}
+	</style>
+</head>
+<body>
+    <div class="weui-msg">
+        <img class="avatar" src="{$userinfo.headimgurl}">
+    </div>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">
+          <p>真实姓名</p>
+        </div>
+        <div class="weui-cell__ft">{$userinfo.truename}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__bd">
+          <p>微信昵称</p>
+        </div>
+        <div class="weui-cell__ft">{$userinfo.wxname}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__bd">
+          <p>微信标识</p>
+        </div>
+        <div class="weui-cell__ft">{$userinfo.openid}</div>
+      </div>
+    </div>
+  	<p class="weui-cells__tips copy-right">Powered by Linjoin Network Dept</p>
+	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+</body>
+</html>

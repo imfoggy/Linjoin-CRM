@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+        @media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+        .xm-select-parent{float: left;width: 40%;}
+		.btn-w-m{max-width: unset !important;}
+    </style>
+    <style>
+        .table_user{border:none !important}
+        .table_user tr{height:35px !important;padding:0px !important;}
+        .table_user tr td{border:none !important;height:35px !important;line-height: 35px !important;padding:0px !important;}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="t-header col-md-12 m-b-sm border-bottom">  
+                            <div class="xian">
+                            	 <div class="col-sm-8">
+									<button type="button" id="loading-example-btn" onclick="window.location.reload();" class="btn btn-w-m btn-info"><i class="fa fa-refresh"></i> 刷新数据</button>
+								</div>
+								<div class="col-sm-4 text-right">
+									<a href="{:url('contract/create',['type'=>$type])}">
+										<button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus"></i> 新增{$_config['contract_type_text'][$type]}</button>
+									</a>
+								</div>
+                            </div>  
+                        </div>
+
+                        <div id="action-list" style="position: relative;z-index: 99;display: none;">
+                            <div class="row  clearfix" id="tictle-hide" style="margin: 0px 0px 2px 0px;margin-bottom: 10px;padding: 0px 10px 0px 20px;background-color: #fff;border: 1px solid #ccc;height: 60px;">
+                                <ul class="breadcrum pull-left" style="position: absolute;top: 24px;width: 100%;">
+                                  <li>已选中&nbsp;<span id="icheck_num">0</span>&nbsp;项</li>
+                                  <li><a id="delete" href="javascript:void(0)" onclick="batchDelete();"><i class="fa fa-times"></i>&nbsp;批量删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content forum-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>{$_config['contract_type_text'][$type]}列表</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-sm-2 m-b-xs col-sm-offset-7">
+                                                    <select class="input-sm form-control input-s-sm inline" name="search_status" id="search-status">
+                                                        <option value="">-请选择-</option>
+                                                        <option value="1" {eq name="search_status" value="1"}selected{/eq}>待审合同</option>
+                                                        <option value="2" {eq name="search_status" value="2"}selected{/eq}>已通过合同</option>
+                                                        <option value="3" {eq name="search_status" value="3"}selected{/eq}>已拒绝合同</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3 pull-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="模糊搜索：合同名称" name="keywords_name" id="keywords_name" class="input-sm form-control" value="{$search_name|default=''}"> <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary search"> 搜索</button> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-h">
+												<div class="table-responsive" style="overflow: unset;">
+													<table class="table table-striped">
+														<thead>
+															<tr>
+
+																<th></th>
+																<th>合同编号</th>
+																<th>合同名称</th>
+																<th>客户</th>
+																<th>合同金额</th>
+																<th>签约时间</th>
+																<th>生效时间</th>
+																<th>起运港</th>
+																<th>目的港</th>
+																<th>签约人</th>
+																<th>审批人</th>
+																<th>状态</th>
+																{eq name="by" value=""}
+																<th>操作</th>
+																{/eq}
+															</tr>
+														</thead>
+														<tbody>
+															{volist name="list" id="item"}
+															<tr>
+																<td>
+																	<input type="checkbox" class="i-checks" name="input[]" value="{$item.id}">
+																</td>
+																<td>{$item.sn}<a href="{:url('read',['id'=> $item.id])}" style="color:#337ab7;">（查看）</a></td>
+																<td>{$item.name}</td>
+																<td>{$item.get_customer_user.company}</td>
+																<td>{$item.money}</td>
+																<td>{$item.sign_time}</td>
+																<td>{$item.effect_time}</td>
+																<td>[{$item.get_start_port_country.name}]{$item.start_port}</td>
+																<td>[{$item.get_end_port_country.name}]{$item.end_port}</td>
+																<td><a href="javascript:void(0);" onclick="showUserinfoForm('{$item.get_signatory_user.id}')">{$item.get_signatory_user.username}</a></td>
+																<td><a href="javascript:void(0);" onclick="showUserinfoForm('{$item.get_approvers_user.id}')">{$item.get_approvers_user.username}</a></td>
+																<td><span class="fa fa-circle" style="color: {$_config['contract_status'][$item['status']]['color']}"></span> {$_config['contract_status'][$item['status']]['text']}</td>
+																{eq name="by" value=""}
+																<td>
+																	<div class="btn-group">
+																		<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+																		</button>
+																		<ul class="dropdown-menu">
+																			<li><a href="{:url('contract/edit',['id'=>$item.id])}">编辑</a>
+																			</li>
+																			<li><a href="javascript:void(0)" onclick="deleteContract({$item.id});">删除</a>
+																			</li>
+																			<li class="divider"></li>
+																			<li><a href="javascript:void(0)" data-toggle="modal" onclick="showReview({$item.id});">审核</a>
+																			</li>
+																		</ul>
+																	</div>
+																</td>
+																{/eq}
+															</tr>
+															{/volist}
+														</tbody>
+													</table>
+												</div>
+                                            </div>
+                                        </div>
+                                        <div class="page">{$list|raw}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 审核合同弹窗 -->
+    <div id="modal-review" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">审核合同</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('contract/auditing')}" id="log-form">
+                                <input type="hidden" name="contract_id" id="contract_id" value="" />
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">审核结果</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" name="result" required>
+                                            <option value="2">同意</option>
+                                            <option value="3">拒绝</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <!-- <div class="form-group">
+                                    <label class="col-md-2 control-label">下一审批人：</label>
+                                    <div class="col-md-10">　
+                                        <div class="radio radio-info radio-inline" style="float: left;margin-right: 0px;">
+                                            <input type="radio" name="status" value="2" checked lay-ignore>
+                                            <label for="has_sn2" style="margin-right: 15px;padding-left: 0px;"></label>
+                                        </div>
+                                        <select class="form-control" xm-select="approvers" xm-select-search xm-select-radio xm-select-skin="primary">
+                                            <option value="">请选择</option>
+                                            {volist name="users" id="vo"}
+                                            <option value="{$vo.id}">{$vo.username}</option>
+                                            {/volist}
+                                        </select>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" name="status" value="1" lay-ignore>
+                                            <label for="has_sn1" style="padding-left: 0px;">审批结束</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div> -->
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">备注</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="note" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- Peity -->
+    <script src="__JS__/plugins/peity/jquery.peity.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <script src="__JS__/layuiformSelects-v3.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 时间选择控件 -->
+    <script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script>
+		
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            layui.formSelects.render({
+                name: 'approvers',
+                on:function(data,arr){
+                    //arr就是已经选择的数据
+                    //console.log(arr);
+                    if(arr[0]){
+                        $("#approvers_userid").val(arr['0'].val);
+                    }
+                }
+            })
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+            }
+        });
+
+        //搜索
+        $(".search").click(function(){
+            var keywords = $.trim($("#keywords_name").val());
+            var search_status = $("#search-status").val();
+            var url = window.location.href;
+            url = changeURLPar(url, 'name', keywords);
+            url = changeURLPar(url, 'status', search_status);
+            window.location.href = url;
+        })
+		
+        //删除线索
+        function deleteContract(id){
+            if(!id){
+                swal('操作失败', '请选择一个合同', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这份合同吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('contract/delete')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一个合同', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选合同吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('contract/delete')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        //弹出沟通记录弹出层
+        function showReview(x){
+            $("#contract_id").val(x);
+            $("#modal-review").modal('show');   
+        }
+
+        //弹出用户信息弹出层
+        function showUserinfoForm(x){
+            var id = x;
+            if(!id){
+                layer.msg('用户参数id错误',{time:1200,shade:0.7});
+                return false;
+            }
+
+            var url = "{:url('users/read')}?id="+id;
+            layer.open({
+                type: 2,
+                title: '用户信息',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['80%','300px'],
+                content: url //iframe的url
+            });
+        }
+    </script>
+    
+</body>
+
+</html>

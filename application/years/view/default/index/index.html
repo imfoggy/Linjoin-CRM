@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+	<!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	<style>
+		*{font-family: 'Microsoft YaHei'}
+		.copy-right{text-align: center;font-family: -webkit-body}
+		.name-input{font-size: 14px;}
+	</style>
+</head>
+<body>
+	<form method="post" action="{:url('index/index')}" id="form">
+		<div class="weui-cells weui-cells_form">
+		  <div class="weui-cell weui-cell_warn">
+		    <div class="weui-cell__hd"><label for="" class="weui-label">真实姓名</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input name-input" type="text" id="truename" name="truename" placeholder="请输入真实姓名">
+		    </div>
+		  </div>
+		</div>
+		<div class="weui-msg__opr-area">
+	    	<p class="weui-btn-area">
+	        	<a class="weui-btn weui-btn_primary submit">确认提交</a>
+	    	</p>
+	  	</div>
+	  	<input type="hidden" name="openid" value="{$userinfo.id}" id="openid">
+	  	<input type="hidden" name="wxname" value="{$userinfo.name}">
+	  	<input type="hidden" name="headimgurl" value="{$userinfo.avatar}">
+	  	<input type="hidden" name="sex" value="{$userinfo.original.sex}">
+  	</form>
+  	<p class="weui-cells__tips copy-right">Powered by Linjoin Network Dept</p>
+	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+	<script src="__JS__/plugins/layui/layui.all.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+    	$('.submit').click(function(){
+    		var truename = $.trim($("#truename").val());
+    		console.log(truename);
+    		var openid = $.trim($("#openid").val());
+    		if(truename == '' || !truename){
+    			swal('操作失败', '你好像木有填写真实姓名呢...^_^', 'error');
+    			return false;
+    		}
+    		if(openid == ''){
+    			swal('操作失败', '未获取到微信用户信息，请刷新页面后重试~', 'error');
+    			return false;
+    		}
+
+    		var data = $("#form").serialize();
+    		$.ajax({
+    			type:'post',
+    			url:"{:url('index/index')}",
+    			data:data,
+    			beforeSend:function(){
+    				before = layer.msg('请稍等，正在处理...',{time:0,shade:0.7, icon:16});
+    			},
+    			success:function(d){
+    				if(d.code == 1){
+    					swal({title: '成功', text: d.msg, type: 'success'}, function(){
+    						window.location.href = d.url;
+    					});
+    				}else{
+    					swal({title: '失败', text: d.msg, type: 'error'}, function(){
+    						window.location.href = d.url;
+    					});
+    				}
+    			},
+    			complete:function(){
+    				layer.close(before);
+    			},
+    			error:function(){
+    				swal('失败', '网络错误，请稍后再试~~', 'error');
+    			}
+    		})
+    	})
+    </script>
+</body>
+</html>

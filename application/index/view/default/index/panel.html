@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <script src="__JS__/echarts.js"></script>
+    <style>
+        .text-muted{color: #777;}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content mailbox-content">
+                                <div class="file-manager">
+                                    <span class="btn btn-block btn-danger compose-mail">线索</span>
+                                    <div class="space-25"></div>
+                                    <ul class="folder-list m-b-md" style="padding: 0;margin-bottom: 0px;">
+                                        <li>
+                                            <a> <i class="fa fa-code-fork"></i> 总数量<span class="label label-warning pull-right">{$clue['total'] ? $clue['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-code-fork"></i> 今日数量<span class="label label-warning pull-right">{$clue['today'] ? $clue['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-code-fork"></i> 本周数量<span class="label label-warning pull-right">{$clue['week'] ? $clue['week'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-code-fork"></i> 本月数量<span class="label label-warning pull-right">{$clue['month'] ? $clue['month'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-code-fork"></i> 本年数量<span class="label label-warning pull-right">{$clue['year'] ? $clue['year'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-code-fork"></i> 线索池<span class="label label-warning pull-right">{$clue['public'] ? $clue['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content mailbox-content">
+                                <div class="file-manager">
+                                    <span class="btn btn-block btn-danger compose-mail">客户</span>
+                                    <div class="space-25"></div>
+                                    <ul class="folder-list m-b-md" style="padding: 0;margin-bottom: 0px;">
+                                        <li>
+                                            <a> <i class="fa fa-user"></i> 总数量<span class="label label-warning pull-right">{$customer['total'] ? $customer['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-user"></i> 今日数量<span class="label label-warning pull-right">{$customer['today'] ? $customer['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-user"></i> 本周数量<span class="label label-warning pull-right">{$customer['week'] ? $customer['week'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-user"></i> 本月数量<span class="label label-warning pull-right">{$customer['month'] ? $customer['month'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-user"></i> 本年数量<span class="label label-warning pull-right">{$customer['year'] ? $customer['year'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-user"></i> 客户池<span class="label label-warning pull-right">{$customer['public'] ? $customer['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content mailbox-content">
+                                <div class="file-manager">
+                                    <span class="btn btn-block btn-danger compose-mail">合同</span>
+                                    <div class="space-25"></div>
+                                    <ul class="folder-list m-b-md" style="padding: 0;margin-bottom: 0px;">
+                                        <li>
+                                            <a> <i class="fa fa-sticky-note"></i> 总金额<span class="label label-warning pull-right">{$contract['total'] ? $contract['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-sticky-note"></i> 今日交易额<span class="label label-warning pull-right">{$contract['today'] ? $contract['today'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-sticky-note"></i> 本周交易额<span class="label label-warning pull-right">{$contract['week'] ? $contract['week'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-sticky-note"></i> 本月交易额<span class="label label-warning pull-right">{$contract['month'] ? $contract['month'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-sticky-note"></i> 本年交易额<span class="label label-warning pull-right">{$contract['year'] ? $contract['year'] : 0}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content mailbox-content">
+                                <div class="file-manager">
+                                    <span class="btn btn-block btn-danger compose-mail">产品</span>
+                                    <div class="space-25"></div>
+                                    <ul class="folder-list m-b-md" style="padding: 0;margin-bottom: 0px;">
+                                        <li>
+                                            <a> <i class="fa fa-shopping-cart"></i> 总数量<span class="label label-warning pull-right">{$product['total'] ? $product['total'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-shopping-cart"></i> 已上架<span class="label label-warning pull-right">{$product['up'] ? $product['up'] : 0}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a> <i class="fa fa-shopping-cart"></i> 已下架<span class="label label-warning pull-right">{$product['down'] ? $product['down'] : 0}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="row row-sm text-center">
+                            <div class="col-xs-12">
+                                <div class="panel padder-v item">
+                                    <div class="h1 text-info font-thin h1">{$supplier ? $supplier : 0} / {$users}</div>
+                                    <span class="text-muted text-xs">供应商 / 员工数</span>
+                                    <div class="top text-right w-full">
+                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="panel padder-v item bg-info">
+                                    <div class="h1 text-fff font-thin h1">{$receiveSample} / {$sendSample}</div>
+                                    <span class="text-muted text-xs">收样 / 发样</span>
+                                    <div class="top text-right w-full">
+                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="ibox" id="chart1" style="width:100%;height: 295px;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="ibox" id="chart2" style="width:100%;height: 295px;"></div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="ibox" id="chart3" style="width:100%;height: 295px;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="ibox" id="chart4" style="width:100%;min-height: 315px;"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="ibox" id="chart5" style="width:100%;min-height: 315px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layer/layer.min.js"></script>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart1'));
+        option = {
+            title: {
+                text: '合同数量统计分析',
+                //subtext: '纯属虚构'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['2017','2018']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1月份','2月份','3月份','4月份','5月份','6月份','7月份','8月份','9月份','10月份','11月份','12月份']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 份'
+                },
+                minInterval : 1,
+            },
+            series: [
+                {
+                    name:'2017',
+                    type:'line',
+                    smooth:true,
+                    data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                },
+                {
+                    name:'2018',
+                    type:'line',
+                    smooth:true,
+                    data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                }
+            ]
+        };
+
+        $.ajax({
+            type:'post',
+            url:"{:url('index/chart1')}",
+            success:function(d){
+                if(d.year.length > 0){
+                    var k = 0;
+                    $.each(d.year,function(i,v){
+                        option.legend.data = d.year;
+                        option.series[k].data = d.data[v];
+                        myChart.setOption(option);
+                        k++;
+                    })
+                }
+            },
+            beforeSend:function(){
+                before = layer.msg('正在加载数据，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('获取数据失败，请稍后再试',{time:1200,shade:0.7});
+            }
+        })
+
+        myChart.setOption(option);
+    </script>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('chart2'));
+        option2 = {
+            backgroundColor: '#2c343c',
+
+            title: {
+                text: '客户来源',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#ccc'
+                }
+            },
+
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+
+            // visualMap: {
+            //     show: true,
+            //     min: 1,
+            //     max: 600,
+            //     inRange: {
+            //         colorLightness: [0, 1]
+            //     }
+            // },
+            series : [
+                {
+                    name:'客户来源',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    // data:[
+                    //     {value:335, name:'直接访问'},
+                    //     {value:310, name:'邮件营销'},
+                    //     {value:274, name:'联盟广告'},
+                    //     {value:235, name:'视频广告'},
+                    //     {value:400, name:'搜索引擎'}
+                    // ].sort(function (a, b) { return a.value - b.value; }),
+                    data:[],
+                    roseType: 'radius',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            },
+                            smooth: 0.2,
+                            length: 10,
+                            length2: 20
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#c23531',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            color:function(params) {
+                                //自定义颜色
+                                var colorList = [           
+                                     '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',                                    
+                                     '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',                                            
+                                     '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                ];
+                                return colorList[params.dataIndex]
+                            }
+                        }
+                    },
+
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        };
+
+        $.ajax({
+            type:'post',
+            url:"{:url('index/chart2')}",
+            success:function(d){
+                if(d.length > 0){
+                    option2.series[0].data = d;
+                    myChart2.setOption(option2);
+                }
+            },
+            beforeSend:function(){
+                //console.log(option2.series[0].data[0]);
+                before = layer.msg('正在加载数据，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('获取数据失败，请稍后再试',{time:1200,shade:0.7});
+            }
+        })
+
+        myChart2.setOption(option2);
+    </script>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart3 = echarts.init(document.getElementById('chart3'));
+        option3 = {
+            title: {
+                text: '合同金额统计分析',
+                //subtext: '纯属虚构'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['2017','2018']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1月份','2月份','3月份','4月份','5月份','6月份','7月份','8月份','9月份','10月份','11月份','12月份']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 元'
+                },
+                minInterval : 1,
+            },
+            series: [
+                {
+                    name:'2017',
+                    type:'line',
+                    //smooth:true,
+                    data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                },
+                {
+                    name:'2018',
+                    type:'line',
+                    //smooth:true,
+                    data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                }
+            ]
+        };
+
+        $.ajax({
+            type:'post',
+            url:"{:url('index/chart3')}",
+            success:function(d){
+                if(d.year.length > 0){
+                    var k = 0;
+                    $.each(d.year,function(i,v){
+                        option3.legend.data = d.year;
+                        option3.series[k].data = d.data[v];
+                        myChart3.setOption(option3);
+                        k++;
+                    })
+                }
+            },
+            beforeSend:function(){
+                before = layer.msg('正在加载数据，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('获取数据失败，请稍后再试',{time:1200,shade:0.7});
+            }
+        })
+
+        myChart3.setOption(option3);
+    </script>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart4 = echarts.init(document.getElementById('chart4'));
+        option4 = {
+            title: {
+                text: '员工线索TOP10',
+                //subtext: '数据来自网络'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
+                minInterval : 1
+            },
+            yAxis: {
+                type: 'category',
+                data: []
+            },
+            series: [
+                {
+                    type: 'bar',
+                    data: []
+                }
+            ]
+        };
+
+        $.ajax({
+            type:'post',
+            url:"{:url('index/chart4')}",
+            success:function(d){
+                if(d.name.length > 0){
+                    option4.yAxis.data = d.name;
+                    option4.series[0].data = d.value;
+                    myChart4.setOption(option4);
+                }
+            },
+            beforeSend:function(){
+                before = layer.msg('正在加载数据，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('获取数据失败，请稍后再试',{time:1200,shade:0.7});
+            }
+        })
+
+        myChart4.setOption(option4);
+    </script>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart5 = echarts.init(document.getElementById('chart5'));
+        option5 = {
+            title: {
+                text: '员工客户TOP10',
+                //subtext: '数据来自网络'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
+                minInterval : 1
+            },
+            yAxis: {
+                type: 'category',
+                data: []
+            },
+            series: [
+                {
+                    //name: '2011年',
+                    type: 'bar',
+                    data: []
+                }
+            ]
+        };
+
+        $.ajax({
+            type:'post',
+            url:"{:url('index/chart5')}",
+            success:function(d){
+                if(d.name.length > 0){
+                    option5.yAxis.data = d.name;
+                    option5.series[0].data = d.value;
+                    myChart5.setOption(option5);
+                }
+            },
+            beforeSend:function(){
+                before = layer.msg('正在加载数据，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('获取数据失败，请稍后再试',{time:1200,shade:0.7});
+            }
+        })
+
+        myChart5.setOption(option5);
+    </script>
+    <script>
+        window.onresize = function(){
+            myChart.resize();
+            myChart2.resize();    //若有多个图表变动，可多写
+            myChart3.resize();
+            myChart4.resize();
+            myChart5.resize();
+        }
+    </script>
+</body>
+
+</html>

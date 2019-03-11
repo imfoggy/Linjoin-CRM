@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/bootstrap.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/hovershow.css" rel="stylesheet">
+    <!-- animate -->
+    <link rel="stylesheet" href="__OTHER__/xitong/animate.min.css">
+    <link rel="stylesheet" href="__OTHER__/xitong/notification.css">
+
+    <!-- Toastr style -->
+    <link href="__OTHER__/xitong/toastr.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__OTHER__/xitong/sweetalert.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!-- Mainly scripts -->
+    <script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+    <script src="__OTHER__/xitong/bootstrap.min.js"></script>
+    <script src="__OTHER__/xitong/moment.min.js"></script>
+    <script src="__OTHER__/xitong/jquery.form.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/jquery.metisMenu.js"></script>
+    <script src="__OTHER__/xitong/jquery.slimscroll.min.js"></script>
+    <!-- Toastr -->
+    <script src="__OTHER__/xitong/toastr.min.js"></script>
+
+    <!-- Sweet alert -->
+    <script src="__OTHER__/xitong/sweetalert.min.js"></script>
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        .table>tbody>tr>td{border-top:0px;}
+        .table>tfoot>tr>td{border-top:0px;}
+        #main_pic_prev{width: 38px;height: 38px;border: 1px dashed #d3d3d6;}
+        .table tbody tr {cursor: Default;}
+    </style>
+    <style>
+        body{
+          overflow-y: hidden;
+        }
+        table tbody tr{cursor:move;}
+        .active {color: #000;}
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        
+        /*主要样式*/
+        .subNavBox{width:100%;margin-top:0px;margin-bottom:50px;}
+        .subNav{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        .subNav_text{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        subNavBox ul{margin-bottom:18px;}
+        .subNav:hover{color:#375264;}
+        .navContent{list-style: none;display: none;padding-left: 13px;}
+        .navContent li a{display:block;width:100%;height:32px;text-align:left;font-size:14px;line-height:32px;color:#000;}
+        .li_text{padding-left:10px;width: 100%;float:left;line-height:32px;margin-bottom:3px;}
+        .li_text:hover{background-color:#f5f5f5;}
+        .li_text_active{float:left;background-color:#f5f5f5;padding-left:10px;width: 100%;border-left:2px solid #03a9f4;line-height:32px;margin-bottom:3px;color:#03a9f4;}
+        #table_div>table a{color: unset;}
+        #tfoot_div{text-align: center;}
+        .hr-line-dashed{margin:10px 0px;}
+    </style>
+    <link href="__OTHER__/xitong/cropper.min.css" rel="stylesheet">
+    <script src="__OTHER__/xitong/cropper.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#left_height").height(window.innerHeight-$("#left_height").offset().top-32);
+            $(window).resize(function(){
+                $("#left_height").height(window.innerHeight-$("#left_height").offset().top-32);
+            });
+        })
+    </script>
+</head>
+
+<body class="gray-bg">
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg" style="background: rgb(230, 233, 240); min-height: 889px;margin: 0px 0px 0px 0px;">
+            <div class="wrapper wrapper-content animated fadeIn">
+                <div class="row">
+                    <div class="col-lg-12">         
+                        {include file="public:middle" /}
+                        <div class="col-md-10">
+                            <div id="table_container" style="border-top:3px solid #e7eaec;">
+                                <div class="title-bar">
+                                    <div class="row  clearfix" id="title-hide" style="display:none;">
+                                        <ul class="breadcrum pull-left">
+                                            <li>已选中&nbsp;<span id="icheck_num"></span>&nbsp;项</li>
+                                            <li id="user_span"><a id="delete" href="javascript:void(0)" onclick="del_user(1)"><i class="fa fa-times"></i>&nbsp;停用账号</a></li>
+                                            <li class="single_btn"><a href="javascript:void(0)" id="edit_user"><i class="fa fa-pencil"></i>&nbsp;修改信息</a></li>
+                                            <li class="single_btn"><a href="javascript:void(0);" id="reset_password" class="link"><i class="fa fa-download"></i>&nbsp;重置密码</a></li>
+                                                                            <li class="last_li"><big><a class="fa fa-times pull-right" id="back-show"></a></big></li>
+                                        </ul>
+                                    </div>
+                                    <div class="row " id="title-show">
+                                        <div class="nav pull-left" style="margin:2px 0 0 15px;">
+                                            <a data-toggle="modal" onclick="userForm(this);" class="btn btn-primary btn-sm pull-left" style="margin-right:8px"><i class="fa fa-plus-circle"></i>&nbsp; 添加员工</a>                            
+                                        </div>
+                                        <form class="form-inline" action="{:url('users/index')}" method="post">
+                                            <ul class="breadcrum pull-right" style="margin-bottom: 0px">
+                                                <li>
+                                                    搜索：
+                                                    <div class="input-group">
+                                                        <input id="short_search" type="text" style="width:160px;" placeholder="请输入用户真实姓名" onkeydown="if(event.keyCode==13) {$('#short_search_btn').trigger('click');return false;}" class="form-control input-sm" name="search_nickname" value="{$search_nickname|default=''}">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default btn-search" id="short_search_btn" type="submit"><i class="fa fa-search"></i></button>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <!-- <span style="margin-left:20px;">状态：</span>
+                                                <select class="form-control" onchange="window.open(this.options[this.selectedIndex].value,target='_self')" style="margin-bottom:5px;">
+                                                    <option value="/index.php?m=user&amp;a=index">--全部--</option>
+                                                    <option value="/index.php?m=user&amp;a=index&amp;status=1&amp;listrows=15">已激活</option>
+                                                    <option value="/index.php?m=user&amp;a=index&amp;status=3&amp;listrows=15">未激活</option>
+                                                    <option value="/index.php?m=user&amp;a=index&amp;status=2&amp;listrows=15">已停用</option>
+                                                </select> -->
+                                            </ul>
+                                        </form>
+                                    </div>
+                                </div>
+                                <form action="/index.php?m=user&amp;a=delete" id="user_form" method="post" style="position:relative;">
+                                    <div class="col-sm-12 ibox-content" style="margin-top:0px;padding:0px;">
+                                        <div id="table_div" class="nicescroll" style="left: 0px; top: 0px; height: 687px; overflow: hidden; outline: none;" tabindex="0">
+                                            <table class="table table-hover table-striped table_thead_fixed" id="tab_Test3">
+                                                <tbody>
+                                                    <tr colspan="7" class="tabTh">
+                                                        <td nowrap="nowrap">ID</td>
+                                                        <td style="width:170px;" nowrap="nowrap">
+                                                            <span style="margin-left:30px;">员工</span>
+                                                        </td>
+                                                        <td nowrap="nowrap">登录账号</td>
+                                                        <td nowrap="nowrap">员工编号</td>
+                                                        <td nowrap="nowrap">手机号</td>
+                                                        <td nowrap="nowrap">邮箱</td>                             
+                                                        <td nowrap="nowrap">部门</td>
+                                                        <td nowrap="nowrap">职位</td>
+                                                        <td nowrap="nowrap">操作</td>
+                                                    </tr>
+                                                    {volist name="lists" id="vo"}
+                                                    <tr>
+                                                        <td nowrap="nowrap">{$vo.id}</td>
+                                                        <td nowrap="nowrap">
+                                                            <a href="javascript:void(0);" onclick="showUserinfoForm('{$vo.id}')">
+                                                                {notempty name="vo.avatar"}
+                                                                <img class="img-circle" style="width:32px;height:32px;" src="{$vo.avatar}">
+                                                                {else/}
+                                                                <img class="img-circle" style="width:32px;height:32px;" src="__IMG__/avatar_default.png">
+                                                                {/notempty}
+                                                                {$vo.nickname}
+                                                            </a>
+                                                        </td>
+                                                        <td nowrap="nowrap">
+                                                            <span class="fa fa-circle" style="color:{eq name='vo.status' value='1'}#5ACD61;{else/}#FF6C62;{/eq}"></span> 
+                                                            {$vo.username}</td>
+                                                        <td nowrap="nowrap">{$vo.sn}</td>
+                                                        <td nowrap="nowrap">{$vo.phone}</td>
+                                                        <td nowrap="nowrap">{$vo.email}</td>
+                                                        <td nowrap="nowrap">{$vo.department.name}</td>
+                                                        <td nowrap="nowrap">{$vo.auth_group.title}</td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a href="javascript:void(0)" data-toggle="modal" onclick="userForm({$vo.id},'edit');">编辑用户</a>
+                                                                    </li>
+                                                                    {eq name="vo.status" value="1"}
+                                                                    <li><a href="javascript:void(0)" onclick="banUser({$vo.id});">停用账号</a>
+                                                                    </li>
+                                                                    {else /}
+                                                                    <li><a href="javascript:void(0)" onclick="activeUser({$vo.id});">启用账号</a>
+                                                                    </li>
+                                                                    {/eq}
+                                                                    <!-- <li><a href="javascript:void(0)" data-toggle="modal" onclick="showLogForm({$vo.id});">修改密码</a>
+                                                                    </li> -->
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {/volist}                              
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="ibox-content" style="position:relative;padding-top: 5px;height: 40px;border: none;">
+                                            <div class="table-content">
+                                                <div class="ibox-span">
+                                                    <span class="fa fa-circle" style="color:#5ACD61;"></span>
+                                                    <span>已启用</span>
+                                                </div>
+                                                <div class="ibox-span">
+                                                    <span class="fa fa-circle" style="color:#FF6C62;"></span>
+                                                    <span>已停用</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tfoot_div" class="clearfix">
+                                            {$lists|raw}
+                                        </div>
+                                    </div>
+                                </form>                     
+                            </div>                      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加用户弹出层 -->
+    <div id="modal-user" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加员工</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form layui-form" method="post" action="{:url('users/save')}" id="user-form">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">员工编号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="sn" id="sn" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">部门职位</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control clue-from" name="department_id" id="department_id" required style="height: unset;" lay-ignore>
+                                            <option value="">请选择</option>
+                                            {$departmentOptionHtml|raw}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <select class="form-control clue-from" name="group_id" id="group_id" required style="height: unset;" lay-ignore>
+                                            <option value="">请选择</option>
+                                            {$groupOptionHtml|raw}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="nickname" id="nickname" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" name="email" id="email" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">登录账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="username" id="username" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">初始密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="password" id="password" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">确认密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="confirmpassword" id="confirmpassword" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="phone" id="phone" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">性别</label>
+                                    <div class="col-md-6" style="width: 60%">　
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" name="sex" value="m" checked="checked" lay-ignore>
+                                            <label for="has_sn1">男</label></div>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" name="sex" value="w" lay-ignore>
+                                            <label for="has_sn2" style="margin-right: 15px;">女</label></div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">日志汇报领导</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" xm-select="boss" xm-select-search xm-select-skin="primary">
+                                            {volist name="departmentUsers" id="vo"}
+                                            <optgroup label="{$vo.name}" style="color:blue">
+                                                {volist name="vo.users" id="user"}
+                                                <option value="{$user.id}">{$user.username}</option>
+                                                {/volist}
+                                            </optgroup>
+                                            {/volist}
+                                        </select>
+                                        <div id="boss_user" style="display:none;"></div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="__OTHER__/xitong/index.js"></script> 
+    <!-- layer --> 
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/layuiformSelects-v3.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <script type="text/javascript">
+    　　　 $(function(){
+    　　　　    $("#inner-content").slimScroll({ height: '815px' });
+    　　　　})
+
+    	var select = [];
+
+    	//checkbox点击全选
+    	$(".check_all").click(function(){
+    		$("input[class='check_list']").prop('checked', $(this).prop("checked"));//选中
+    		select = [];
+    		$("input[class='check_list']:checked").each(function(){  
+			    select.push($(this).val());//向数组中添加元素  
+			});
+			console.log(select);
+    	})
+
+    	//checkbox单选
+    	$(".check_list").change(function(){
+    		var value = $(this).val();
+    		var index = select.indexOf(value);
+    		//如果数组中存在这个元素，就删除，不存在就添加
+            if(index > -1 ){
+                select.splice(index,1);
+            }else{
+            	select.push(value);
+            }
+
+            console.log(select);
+    	})
+
+    	//添加弹出层
+    	// $("#add").click(function(){
+    	// 	$("#modal-form").modal();
+    	// });
+
+    	// //点击编辑
+    	// function edit(x){
+    	// 	if(!x){
+    	// 		layer.msg('参数错误',{time:1200,shade:0.7});
+    	// 		return false;
+    	// 	}
+    	// 	$("#clue_from_id").val(x);
+    	// 	$("#modal-form").modal();
+    	// }
+    	function showForm(id,action){
+            if(action == 'edit'){
+                $("#clue_from_id").val(id);
+                $("#log-form").attr("action","{:url('options/cluefrom',['action'=>'update'])}?id=" + id);
+                $.ajax({
+                    type:'post',
+                    url:"{:url('options/cluefrom',['action'=>'edit'])}",
+                    data:{id:id},
+                    beforeSend:function(){
+                        before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                    },
+                    success:function(d){
+                        if(d){
+                            $("#value").val(d);
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                        $("#modal-form").modal();
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                    }
+                })
+            }else{
+                $("#log-form").attr("action","{:url('options/cluefrom',['action'=>'save'])}");
+                $("#clue_from_id").val("");
+                $("input[name='value']").val("");
+                $("#modal-form").modal();
+            }
+        }
+
+        $("#department_id").change(function(){
+            var did = $(this).val();
+            if(did > 0){
+                $.ajax({
+                    type:'post',
+                    url:"{:url('group/position')}",
+                    data:{department_id:did},
+                    beforeSend:function(){
+                        before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        var str = '<option value="" selected>请选择</option>';
+                        //console.log(d.length);
+                        if(d.length > 0){
+                            // $.each(d, function(i,v){
+                            //     str += '<option value="'+v.id+'">'+v.title+'</option>';
+                            // })
+                            str += d;
+                            $("#group_id").html(str);
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                    }
+                })
+            }else{
+                var str = '<option value="" selected>请选择</option>';
+                $("#group_id").html(str);
+            }
+        })
+
+    	//停用账号
+    	function banUser(x){
+    		var id = x;
+    		if(!id){
+                swal('操作失败', '请选择一条数据', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要停用此账号吗",
+                text:"账号停用后，将无法登陆并且无法进行任何操作",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，确认停用！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('users/ban')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+    	}
+
+        //启用账号
+        function activeUser(x){
+            var id = x;
+            if(!id){
+                swal('操作失败', '请选择一条数据', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要启用此账号吗",
+                text:"",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，确认启用！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('users/active')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 编辑用户
+         * @Author Foggy
+         * @Date   2018-11-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function userForm(x,action){
+            if(action == 'edit'){
+                if(!x){
+                    layer.msg('用户id参数缺失',{time:1200,shade:0.7});
+                    return false;
+                }
+
+                $.ajax({
+                    type:'post',
+                    url:"{:url('users/edit')}",
+                    data:{id: x},
+                    beforeSend:function(){
+                        before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            $("#sn").val(d.data.info.sn);
+                            $("#department_id").val(d.data.info.department_id);
+                            $("#group_id").val(d.data.info.group_id);
+                            $("#nickname").val(d.data.info.nickname);
+                            $("#email").val(d.data.info.email);
+                            $("#username").val(d.data.info.username);
+                            $("#username").removeAttr("name");
+                            $("#username").attr("disabled","true");
+                            $("#phone").val(d.data.info.phone);
+                            $("#sex").val(d.data.info.sex);
+
+                            //获取到log_boss
+                            var logBoss = [];
+                            if(d.data.info.log_boss){
+                                var inputStr = '';
+                                $.each(d.data.info.log_boss,function(i,v){
+                                    logBoss.unshift(v.boss_user_id);
+                                    inputStr += '<input type="text" name="boss_user_id[]" value="'+v.boss_user_id+'">';
+                                })
+
+                                $("#boss_user").html(inputStr);
+                            }
+
+                            layui.formSelects.value('boss', logBoss);
+
+
+                            $("#user-form").attr("action","{:url('users/update')}?id="+x);
+                            $("#modal-user").modal();
+                        }else{
+                            swal('提示',d.msg,'error');
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误',{shade:0.7});
+                    }
+               })
+            }else{
+                //var allow = true;
+                //先检测当前账号下面有多少员工数了。
+                $.ajax({
+                    type:'post',
+                    url:"{:url('users/usersnumber')}",
+                    //ansy:false,
+                    beforeSend:function(){
+                        before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            $("#sn").val("");
+                            $("#department_id").val("");
+                            $("#group_id").val("");
+                            $("#nickname").val("");
+                            $("#username").val("");
+                            $("#username").attr("name", "username");
+                            $("#username").removeAttr("disabled");
+                            $("#phone").val("");
+                            $("#sex").val("");
+
+                            layui.formSelects.value('boss', []);
+                            $("#user-form").attr("action","{:url('users/save')}");
+                            $("#modal-user").modal();
+                        }else{
+                            //allow = false;
+                            layer.msg(d.msg,{time:3000,shade:0.7});
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                    }
+                })
+            }
+        }
+
+        //渲染日志领导人select多选
+        layui.formSelects.render({
+            name: 'boss',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                // console.log(arr);
+                var str = '';
+                $.each(arr,function(i,v){
+                    str += '<input type="text" name="boss_user_id[]" value="'+v.val+'">';
+                })
+                $("#boss_user").html(str);
+            }
+        })
+
+        //弹出用户信息弹出层
+        function showUserinfoForm(x){
+            var id = x;
+            if(!id){
+                layer.msg('用户参数id错误',{time:1200,shade:0.7});
+                return false;
+            }
+
+            var url = "{:url('users/read')}?id="+id;
+            layer.open({
+                type: 2,
+                title: '用户信息',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['80%','300px'],
+                content: url //iframe的url
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{$_siteName}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css" rel="stylesheet">
+        <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+        <link href="__OTHER__/xitong/liandong.css" rel="stylesheet">
+        <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+        <script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+        <script src="__OTHER__/xitong/liandong.js"></script>
+        <!-- Sweet Alert -->
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+        <style>
+	        .t-header{background: #ffffff;height: 60px;line-height: 60px;} 
+	    	.text-right{text-align: right;} .page{text-align: center;} 
+	    	#file_info{display: none;} .row{margin-left: 0px;margin-right: 0px;} 
+	   		/*.modal-dialog{width:700px;}*/ 
+	   		#createTable{ height: 600px; overflow: auto; }
+   		</style>
+   	</head>
+    
+    <body class="gray-bg">
+        <div class="row">
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <form class="form-horizontal ajax-form layui-form" id="form" role="form" method="post" enctype="multipart/form-data" action="{:url('product/save')}">
+                    <div class="ibox-content add_body" id="add_body" style="height: 805px;">
+                        <div class="row">
+                            <div class="col-md-5 add_body" style="height:789px;">
+                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                                    <div class="full-height-scroll" style="overflow: hidden; width: auto; height: 100%;">
+                                        <div class="row">
+                                            <div class="col-md-12 add_body_title">
+                                                <div class="all-inline">
+                                                    <span class="sq-tag"></span>
+                                                    <div class="text-tag">
+                                                        <span>基础信息</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-11 add_body_form" style="margin-left:15px;">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">所属供应商：</label>
+                                                    <div class="col-md-7">
+                                                        <select class="form-control" xm-select="supplier" xm-select-search xm-select-radio xm-select-skin="primary">
+                                                            <option value="">请选择</option>
+                                                            {volist name="suppliers" id="vo"}
+                                                            <option value="{$vo.id}">{$vo.name}</option>
+                                                            {/volist}
+                                                        </select>
+                                                        <input type="hidden" name="product[supplier_id]" id="supplier_id" value="">
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">产品名称：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control required" type="text" id="product_name" name="product[product_name]" value="" aria-required="true">
+                                                        <span id="nameTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <span style="color: red;line-height: 32px;margin-left: 10px;">*</span></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">产品类别：</label>
+                                                    <div class="col-md-7">
+                                                        <select class="form-control " id="product_category_id" name="product[product_category_id]" lay-ignore>
+                                                            <option value="">请选择</option>
+                                                            {$categoryHtml|raw}
+                                                        </select>
+                                                        <span id="category_idTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">商品描述：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control " type="text" id="desc" name="product[desc]" value="">
+                                                        <span id="sketchTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">单位：</label>
+                                                    <div class="col-md-7">
+                                                        <select class="form-control required" id="unit_id" name="product[unit_id]" aria-required="true" lay-ignore>
+                                                            <option value="">--请选择--</option>
+                                                            {volist name="_config.product_unit" id="vo"}
+                                                            <option value="{$key}">{$vo}</option>
+                                                            {/volist}
+                                                        </select>
+                                                        <span id="standardTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <span style="color: red;line-height: 32px;margin-left: 10px;">*</span></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">产品编号：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control " type="text" id="sn" name="product[sn]" value="">
+                                                        <span id="product_numTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group no_spec_show">
+                                                    <label class="col-md-3 control-label">成本价：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control number " type="text" id="cost_price" name="product[cost_price]" value="">
+                                                        <span id="cost_priceTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group no_spec_show">
+                                                    <label class="col-md-3 control-label">采购价格：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control number " type="text" id="procurement_price" name="product[procurement_price]" value="">
+                                                        <span id="cost_priceTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group no_spec_show">
+                                                    <label class="col-md-3 control-label">供应商价格：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control number " type="text" id="supplier_price" name="product[supplier_price]" value="">
+                                                        <span id="cost_priceTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group no_spec_show">
+                                                    <label class="col-md-3 control-label">销售售价：</label>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control number " type="text" id="sale_price" name="product[sale_price]" value="" >
+                                                        <span id="suggested_priceTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">是否有样品：</label>
+                                                    <div class="col-md-7" style="width: 60%">　
+                                                        <div class="radio radio-info radio-inline">
+                                                            <input type="radio" name="product[is_sample]" value="y" lay-ignore>
+                                                            <label for="has_sn1">是</label></div>
+                                                        <div class="radio radio-info radio-inline">
+                                                            <input type="radio" name="product[is_sample]" value="n" checked="checked" lay-ignore>
+                                                            <label for="has_sn2" style="margin-right: 15px;">否</label></div>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                               <div class="form-group">
+                                                    <label class="col-sm-3 control-label">产品图片</label>
+                                                    <div class="col-sm-7">
+                                                        <button type="button" class="btn btn-w-m btn-primary" id="upload">文件上传</button>
+                                                        <span id="file_info"> 已上传文件 <span id="file_name">xxxxx.jpg</span></span>
+                                                    </div>
+                                                    <span id="file_input_info"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">备注：</label>
+                                                    <div class="col-md-7">
+                                                        <textarea rows="5" class="form-control " id="note" name="product[note]"></textarea>
+                                                        <span id="descriptionTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 pull-right">
+                                                <!-- <div style="height: 100%; border-right: 1px dashed gray;">&nbsp;sadf</div> --></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 add_body" style="height:auto;overflow-y: auto;">
+                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                                    <div class="full-height-scroll" style="overflow: hidden; width: auto; height: 100%;">
+                                        <div class="row">
+                                            <div class="col-md-12 add_body_title">
+                                                <div class="all-inline">
+                                                    <span class="sq-tag"></span>
+                                                    <div class="text-tag">
+                                                        <span>产品设置</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 add_body_form" style="margin-left:15px;">
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">商品多规格：</label>
+                                                    <div class="col-md-6">
+                                                        <div class="radio radio-info radio-inline multi_spec">
+                                                            <input type="radio" name="product[is_sku]" value="y" lay-ignore>
+                                                            <label for="enable1">启用</label></div>
+                                                        <div class="radio radio-info radio-inline multi_spec">
+                                                            <input type="radio" name="product[is_sku]" value="n" checked="checked" lay-ignore>
+                                                            <label for="enable12" style="margin-right: 15px;">禁用</label></div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <span style="color: red;line-height: 32px;margin-left: 10px;">*</span></div>
+                                                </div>
+                                                <div id="multi_spec_content" style="width:100%; margin:0 auto;display: none;">
+                                                    <div title="扩展信息" tabid="tabItem3">
+                                                        <div id="Div1">
+                                                            <div position="center" class="">
+                                                                <div style="" class="div_content">
+                                                                    <div class="div_contentlist" style="border: 1px solid #EBEBEB;padding: 10px;box-sizing: border-box;">
+                                                                        <!-- <ul class="Father_Item0">
+                                                                            <li style="margin-right: 10px;">
+                                                                                <ul class="Father_Title">
+                                                                                    <li>颜色分类</li>
+                                                                                </ul>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox3" type="checkbox" class="chcBox_Width" value="军绿色" lay-ignore>军绿色
+                                                                                    <span class="li_empty" contenteditable="true"></span></label>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox1" type="checkbox" class="chcBox_Width" value="花色" lay-ignore>花色
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <br>
+                                                                        <ul class="Father_Item1">
+                                                                            <li style="margin-right: 10px;">
+                                                                                <ul class="Father_Title">
+                                                                                    <li>尺寸</li>
+                                                                                </ul>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox7" type="checkbox" class="chcBox_Width" value="41" lay-ignore>41
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox8" type="checkbox" class="chcBox_Width" value="42" lay-ignore>42
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox9" type="checkbox" class="chcBox_Width" value="43" lay-ignore>43
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <br/>
+                                                                        <ul class="Father_Item2">
+                                                                            <li style="margin-right: 10px;">
+                                                                                <ul class="Father_Title">
+                                                                                    <li>规格</li></ul>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox10" type="checkbox" class="chcBox_Width" value="s" lay-ignore>s
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox11" type="checkbox" class="chcBox_Width" value="m" lay-ignore>m
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                            <li class="li_width">
+                                                                                <label class="spec_val" style="cursor: pointer;">
+                                                                                    <input id="Checkbox12" type="checkbox" class="chcBox_Width" value="l" lay-ignore>l
+                                                                                    <span class="li_empty"></span></label>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <br> -->
+                                                                    </div>
+                                                                    <div class="div_contentlist2">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <div id="createTable"></div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">//页面加载初始化
+                                                    $(document).ready(function() {
+                                                        //默认加载的规格属性
+                                                        //load_spec_name();
+                                                                                                                //点击多规格启用或禁用
+                                                        $('.multi_spec').bind("click",
+                                                        function(e) {
+                                                            var enable = $(this).children('input[type=radio]').val();
+                                                            var isAllowSet = true;
+                                                            if (enable == 'y') {
+                                                                //启用
+                                                                //先检测当前产品分类下是否具有多规格设置
+                                                                var category_id = $("#product_category_id").val();
+                                                                $.ajax({
+                                                                    type:'post',
+                                                                    url:"{:url('product/category',['action'=> 'attributes'])}",
+                                                                    data:{id:category_id},
+                                                                    async:false,
+                                                                    beforeSend:function(){
+                                                                        before = layer.msg('正在检索SKU属性，请稍后...',{time:0, shade:0.7, icon:4});
+                                                                    },
+                                                                    success:function(d){
+                                                                        if(!d.spec || d.spec.length <= 0){
+                                                                            //说明当前分类下没有sku属性
+                                                                            layer.msg('当前分类下没有多规格设置，无法启用此功能',{time:1200,shade:0.7},function(){
+                                                                                //禁用
+                                                                                $(".no_spec_show").show();
+                                                                                $("input[name='product[is_sku]'][value='n']").prop('checked', 'checked');
+                                                                                $('#multi_spec_content').hide();
+                                                                                isAllowSet = false;
+                                                                            });
+                                                                        }
+                                                                    },
+                                                                    complete:function(){
+                                                                        layer.close(before);
+                                                                    },
+                                                                    error:function(){
+                                                                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                                                                    }
+                                                                })
+                                                                if(isAllowSet == true){
+                                                                    $(".no_spec_show").hide();
+                                                                    $("input[name='product[is_sku]'][value='y']").prop('checked', 'checked');
+                                                                    $('#multi_spec_content').show();
+                                                                }
+                                                            } else if (enable == 'n') {
+                                                                //禁用
+                                                                $(".no_spec_show").show();
+                                                                $("input[name='product[is_sku]'][value='n']").prop('checked', 'checked');
+                                                                $('#multi_spec_content').hide();
+                                                            } else {
+                                                                alert('参数错误');
+                                                                return false;
+                                                            }
+                                                        });
+
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tfoot_div" class="clearfix">
+                        <div class="clearfix" id="tfoot_page">
+                            <div class="ibox-content" style="border-top: none;">
+                                <div class="col-sm-offset-2" style="text-align:center;margin-left:0px;">
+                                    <button type="submit" id="save_submit" class="btn btn-primary">创建产品</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="" style="display:none;" id="dialog-validate" title="验重结果">有以下产品与该产品名类似
+                    <div id="search_content"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <script src="__JS__/plugins/layui/layui.all.js"></script>
+        <script src="__JS__/layuiformSelects-v3.js"></script>
+        <script src="__JS__/plugins/layui/ajax-form.js"></script>
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- Sweet alert -->
+        <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+        <script>
+            //执行实例
+            var uploadInst = layui.upload.render({
+                elem: '#upload' //绑定元素
+                ,url: "{:url('api/upload/uploadone')}" //上传接口
+                ,before:function(obj){
+                    layer.load();
+                }
+                ,done: function(res){
+                    layer.closeAll('loading'); //关闭loading
+                    //上传完毕回调
+                    if(res.code == 200){
+                        $("#file_info").show();
+                        $("#file_name").text(res.data.orignName);
+                        $("#file_input_info").append('<input type="hidden" name="product[image]" value="'+res.data.file+'">');
+                        // $("#file_input_info").append('<input type="hidden" name="ext" value="'+res.data.ext+'">');
+                        // $("#file_input_info").append('<input type="hidden" name="size" value="'+res.data.size+'">');
+                        // $("#file_input_info").append('<input type="hidden" name="orign_name" value="'+res.data.orignName+'">');
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }
+                ,error: function(){
+                    //请求异常回调
+                    layer.closeAll('loading'); //关闭loading
+                }
+            });
+
+            layui.formSelects.render({
+                name: 'supplier',
+                on:function(data,arr){
+                    //arr就是已经选择的数据
+                    //console.log(arr);
+                    if(arr[0]){
+                        $("#supplier_id").val(arr['0'].val);
+                    }
+                }
+            })
+
+            $("#product_category_id").change(function(){
+                var v = $(this).val();
+                var url = "{:url('product/category',['action'=> 'attributes'])}";
+                $(".div_contentlist").html('');
+                $.ajax({
+                    url:url,
+                    type:'post',
+                    data:{id:v},
+                    beforeSend:function(){
+                        before = layer.msg('正在检索SKU属性，请稍后...',{time:0,shade:0.7,icon:4});
+                    },
+                    success:function(d){
+                        if(d.id > 0){
+                            if(d.spec.length > 0){
+                                var str = '';
+                                var index = 0;
+                                $.each(d.spec,function(i,x){
+
+                                    str += '<ul class="Father_Item'+index+'">';
+                                    str += '<li style="margin-right: 10px;"><ul class="Father_Title"><li>'+x.name+'</li></ul></li>';
+                                    if(x.valueArray.values.length > 0){
+                                        $.each(x.valueArray.values,function(k,val){
+                                            str += '<li class="li_width"><label class="spec_val" style="cursor: pointer;"><input id="Checkbox'+val.id+'" name="list['+x.id+']['+val.id+']" type="checkbox" class="chcBox_Width" value="'+val.value+'" style="display:inline-block">'+val.value+'<span class="li_empty" contenteditable="true"></span></label></li>';
+                                        })
+                                    }
+                                    index = index + 1;
+                                    str += '</ul><div class="clear-float"></div><br>';
+                                })
+                                $(".div_contentlist").html(str);
+                            }else{
+                                $(".no_spec_show").show();
+                                $("input[name='product[is_sku]'][value='n']").prop('checked', 'checked');
+                                $('#multi_spec_content').hide();
+                            }
+                        }else{
+                            $(".no_spec_show").show();
+                            $("input[name='product[is_sku]'][value='n']").prop('checked', 'checked');
+                            $('#multi_spec_content').hide();
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试~',{time:1200,shade:0.7});
+                    }
+                })
+            })
+        </script>
+    </body>
+
+</html>

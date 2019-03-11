@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <style>
+        .clue-from{height: 100%;}
+		@media (max-width:1100px){
+			.table{
+				width: 150%;
+				max-width:150%;
+			}
+			.table thead tr th{
+				padding: 0;
+			}
+			tbody tr td{
+				padding: 0;
+			}
+			.col-sm-12{
+				overflow: auto;
+			}
+			.w-px{
+				width: 60px;
+				text-align: center;
+			}
+		}
+		
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="form-horizontal" method="post" action="" id="log-form">
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <select class="form-control clue-from" name="department_id" id="department-id" required>
+                                <option value="0" selected>全部</option>
+                                {$departmentHtml|raw}
+                            </select>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" placeholder="模糊搜索：联系人姓名" name="username" value="{$username}" class="input-sm form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-primary pull-left">搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>员工</th>
+                                            <th>部门</th>
+                                            <th>岗位</th>
+                                            <th>性别</th>
+                                            <th class="w-px">Email</th>
+                                            <th class="w-px">手机</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="max-height: 300px;overflow: auto;">
+                                        {volist name="users" id="vo"}
+                                        <tr>
+                                            <td><input type="radio" name="item" value="{$vo.id}"></td>
+                                            <td>{$vo.username}</td>
+                                            <td>{$vo.department.name}</td>
+                                            <td>{$vo.auth_group.title}</td>
+                                            <td>{$_sexText[$vo.sex]}</td>
+                                            <td class="w-px">{$vo.email}</td>
+                                            <td class="w-px">{$vo.phone}</td>
+                                        </tr>
+                                        {/volist}
+                                    </tbody>
+                                </table>
+                                <div class="row" style="text-align: center;">
+                                {$users|raw}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12 col-sm-offset-9">
+                            <span class="btn btn-primary" type="submit" onclick="changePrincipal();">确定更换</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(function(){
+            var department_id = "{$department_id}";
+            $("#department-id").val(department_id);
+        })
+        function changePrincipal(){
+            swal(
+                {title:"您确定要更改此负责人",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要更改！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                        var new_user_id = $("input[name='item']:checked").val();
+                        var from = "{$from}";
+                        var infoid = "{$infoid}";
+                        if(new_user_id == 'undefined' || !new_user_id){
+                            layer.msg('请选择一个用户', {time:1200,shade:0.7});
+                            return false;
+                        }
+
+                        $.ajax({
+                            type:'post',
+                            data:{new_user_id:new_user_id, from:from, infoid:infoid},
+                            url:"{:url('users/principal',['isUpdate'=> 'update'])}",
+                            success:function(d){
+                                if(d.code == 1){
+                                    layer.msg(d.msg,{time:1200,shade:0.7},function(){
+                                        window.parent.location.href = d.url;
+                                    })
+                                }else{
+                                    layer.msg(d.msg,{time:1200,shade:0.7});
+                                }
+                            }
+                        })
+                    }
+                }
+            )
+        }
+    </script>
+</body>
+
+</html>

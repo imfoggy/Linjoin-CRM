@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/litebox.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+        .dropdown-menu > li > a{color: #000 !important;} 
+		@media (max-width:762px){
+			#left_list{
+				height: auto !important;
+			}
+			.ibox-content{
+				min-height: auto !important;
+			}
+			.m-t-48{
+				margin-top: 48px;
+			}
+			
+			#keywords_product_name{
+				width: 72px !important;
+			}
+			.search{
+				margin-left: 2px !important;
+			}
+			.m-t-0{
+				margin-top: 0 !important;
+				position: absolute;
+				left: 16px;
+				top: 63px;
+				width: 130px;
+			}
+			.nav-ph{
+				left: 10px;
+			}
+			#table_div{
+				overflow: auto;
+			}
+			.title-show{
+				position: relative;
+			}
+			.title-bar{
+				padding: 12px 0;
+			}
+		}
+    @media (max-width:1366px){
+      body{
+       overflow: auto !important;
+      }
+    </style>
+</head>
+
+<body class="gray-bg" style="overflow: hidden">
+    <div class="row">
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="ibox float-e-margins" style="background: none;">
+              <div class="title-bar">
+                <div class="row  clearfix" style="position: relative;z-index: 99;display: none;" id="action-list">
+                  <ul class="breadcrum pull-left">
+                    <li>已选中&nbsp;<span id="icheck_num"></span>&nbsp;项</li>
+                    <li><a href="javascript:void(0);" onclick="batchDelete();" class="link excelExport"><i class="fa fa-download"></i>批量删除</a></li>
+                    <li class="last_li"><big><a class="fa fa-times pull-right" id="back-show"></a></big></li>
+                  </ul>
+                </div>
+                <div class="row " id="title-show">
+                  <ul class="nav pull-left nav-ph" style="margin:2px 0 0 15px;">
+                    <a href="{:url('product/create')}" class="btn btn-primary btn-sm pull-left" style="margin-right:8px"><i class="fa fa-plus-circle"></i>&nbsp; 添加产品</a>
+                  </ul>
+                  <ul class="breadcrum pull-right m-t-48" style="margin-bottom: 0px">
+                    <li>
+                      <div class="input-group">
+                        <input type="hidden" name="condition" value="contains">
+                        <input id="keywords_product_name" type="text" style="width:160px;" placeholder="请输入产品名称" onkeydown="if(event.keyCode==13) {$('#short_search_btn').trigger('click');return false;}" class="form-control input-sm" name="search_product_name" value="{$product_name}">
+                        <button type="button" class="btn btn-sm btn-primary search" style="margin-left: 10px;"> 搜索</button>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul class="breadcrum pull-right m-t-0" style="margin-bottom: 0px">
+                    <li>
+                      <div class="input-group">
+                        <select class="form-control" onchange="productstatus(this);" style="margin-bottom:5px;">
+                          <option value="1" {eq name="status" value="1"}selected{/eq}>已上架</option>
+                          <option value="2" {eq name="status" value="2"}selected{/eq}>已下架</option>
+                        </select>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row" style="margin: 0">
+                <div class="pull-left le-ph" style="width:26.222%;color: #000;">
+                  <div class="ibox-title clearfix" style="padding-top: 4px">
+                    <div class="detail-title clearfix">
+                      <div class="pull-left all-inline"><span class="fa fa-inbox" style="font-size:18px;color:#667B8F"></span>&nbsp; <span style="color:#667B8F">全部产品</span></div>
+                    </div>
+                  </div>
+                  <div class="ibox-content" style="min-height: 300px;border-top: none;">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                      <div id="left_list" class="full-height-scroll" style="height: 643px; overflow: hidden; width: auto;"> 
+                        <!-- <div id="knowledge-tree"></div> -->
+                        <div id="category-tree" >
+                          <ul class="jstree-container-ul jstree-children" role="group">
+                            {$categoryTreeHtml|raw}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pull-right ri-ph" style="width:72.7%">
+                  <div class="ibox-content clearfix" id="table_container" style="z-index: 1;">
+                    <form id="form1" action="" method="Post" style="position:relative;">
+                      <div id="table_div" class="nicescroll" tabindex="0" style="min-height:500px; max-height:700px;overflow: hidden; outline: none;">
+                        <table class="table table-hover table-striped table_thead_fixed" id="tab_Test3">
+                          <tbody>
+                            <tr id="childNodes_num" class="tabTh">
+                              <td></td>
+                              <td nowrap="nowrap">图片</td>
+                              <td nowrap="nowrap">产品名称</td>
+                              <td nowrap="nowrap">供应商</td>
+                              <td nowrap="nowrap">产品类别</td>
+                              <td nowrap="nowrap">单位</td>
+                              <td nowrap="nowrap">产品编号</td>
+                              <td nowrap="nowrap">有样品？</td>
+                              <td nowrap="nowrap">多规格？</td>
+                              <td nowrap="nowrap">成本价</td>
+                              <td nowrap="nowrap">采购价</td>
+                              <td nowrap="nowrap">供应商价</td>
+                              <td nowrap="nowrap">销售价</td>
+                              <td nowrap="nowrap">状态</td>
+                              <td>操作</td>
+                            </tr>
+                          </tbody>
+                          <tbody>
+                            {volist name="lists" id="vo"}
+                            <tr class="controls_tr">
+                              <td nowrap="nowrap">
+                                <input type="checkbox" class="i-checks" name="input[]" value="{$vo.id}">
+                              </td>
+                              <td nowrap="nowrap">
+                                <a href="__UPLOADS__/{$vo.image}" target="_self" class="litebox"> 
+                                  <img src="__UPLOADS__/{$vo.image}" style="width: 40px;height: 40px"> 
+                                </a>
+                              </td>
+                              <td nowrap="nowrap"> <a href="{:url('product/read',['id'=>$vo.id])}">{$vo.product_name}</a> </td>
+                              <td nowrap="nowrap">
+                                <a href="{:url('supplier/read',['id'=>$vo.supplier.id])}"> 
+                                  <span class="substr" title="{$vo.product_name}"> {$vo.supplier.name} </span> 
+                                </a>
+                              </td>
+                              <td style="color:#" nowrap="nowrap"> {$vo.category.catname} </td>
+                              <td style="color:#333333" nowrap="nowrap"><span class="substr" title="个"> {$_config['product_unit'][$vo['unit_id']]} </span></td>
+                              <td style="color:#333333" nowrap="nowrap"><span class="substr" title="SM0000001"> {$vo.sn}</span></td>
+                              <td style="color:#1F1F1F" nowrap="nowrap"><span class="substr" title="10.00"> {$_config['is_sample'][$vo['is_sample']]} </span></td>
+                              <td style="color:#" nowrap="nowrap"> {$_config['is_sku'][$vo['is_sku']]} </td>
+                              <td style="color:#" nowrap="nowrap"><span class="substr" title="18.00"> {$vo.cost_price} </span></td>
+                              <td style="color:#" nowrap="nowrap"> {$vo.procurement_price} </td>
+                              <td style="color:#" nowrap="nowrap"> {$vo.supplier_price} </td>
+                              <td style="color:#" nowrap="nowrap"> {$vo.sale_price} </td>
+                              <td style="color:{$_config['status'][$vo['status']]['color']}" nowrap="nowrap"> {$_config['status'][$vo['status']]['name']} </td>
+                              <td>
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{:url('edit',['id'=> $vo.id])}">编辑</a>
+                                        </li>
+                                        <li><a href="javascript:void(0)" onclick="deleteProduct({$vo.id});">删除</a>
+                                        </li>
+                                        {eq name="vo.status" value="1"}
+                                        <li><a href="javascript:void(0)" onclick="changeProductStatus({$vo.id},2);">下架</a>
+                                        </li>
+                                        {else/}
+                                        <li><a href="javascript:void(0)" onclick="changeProductStatus({$vo.id},1);">上架</a>
+                                        </li>
+                                        {/eq}
+                                    </ul>
+                                </div>
+                              </td>
+                            </tr>
+                            {/volist}
+                          </tbody>
+                        </table>
+                      </div>
+                    </form>
+                    <div class="page" style="text-align: center;">{$lists|raw}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__OTHER__/xitong/jstree.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="__OTHER__/xitong/images-loaded.min.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/litebox.min.js" type="text/javascript"></script>
+    <script>
+		
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            $('#category-tree').jstree({
+                'core' : {
+                    'check_callback' : false
+                },
+                'plugins' : [ 'types', 'dnd' ],
+                'types' : {
+                    'default' : {
+                        'icon' : 'fa fa-folder-open'
+                    }
+                },
+            });
+
+            $(".tree-href").click(function(){
+                var categoryid = $(this).attr('data-categoryid');
+                if(!categoryid){
+                    layer.msg('产品分类ID错误！请刷新页面后重试',{time:1200,shade:0.7});
+                    return false;
+                }
+                url = window.location.href;
+                url = changeURLPar(url, 'categoryid', categoryid);
+                window.location.href = url;
+            })
+
+            var categoryid = "{$categoryid}";
+            if(categoryid <= 0 || categoryid=='undefined'){
+              categoryid = 0;
+            }
+            $(".tree-href[data-categoryid="+categoryid+"]").parent().addClass('jstree-clicked');
+
+            //初始化图片查看插件
+            $('.litebox').liteBox({
+                revealSpeed: 400,
+                background: 'rgba(0,0,0,.8)',
+                overlayClose: true,
+                escKey: true,
+                navKey: true,
+                errorMessage: '图片加载失败.'
+            });
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#title-show").hide();
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+                $("#title-show").show();
+            }
+        });
+
+        //搜索
+        $(".search").click(function(){
+            var keywords = $.trim($("#keywords_product_name").val());
+            var url = window.location.href;
+            // if(url.indexOf('?') < 0){
+            //     var delimiter = '?';
+            // }else{
+            //     var delimiter = '&';
+            // }
+            // if(keywords == ''){
+            //     layer.msg('请输入搜索关键字',{time:1200,shade:0.7});
+            //     return false;
+            // }
+            url = changeURLPar(url, 'product_name', keywords);
+            //var url = url + delimiter + 'username=' + keywords;
+            //console.log(url);return;
+            window.location.href = url;
+        })
+
+        //删除产品
+        function deleteProduct(id){
+            if(!id){
+                swal('操作失败', '请选择一条信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这条信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('product/delete')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一条信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('product/delete')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        //下架/上架产品
+        function changeProductStatus(id,status){
+          if(!id){
+              swal('操作失败', '请选择一条信息', 'error');
+              return false;
+          }
+
+          if(status == 1){
+            var title = '上架';
+          }else if(status == 2){
+            var title = '下架';
+          }else{
+            layer.msg('状态错误',{time:1200,shade:0.7});
+            return false;
+          }
+          swal(
+              {title:"您确定要"+title+"此商品么？",
+              text:"",
+              type:"warning",
+              showCancelButton:true,
+              confirmButtonColor:"#DD6B55",
+              confirmButtonText:"是的，我要"+title+"！",
+              cancelButtonText:"取消",
+              closeOnConfirm:false,
+              },
+              function(isConfirm)
+              {
+                  if(isConfirm)
+                  {
+                     $.ajax({
+                          type:'post',
+                          url:"{:url('product/productstatus')}",
+                          data:{id: id,status:status},
+                          beforeSend:function(){
+                              before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                          },
+                          success:function(d){
+                              if(d.code == 1){
+                                  swal({title:'提示', text:d.msg,type:'success'},function(){
+                                      window.location.reload();
+                                  })
+                              }else{
+                                  swal('提示',d.msg,'error');
+                              }
+                          },
+                          complete:function(){
+                              layer.close(before);
+                          },
+                          error:function(){
+                              layer.msg('网络错误',{shade:0.7});
+                          }
+                     })
+                  }
+              }
+          )
+        }
+
+        /**
+         * 产品状态
+         * @Author Foggy
+         * @Date   2018-11-21
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function productstatus(x){
+          var va = $(x).val();
+          var url = window.location.href;
+          url = changeURLPar(url, 'status', va);
+          //console.log(url);
+          window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>

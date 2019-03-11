@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .clue-from{height: 100%;}
+        .star-orange{color: #ffb173}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>添加联系人</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal ajax-form" method="post" action="{:url('contact/save')}">
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">所属客户：</label>
+                                <div class="col-md-10">
+                                    <select class="form-control" xm-select="customer" xm-select-search xm-select-radio xm-select-skin="primary">
+                                        <option value="">请选择</option>
+                                        {volist name="customers" id="vo"}
+                                        <option value="{$vo.id}">{$vo.company}</option>
+                                        {/volist}
+                                    </select>
+                                    <input type="hidden" name="customer_id" id="customer_id" value="{$info.customer_id}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">联系人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="name">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">角色</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control clue-from" name="contact_role_id">
+                                        <option value="">请选择</option>
+                                        {volist name="_config.contactRole" id="vo"}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">尊称</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control clue-from" name="sex">
+                                        <option value="0">请选择</option>
+                                        <option value="m">先生</option>
+                                        <option value="w">女士</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">职位</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control clue-from" name="position">
+                                        <option value="">请选择</option>
+                                        {volist name="positions" id="vo"}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">手机</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="phone">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">QQ</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="qq">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮箱</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="email">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="wechat">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Skype</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="skype">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <!-- <div class="form-group" id="distpicker">
+                                <label class="col-sm-2 control-label">地址</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control clue-from" name="province">
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control clue-from" name="city">>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control clue-from" name="district">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="address">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div> -->
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">地址：</label>
+                                <div class="col-md-10">
+                                    <select class="form-control required" id="country_id" name="country_id" aria-required="true" lay-ignore style="width:35%;float: left;height: 32px;">
+                                        <option value="">--请选择--</option>
+                                        {volist name="countries" id="vo"}
+                                        <option value="{$vo.id}">{$vo.name}</option>
+                                        {/volist}
+                                    </select>
+                                    <input class="form-control required" aria-required="true" type="text" id="address" name="address" value="" autocomplete="off" style="width:65%;float: left;height: 32px;">
+                                </div>  
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                             <div class="form-group">
+                                <label class="col-sm-2 control-label">邮编</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="code">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">备注</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="note"></textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                             
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" lay-submit>确定</button>
+                                    <button class="btn btn-white" onclick="window.history.back();return false;">返回</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <script src="__JS__/layuiformSelects-v3.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- 地区选择 -->
+    <script src="__JS__/plugins/distpicker/distpicker.data.js"></script>
+    <script src="__JS__/plugins/distpicker/distpicker.js"></script>
+    <script>
+        $("#distpicker").distpicker({
+            province: "山东省",
+            city: "淄博市",
+            district: "淄川区"
+        });
+        layui.formSelects.render({
+            name: 'customer',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                //console.log(arr);
+                if(arr[0]){
+                    $("#customer_id").val(arr['0'].val);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

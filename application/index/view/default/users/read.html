@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+        @media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+    </style>
+    <style>
+        .table_user{border:none !important}
+        .table_user tr{height:35px !important;padding:0px !important;}
+        .table_user tr td{border:none !important;height:35px !important;line-height: 35px !important;padding:0px !important;}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="col-sm-12" style="padding: 15px;">
+            <table class="table table_user">
+                <tbody>
+                    <tr>
+                        <td width="15%" rowspan="2" class="tdleft">
+                            {notempty name="info.avatar"}
+                            <img src="{$info.avatar}" style="width: 80px;height: 80px;">
+                            {else/}
+                            <img src="__IMG__/avatar_default.png" style="width: 80px;height: 80px;">
+                            {/notempty}
+                        </td>
+                        <td>
+                            <span>{$info.username}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">账号状态：{eq name="info.status" value="1"}已激活{else/}已停用{/eq}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">基本信息</td>
+                    </tr>
+                    <tr>
+                        <td width="15%" class="tdleft">姓名</td>
+                        <td width="35%">{$info.username}</td>
+                        <td width="15%" class="tdleft">编号</td>
+                        <td width="35%">{$info.sn}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">部门</td>
+                        <td>{$info.department.name}</td>
+                        <td class="tdleft">岗位</td>
+                        <td>{$info.auth_group.title}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">手机</td>
+                        <td>{$info.phone}</td>
+                        <td class="tdleft">邮箱</td>
+                        <td>{$info.email}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">出生日期</td>
+                        <td>{$info.birthday}</td>
+                        <td class="tdleft">入职日期</td>
+                        <td>{$info.entry_time}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">家乡</td>
+                        <td>{$info.home_address}</td>
+                        <td class="tdleft">联系地址</td>
+                        <td>{$info.contact_address}</td>
+                    </tr>
+                    <!-- <tr>
+                        <th colspan="4">站内信</th> 
+                    </tr>
+                    <tr>
+                        <td class="tdleft">内容</td>
+                        <td colspan="3">
+                            <textarea rows="3" class="form-control" id="dialog_content" name="content"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="3">
+                            <input class="btn btn-primary pull-right" id="close" style="margin:5px;" name="close" type="button" value="取消">&nbsp; &nbsp;
+                            <input class="btn btn-primary pull-right" id="send" style="margin: 5px;" name="send" type="button" value="发送">&nbsp; &nbsp;
+                            <span id="result"></span>
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <!-- Peity -->
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        //执行实例
+        var uploadInst = layui.upload.render({
+            elem: '#upload' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    $("#log-form").append('<input type="hidden" name="file" value="'+res.data.file+'">');
+                    $("#log-form").append('<input type="hidden" name="ext" value="'+res.data.ext+'">');
+                    $("#log-form").append('<input type="hidden" name="size" value="'+res.data.size+'">');
+                    $("#log-form").append('<input type="hidden" name="orign_name" value="'+res.data.orignName+'">');
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+
+        //弹出用户信息弹出层
+        function showUserinfoForm(x){
+            var id = x;
+            if(!id){
+                layer.msg('用户参数id错误',{time:1200,shade:0.7});
+                return false;
+            }
+
+            $.ajax({
+                type:'post',
+                url:"{:url('users/read')}",
+                data:{id: id},
+                beforeSend:function(){
+                    before = layer.msg('正在获取数据，请稍后...',{time:0,shade:0.7});
+                },
+                success:function(d){
+                    console.log(d);
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                }
+            })
+        }
+    </script>
+    
+</body>
+
+</html>

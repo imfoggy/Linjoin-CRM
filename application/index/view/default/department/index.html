@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/bootstrap.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/hovershow.css" rel="stylesheet">
+    <!-- animate -->
+    <link rel="stylesheet" href="__OTHER__/xitong/animate.min.css">
+    <link rel="stylesheet" href="__OTHER__/xitong/notification.css">
+
+    <!-- Toastr style -->
+    <link href="__OTHER__/xitong/toastr.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__OTHER__/xitong/sweetalert.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!-- Mainly scripts -->
+    <script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+    <script src="__OTHER__/xitong/bootstrap.min.js"></script>
+    <script src="__OTHER__/xitong/moment.min.js"></script>
+    <script src="__OTHER__/xitong/jquery.form.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/jquery.metisMenu.js"></script>
+    <script src="__OTHER__/xitong/jquery.slimscroll.min.js"></script>
+    <!-- Toastr -->
+    <script src="__OTHER__/xitong/toastr.min.js"></script>
+    <script src="__OTHER__/xitong/jstree.min.js"></script>
+
+    <!-- Sweet alert -->
+    <script src="__OTHER__/xitong/sweetalert.min.js"></script>
+    <link href="__OTHER__/xitong/style.min.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        .table>tbody>tr>td{border-top:0px;}
+        .table>tfoot>tr>td{border-top:0px;}
+        #main_pic_prev{width: 38px;height: 38px;border: 1px dashed #d3d3d6;}
+        .table tbody tr {cursor: Default;}
+    </style>
+    <style>
+        body{
+          overflow-y: hidden;
+        }
+        table tbody tr{cursor:move;}
+        .active {color: #000;}
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        
+        /*主要样式*/
+        .subNavBox{width:100%;margin-top:0px;margin-bottom:50px;}
+        .subNav{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        .subNav_text{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        subNavBox ul{margin-bottom:18px;}
+        .subNav:hover{color:#375264;}
+        /*.currentDt{background-image:url(./App/C2.5.1/Public/img/jiantou.jpg);}*/
+        .navContent{list-style: none;display: none;padding-left: 13px;}
+        .navContent li a{display:block;width:100%;height:32px;text-align:left;font-size:14px;line-height:32px;color:#000;}
+        .li_text{padding-left:10px;width: 100%;float:left;line-height:32px;margin-bottom:3px;}
+        .li_text:hover{background-color:#f5f5f5;}
+        .li_text_active{float:left;background-color:#f5f5f5;padding-left:10px;width: 100%;border-left:2px solid #03a9f4;line-height:32px;margin-bottom:3px;color:#03a9f4;}
+		@media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+        .slide-category{display: none;}
+        .hr-line-dashed{margin:10px 0px;}
+    </style>
+    <link href="__OTHER__/xitong/cropper.min.css" rel="stylesheet">
+    <script src="__OTHER__/xitong/cropper.min.js"></script>
+    <link href="__CSS__/phone.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">         
+                {include file="public:middle" /}
+                {include file="public:department" /}
+                {include file="public:position" /}
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建下级部门弹出层 -->
+    <div id="modal-department" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加部门</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('department/save')}" id="department-form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">上级部门</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" name="pid" id="department_id" required style="height: unset;" disabled>
+                                            <option value="0">顶级部门</option>
+                                            {$departmentOption|raw}
+                                        </select>
+                                        <input type="hidden" name="pid" id="department_id_value" value="">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">部门名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="name" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">部门描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="description" id="department_desc"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建岗位弹出层 -->
+    <div id="modal-group" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加职位</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('group/save')}" id="group-form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">所属部门</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" id="group_department_id" style="height: unset;" required disabled="disabled">
+                                            <option value="">请选择</option>
+                                            {$departmentOption|raw}
+                                        </select>
+                                        <input type="hidden" name="department_id" id="group_department_id_value" value="">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">上级职位</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" name="pid" id="group_pid" required style="height: unset;">
+                                            
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">职位名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="title" id="group_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">职位描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="desc" id="group_desc"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加用户弹出层 -->
+    <div id="modal-add-user" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加员工</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form layui-form" method="post" action="{:url('users/save')}" id="department-form">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">职位名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="title" id="position_name" disabled="true" required>
+                                        <input type="hidden" name="group_id" id="group_id" value="">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">员工编号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="sn" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">上级部门</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" id="user_department_id" required style="height: unset;" lay-ignore disabled>
+                                            <option value="0">顶级部门</option>
+                                            {$departmentOption|raw}
+                                        </select>
+                                        <input type="hidden" name="department_id" id="user_department_id_input" value="">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="nickname" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" name="email" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">登录账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="username" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">初始密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="password" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">确认密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="confirmpassword" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="phone" id="department_name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">性别</label>
+                                    <div class="col-md-6" style="width: 60%">　
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" name="sex" value="m" checked="checked" lay-ignore>
+                                            <label for="has_sn1">男</label></div>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" name="sex" value="w" lay-ignore>
+                                            <label for="has_sn2" style="margin-right: 15px;">女</label></div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">日志汇报领导</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" xm-select="boss" xm-select-search xm-select-skin="primary">
+                                            {volist name="departmentUsers" id="vo"}
+                                            <optgroup label="{$vo.name}" style="color:blue">
+                                                {volist name="vo.users" id="user"}
+                                                <option value="{$user.id}">{$user.username}</option>
+                                                {/volist}
+                                            </optgroup>
+                                            {/volist}
+                                        </select>
+                                        <div id="boss_user" style="display:none;"></div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 职位授权弹出层 -->
+    <div id="modal-authorize" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 705px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">职位授权</h4>
+                </div>
+                <div class="modal-body" style="overflow: auto;">
+                    <div class="row">
+                        <div class="modal-content" id="dep_modal" style="overflow: auto">
+						  <style>
+							.nav-tabs > li > a{color:#000;}
+							.active{color: #666;}
+							.active >a{height:38px;!important}
+							.check_all{width: 14px;height: 14px;}
+							.per_type { margin-left: 10px; }
+							label { cursor: pointer; }
+						  </style>
+						  <style>
+							.hide{display: none;}
+							.remark { margin-left: 1rem; }
+						  </style>
+						  <form id="form1" method="post" action="{:url('auth/set')}">
+							  <input type="hidden" name="auth_group_id" id="auth_group_id" value="">
+							  <div class="tabs-container">
+								<div class="full-height-scroll" style="left:0px;top:0px;">
+								  <ul class="nav nav-tabs">
+									<li class="active"> <a class="ta" rel="1" href="#tab1" data-toggle="tab" aria-expanded="true">客户管理</a> </li>
+									<li class=""> <a class="ta" rel="2" href="#tab2" data-toggle="tab" aria-expanded="false">合同管理</a> </li>
+									<li class=""> <a class="ta" rel="3" href="#tab3" data-toggle="tab" aria-expanded="false">产品管理</a> </li>
+									<li class=""> <a class="ta" rel="4" href="#tab4" data-toggle="tab" aria-expanded="false">供应商管理</a> </li>
+									<li class=""> <a class="ta" rel="5" href="#tab5" data-toggle="tab" aria-expanded="false">收发样管理</a> </li>
+                                    <li class=""> <a class="ta" rel="6" href="#tab6" data-toggle="tab" aria-expanded="false">系统管理</a> </li>
+								  </ul>
+								  <div class="tab-content">
+									<div class="tab-pane active" id="tab1" style="height:300px;line-height:30px;padding:20px 15px">
+									  <input type="checkbox" id="check_all_1" class="check_all" rel="1">
+									  <label for="check_all_1">全部选择</label>
+									  <span class="text-info remark"></span> <br>
+
+									  <h4 style="padding-top: 10px;clear:both;">线索</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									   <input id="check_opt_1_1_1" class="check_opt" type="checkbox" name="per[1]" value="clue/index">
+									   <label for="check_opt_1_1_1">列表</label>
+									  </span>
+                                      <span class="option" style="width:25%; float:left;">
+									   <input id="check_opt_1_1_2" class="check_opt" type="checkbox" name="per[2]" value="clue/read">
+									   <label for="check_opt_1_1_2">详情</label>
+									  </span>
+                                      <span class="option" style="width:25%; float:left;">
+									   <input id="check_opt_1_1_3" class="check_opt" type="checkbox" name="per[3]" value="clue/create">
+									   <label for="check_opt_1_1_3">创建</label>
+									   </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_1_4" class="check_opt" type="checkbox" name="per[4]" value="clue/edit">
+									  <label for="check_opt_1_1_4">编辑</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_1_5" class="check_opt" type="checkbox" name="per[5]" value="clue/delete">
+									  <label for="check_opt_1_1_5">删除</label>
+									  </span>
+
+									  <h4 style="padding-top: 10px;clear:both;">线索池</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_2_1" class="check_opt" type="checkbox" name="per[6]" value="clue/topublic">
+									  <label for="check_opt_1_2_1">放入线索</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_1_2_2" class="check_opt" type="checkbox" name="per[7]" value="clue/toreceive">
+                                      <label for="check_opt_1_2_2">领取线索</label>
+                                      </span>
+
+									  <h4 style="padding-top: 10px;clear:both;">客户</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_3_1" class="check_opt" type="checkbox" name="per[8]" value="customer/index">
+									  <label for="check_opt_1_3_1">列表</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_3_2" class="check_opt" type="checkbox" name="per[9]" value="customer/read">
+									  <label for="check_opt_1_3_2">详情</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_3_3" class="check_opt" type="checkbox" name="per[10]" value="customer/create">
+									  <label for="check_opt_1_3_3">创建</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_3_4" class="check_opt" type="checkbox" name="per[11]" value="customer/edit">
+									  <label for="check_opt_1_3_4">编辑</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_3_5" class="check_opt" type="checkbox" name="per[12]" value="customer/delete">
+									  <label for="check_opt_1_3_5">删除</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_3_6" class="check_opt" type="checkbox" name="per[15]" value="users/principal">
+									  <label for="check_opt_1_3_6">更改负责人</label>
+									  </span>
+
+									  <h4 style="padding-top: 10px;clear:both;">客户池</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_4_1" class="check_opt" type="checkbox" name="per[13]" value="customer/topublic">
+									  <label for="check_opt_1_4_1">放入客户池</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_1_4_2" class="check_opt" type="checkbox" name="per[14]" value="customer/toreceive">
+                                      <label for="check_opt_1_4_2">领取客户</label>
+                                      </span>
+
+									  <h4 style="padding-top: 10px;clear:both;">联系人</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_5_1" class="check_opt" type="checkbox" name="per[16]" value="contacts/index">
+									  <label for="check_opt_1_5_1">列表</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_5_2" class="check_opt" type="checkbox" name="per[17]" value="contacts/read">
+									  <label for="check_opt_1_5_2">详情</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_5_3" class="check_opt" type="checkbox" name="per[20]" value="contacts/create">
+									  <label for="check_opt_1_5_3">创建</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_5_4" class="check_opt" type="checkbox" name="per[18]" value="contacts/edit">
+									  <label for="check_opt_1_5_4">编辑</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_1_5_5" class="check_opt" type="checkbox" name="per[19]" value="contacts/delete">
+									  <label for="check_opt_1_5_5">删除</label>
+									  </span>
+                                    </div>
+
+									<div class="tab-pane" id="tab2" style="height:300px;line-height:30px;padding:20px 15px">
+									  <input type="checkbox" id="check_all_2" class="check_all" rel="2">
+									  <label for="check_all_2">全部选择</label>
+									  <span class="text-info remark"></span> <br>
+
+									  <h4 style="padding-top: 10px;clear:both;">合同</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_2_1_1" class="check_opt" type="checkbox" name="per[21]" value="contract/index">
+									  <label for="check_opt_2_1_1">列表</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_2_1_2" class="check_opt" type="checkbox" name="per[22]" value="contract/read">
+									  <label for="check_opt_2_1_2">详情</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_2_1_3" class="check_opt" type="checkbox" name="per[23]" value="contract/create">
+									  <label for="check_opt_2_1_3">创建</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_2_1_4" class="check_opt" type="checkbox" name="per[24]" value="contract/edit">
+									  <label for="check_opt_2_1_4">编辑</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_2_1_5" class="check_opt" type="checkbox" name="per[25]" value="contract/delete">
+									  <label for="check_opt_2_1_5">删除</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_2_1_6" class="check_opt" type="checkbox" name="per[26]" value="contract/auditing">
+									  <label for="check_opt_2_1_6">审核</label>
+									  </span>
+									</div>
+
+									<div class="tab-pane" id="tab3" style="height:300px;line-height:30px;padding:20px 15px">
+									  <input type="checkbox" id="check_all_3" class="check_all" rel="3">
+									  <label for="check_all_3">全部选择</label>
+									  <span class="text-info remark"></span> <br>
+
+									  <h4 style="padding-top: 10px;clear:both;">产品管理</h4>
+
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_3_1_1" class="check_opt" type="checkbox" name="per[27]" value="product/index">
+									  <label for="check_opt_3_1_1">列表</label>
+									  </span><span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_3_1_2" class="check_opt" type="checkbox" name="per[28]" value="product/read">
+									  <label for="check_opt_3_1_2">详情</label>
+									  </span><span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_3_1_3" class="check_opt" type="checkbox" name="per[29]" value="product/create">
+									  <label for="check_opt_3_1_3">创建</label>
+									  </span><span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_3_1_4" class="check_opt" type="checkbox" name="per[30]" value="product/edit">
+									  <label for="check_opt_3_1_4">编辑</label>
+									  </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_3_1_4" class="check_opt" type="checkbox" name="per[31]" value="product/delete">
+                                      <label for="check_opt_3_1_4">删除</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_3_1_5" class="check_opt" type="checkbox" name="per[32]" value="product/productstatus">
+									  <label for="check_opt_3_1_5">上架/下架</label>
+									  </span>
+
+                                      <h4 style="padding-top: 10px;clear:both;">规格分类</h4>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_7_1_1" class="check_opt" type="checkbox" name="per[47]" value="spec/index">
+                                      <label for="check_opt_7_1_1">列表</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_7_1_2" class="check_opt" type="checkbox" name="per[48]" value="spec/save">
+                                      <label for="check_opt_7_1_2">创建</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_7_1_4" class="check_opt" type="checkbox" name="per[49]" value="spec/update">
+                                      <label for="check_opt_7_1_3">编辑</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_7_1_4" class="check_opt" type="checkbox" name="per[50]" value="spec/delete">
+                                      <label for="check_opt_7_1_4">删除</label>
+                                      </span>
+                                    </div>
+									<div class="tab-pane" id="tab4" style="height:300px;line-height:30px;padding:20px 15px">
+									  <input type="checkbox" id="check_all_4" class="check_all" rel="4">
+									  <label for="check_all_4">全部选择</label>
+									  <span class="text-info remark"></span> <br>
+									  <h4 style="padding-top: 10px;clear:both;">供应商管理</h4>
+									  <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_4_1_1" class="check_opt" type="checkbox" name="per[33]" value="supplier/index">
+                                      <label for="check_opt_4_1_1">列表</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_4_1_2" class="check_opt" type="checkbox" name="per[34]" value="supplier/read">
+                                      <label for="check_opt_4_1_2">详情</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_4_1_3" class="check_opt" type="checkbox" name="per[35]" value="supplier/create">
+                                      <label for="check_opt_4_1_3">创建</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_4_1_4" class="check_opt" type="checkbox" name="per[36]" value="supplier/edit">
+                                      <label for="check_opt_4_1_4">编辑</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_4_1_5" class="check_opt" type="checkbox" name="per[37]" value="supplier/delete">
+                                      <label for="check_opt_4_1_5">删除</label>
+                                      </span><span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_4_1_5" class="check_opt" type="checkbox" name="per[46]" value="supplier_contact/index">
+                                      <label for="check_opt_4_1_5">联系人</label>
+                                      </span>
+									</div>
+									<div class="tab-pane" id="tab5" style="height:300px;line-height:30px;padding:20px 15px">
+									  <input type="checkbox" id="check_all_5" class="check_all" rel="5">
+									  <label for="check_all_5">全部选择</label>
+									  <span class="text-info remark"></span> <br>
+									  <h4 style="padding-top: 10px;clear:both;">收样管理</h4>
+									  <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_5_1_1" class="check_opt" type="checkbox" name="per[38]" value="sample/receive/action/index">
+									  <label for="check_opt_5_1_1">列表</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_5_1_3" class="check_opt" type="checkbox" name="per[39]" value="sample/receive/action/create">
+									  <label for="check_opt_5_1_3">创建</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_5_1_4" class="check_opt" type="checkbox" name="per[40]" value="sample/receive/action/edit">
+									  <label for="check_opt_5_1_4">编辑</label>
+									  </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+									  <input id="check_opt_5_1_5" class="check_opt" type="checkbox" name="per[41]" value="sample/receive/action/delete">
+									  <label for="check_opt_5_1_5">删除</label>
+									  </span>
+
+                                      <h4 style="padding-top: 10px;clear:both;">发样管理</h4>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_5_1_1" class="check_opt" type="checkbox" name="per[42]" value="sample/send/action/index">
+                                      <label for="check_opt_5_1_1">列表</label>
+                                      </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_5_1_3" class="check_opt" type="checkbox" name="per[43]" value="sample/send/action/create">
+                                      <label for="check_opt_5_1_3">创建</label>
+                                      </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_5_1_4" class="check_opt" type="checkbox" name="per[44]" value="sample/send/action/edit">
+                                      <label for="check_opt_5_1_4">编辑</label>
+                                      </span>
+
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_5_1_5" class="check_opt" type="checkbox" name="per[45]" value="sample/send/action/delete">
+                                      <label for="check_opt_5_1_5">删除</label>
+                                      </span>
+									</div>
+
+                                    <div class="tab-pane" id="tab6" style="height:300px;line-height:30px;padding:20px 15px">
+                                      <input type="checkbox" id="check_all_6" class="check_all" rel="6">
+                                      <label for="check_all_6">全部选择</label>
+                                      <span class="text-info remark"></span> <br>
+                                      <h4 style="padding-top: 10px;clear:both;">系统管理</h4>
+                                      <span class="option" style="width:25%; float:left;">
+                                      <input id="check_opt_6_1_1" class="check_opt" type="checkbox" name="per[51]" value="system/index">
+                                      <label for="check_opt_6_1_1">系统设置</label>
+                                      </span>
+                                    </div>
+								  </div>
+								</div>
+							  </div>
+							</form>
+			  			</div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:8px 22px;clear: both">
+					<button type="button" id="adbtn" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				</div>
+            </div>
+        </div>
+    </div>
+    <script src="__OTHER__/xitong/index.js"></script> 
+    <!-- layer --> 
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/layuiformSelects-v3.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".check_all").click(function(){
+                var rel = $(this).attr('rel');
+                if($(this).prop('checked') == true){
+                    $('#tab' + rel).find('.check_opt').prop('checked', true);
+                    $('#tab' + rel).find('.per_type').show();
+                }else{
+                    $('#tab' + rel).find('.check_opt').prop('checked', false);
+                    $('#tab' + rel).find('.per_type').hide();
+                }
+            });
+        });
+        $("#adbtn").click(
+            function() {
+                $.post("{:url('auth/set')}",$("#form1").serialize(), function(data){
+                    console.log(data);
+                    if(data.code == 1){
+                        swal({title: data.msg,type: "success"},function(){
+                            $('#modal-authorize').modal('hide');
+                            window.location.reload();
+                        });
+                    }else{
+                        swal({
+                            title: data.msg,
+                            //text: data.info,
+                            type: "error"
+                        });
+                    }
+                }, 'json');
+            }   
+        );
+    </script>
+    <script>
+    //打开添加部门弹出层
+    function showCreateDepartment(x,action){
+        $("#department_id").val("");
+        $("#department_id_value").val("");
+        $("#department_name").val("");
+        $("#department_desc").text("");
+        var department_id = $(x).attr('data-id');
+        $("#department_id").val(department_id);
+        $("#department_id_value").val(department_id);
+        if(!department_id){
+            layer.msg('部门id参数错误',{time:1200,shade:0.7});
+            return false;
+        }
+
+        if(action == 'edit'){
+            $.ajax({
+                type:'post',
+                url:"{:url('department/edit')}",
+                data:{departmentId:department_id},
+                beforeSend:function(){
+                    before = layer.msg('正在加载，请稍后...',{time:0,shade:0.7,icon:4});
+                },
+                success:function(d){
+                    if(d.code == 1){
+                        $("#department_id").val(d.data.pid);
+                        $("#department_id_value").val(d.data.pid);
+                        $("#department_name").val(d.data.name);
+                        $("#department_desc").text(d.data.description);
+                        $("#department-form").attr("action","{:url('department/update')}?id="+department_id);
+                        $("#modal-department").modal('show');
+                    }else{
+                        layer.msg(d.msg, {time:1200,shade:0.7});
+                    }
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                }
+            })
+        }else{
+            var url = "{:url('department/save')}";
+            $("#department-form").attr('action', url);
+            $("#modal-department").modal('show');
+        }
+    }
+
+    /**
+     * 打开职位授权
+     * @Author Foggy
+     * @Date   2018-11-22
+     * @WeChat [vita_hacker]
+     * @Email  [x_foggy@163.com]
+     * @param  {[type]}          x [description]
+     * @return {[type]}            [description]
+     */
+    function showAuthorize(x){
+        var id = $(x).attr("data-id");
+        $("#auth_group_id").val(id);
+        if(!id){
+            layer.msg('权限获取失败，请刷新页面或重新登录',{time:1200,shade:0.7},function(){
+                window.location.reload();
+            })
+            return false;
+        }
+        $('.check_opt').prop('checked', false);
+        $.ajax({
+            type:'post',
+            data:{groupId:id},
+            url:"{:url('auth/get')}",
+            beforeSend:function(){
+                before = layer.msg('正在获取数据，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            success:function(d){
+                if(d.length > 0){
+                    $.each(d,function(i,v){
+                        //console.log(v);
+                        $("input[name='per["+v+"]']").prop("checked",true);
+                    })
+                }
+                $("#modal-authorize").modal('show');
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+            }
+        })
+    }
+
+    //打开添加职位弹出层
+    function showCreateGroup(x,action){
+        $("#group_name").val("");
+        var department_id = $(x).attr('data-id');
+        $("#group_department_id").val(department_id);
+        $("#group_department_id_value").val(department_id);
+        if(!department_id){
+            layer.msg('部门id参数错误',{time:1200,shade:0.7});
+            return false;
+        }
+
+        var url = "{:url('group/save')}";
+        $("#group-form").attr('action', url);
+
+        //获取到这个部门的职位信息
+        $.ajax({
+            type:'post',
+            url:"{:url('group/position')}",
+            data:{department_id:department_id},
+            beforeSend:function(){
+                before = layer.msg('正在加载，请稍后',{time:0,shade:0.7,icon:4});
+            },
+            success:function(d){
+                var str = '<option value="0" selected>顶级职位</option>';
+                //console.log(d.length);
+                if(d.length > 0){
+                    // $.each(d, function(i,v){
+                    //     str += '<option value="'+v.id+'">'+v.title+'</option>';
+                    // })
+                    str += d;
+                }
+                $("#group_pid").html(str);
+                //document.getElementById("group_department_id").options[0].selected = true;
+                $("#modal-group").modal('show');
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+            }
+        })
+    }
+
+    //打开编辑职位弹出层
+    function showEditGroup(x){
+        var groupid = $(x).attr('data-id');
+        if(!groupid){
+            layer.msg('岗位id参数错误',{time:1200,shade:0.7});
+            return false;
+        }
+
+        var url = "{:url('group/update')}?id="+groupid;
+        $("#group-form").attr('action', url);
+
+        //获取到这个部门的职位信息
+        $.ajax({
+            type:'post',
+            url:"{:url('group/edit')}",
+            data:{id:groupid},
+            beforeSend:function(){
+                before = layer.msg('正在加载，请稍后',{time:0,shade:0.7,icon:4});
+            },
+            success:function(d){
+                $("#group_department_id").val(d.data.department_id);
+                $("#group_department_id_value").val(d.data.department_id);
+                var str = '<option value="0" selected>顶级职位</option>';
+                str += d.positions;
+                $("#group_pid").html(str);
+                $("#group_pid").val(d.data.pid);
+                $("#group_name").val(d.data.title);
+                $("#group_desc").text(d.data.desc);
+                $("#modal-group").modal('show');
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+            }
+        })
+    }
+
+    //打开添加职位用户弹出层
+    function showCreateUser(x){
+        var groupId = $(x).attr('data-id');
+        if(!groupId){
+            layer.msg('group id 参数错误');
+            return false;
+        }
+
+        $.ajax({
+            type:'post',
+            url:"{:url('group/info')}",
+            data:{id:groupId},
+            beforeSend:function(){
+                before = layer.msg('正在加载，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            success:function(d){
+                if(d.code == 1){
+                    $("#position_name").val(d.data.title);
+                    $("#group_id").val(d.data.id);
+                    $("#user_department_id").val(d.data.department.id);
+                    $("#user_department_id_input").val(d.data.department.id);
+                    //渲染日志领导人select多选
+                    layui.formSelects.render({
+                        name: 'boss',
+                        on:function(data,arr){
+                            //arr就是已经选择的数据
+                            // console.log(arr);
+                            var str = '';
+                            $.each(arr,function(i,v){
+                                str += '<input type="text" name="boss_user_id[]" value="'+v.val+'">';
+                            })
+                            $("#boss_user").html(str);
+                        }
+                    })
+                    $("#modal-add-user").modal();
+                }else{
+                    layer.msg('职位或部分信息获取失败，请联系管理员',{time:1200,shade:0.7});
+                }
+            },
+            complete:function(){
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+            }
+        })
+    }
+
+    //删除职位
+    function deleteGroup(x){
+        var groupid = $(x).attr('data-id');
+        if(!groupid){
+            layer.msg('groupid参数错误',{time:1200,shade:0.7});
+            return false;
+        }
+
+        swal(
+            {title:"您确定要删除吗",
+            text:"删除后将无法恢复，请谨慎操作！",
+            type:"warning",
+            showCancelButton:true,
+            confirmButtonColor:"#DD6B55",
+            confirmButtonText:"是的，我要删除！",
+            cancelButtonText:"取消",
+            closeOnConfirm:false,
+            },
+            function(isConfirm)
+            {
+                if(isConfirm)
+                {
+                   $.ajax({
+                        type:'post',
+                        url:"{:url('group/delete')}",
+                        data:{groupid: groupid},
+                        beforeSend:function(){
+                            before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                        },
+                        success:function(d){
+                            if(d.code == 1){
+                                swal({title:'提示', text:d.msg, type:'success'},function(){
+                                    window.location.reload();
+                                })
+                            }else{
+                                swal('提示', d.msg, 'error');
+                            }
+                        },
+                        complete:function(){
+                            layer.close(before);
+                        },
+                        error:function(){
+                            layer.msg('网络错误',{shade:0.7});
+                        }
+                   })
+                }
+            }
+        )
+    }
+
+    //删除部门
+    function deleteDepartment(x){
+        var departmentid = $(x).attr('data-id');
+        if(!departmentid){
+            layer.msg('departmentid参数错误',{time:1200,shade:0.7});
+            return false;
+        }
+
+        swal(
+            {title:"您确定要删除吗",
+            text:"删除后将无法恢复，请谨慎操作！",
+            type:"warning",
+            showCancelButton:true,
+            confirmButtonColor:"#DD6B55",
+            confirmButtonText:"是的，我要删除！",
+            cancelButtonText:"取消",
+            closeOnConfirm:false,
+            },
+            function(isConfirm)
+            {
+                if(isConfirm)
+                {
+                   $.ajax({
+                        type:'post',
+                        url:"{:url('department/delete')}",
+                        data:{departmentid: departmentid},
+                        beforeSend:function(){
+                            before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                        },
+                        success:function(d){
+                            if(d.code == 1){
+                                swal({title:'提示', text:d.msg, type:'success'},function(){
+                                    window.location.reload();
+                                })
+                            }else{
+                                swal('提示', d.msg, 'error');
+                            }
+                        },
+                        complete:function(){
+                            layer.close(before);
+                        },
+                        error:function(){
+                            layer.msg('网络错误',{shade:0.7});
+                        }
+                   })
+                }
+            }
+        )
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/bootstrap.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/hovershow.css" rel="stylesheet">
+    <!-- animate -->
+    <link rel="stylesheet" href="__OTHER__/xitong/animate.min.css">
+    <link rel="stylesheet" href="__OTHER__/xitong/notification.css">
+
+    <!-- Toastr style -->
+    <link href="__OTHER__/xitong/toastr.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__OTHER__/xitong/sweetalert.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!-- Mainly scripts -->
+    <script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+    <script src="__OTHER__/xitong/bootstrap.min.js"></script>
+    <script src="__OTHER__/xitong/moment.min.js"></script>
+    <script src="__OTHER__/xitong/jquery.form.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/jquery.metisMenu.js"></script>
+    <script src="__OTHER__/xitong/jquery.slimscroll.min.js"></script>
+    <!-- Toastr -->
+    <script src="__OTHER__/xitong/toastr.min.js"></script>
+
+    <!-- Sweet alert -->
+    <script src="__OTHER__/xitong/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="__OTHER__/xitong/layer.css" id="layuicss-layer">
+    <style>
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        .table>tbody>tr>td{border-top:0px;}
+        .table>tfoot>tr>td{border-top:0px;}
+        #main_pic_prev{width: 38px;height: 38px;border: 1px dashed #d3d3d6;}
+        .table tbody tr {cursor: Default;}
+    </style>
+    <style>
+        body{
+          overflow-y: hidden;
+        }
+        table tbody tr{cursor:move;}
+        .active {color: #000;}
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        
+        /*主要样式*/
+        .subNavBox{width:100%;margin-top:0px;margin-bottom:50px;}
+        .subNav{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        .subNav_text{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        subNavBox ul{margin-bottom:18px;}
+        .subNav:hover{color:#375264;}
+        .navContent{list-style: none;display: none;padding-left: 13px;}
+        .navContent li a{display:block;width:100%;height:32px;text-align:left;font-size:14px;line-height:32px;color:#000;}
+        .li_text{padding-left:10px;width: 100%;float:left;line-height:32px;margin-bottom:3px;}
+        .li_text:hover{background-color:#f5f5f5;}
+        .li_text_active{float:left;background-color:#f5f5f5;padding-left:10px;width: 100%;border-left:2px solid #03a9f4;line-height:32px;margin-bottom:3px;color:#03a9f4;}
+    </style>
+    <link href="__OTHER__/xitong/cropper.min.css" rel="stylesheet">
+    <script src="__OTHER__/xitong/cropper.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#left_height").height(window.innerHeight-$("#left_height").offset().top-32);
+            $(window).resize(function(){
+                $("#left_height").height(window.innerHeight-$("#left_height").offset().top-32);
+            });
+        })
+    </script>
+</head>
+
+<body class="gray-bg">
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg" style="background: rgb(230, 233, 240); min-height: 889px;margin: 0px 0px 0px 0px;">
+            <div class="wrapper wrapper-content animated fadeIn">
+                <div class="row">
+                    <div class="col-lg-12">         
+                        {include file="public:middle" /}
+                        <div class="col-sm-10">
+							<div class="table-content" style="padding-bottom:10px">
+								<div class="ibox-content mar-top" style="border-bottom:none;padding-top:20px;">
+									<div class="bulk-actions align-left">
+										<button onclick="batchDel();" style="background:#fff;border:1px solid #e3e3e3;color:#000;" type="button" class="btn btn-primary">&nbsp;删除</button>
+										<div class="pull-right">
+											<a class="btn btn-primary" id="add" onclick="showForm();">添加货币</a>
+										</div>
+									</div>
+								</div>
+								<form action="" id="form1" method="post">
+									<div class="col-sm-12 ibox-content" style="margin-top:0px;padding:0px;">
+										<div class="nicescroll" id="table_div" style="left: 0px; top: 0px; max-height: 460px; overflow: auto; outline: none;" tabindex="0">
+											<table class="table table-hover table-striped table_thead_fixed" id="tab_Test3">
+												<thead>
+													<tr class="tabTh">
+														<td style="width:50px;text-align:center;" nowrap="nowrap">
+															<div class="checkbox checkbox-primary">
+																<input type="checkbox" class="check_all">
+																<label for=""></label>
+															</div>
+														</td>
+														<td nowrap="nowrap">序号</td>
+														<td nowrap="nowrap">名称</td>
+														<td nowrap="nowrap">操作</td>
+													</tr>
+												</thead>
+												<tbody>
+													{volist name="currency" id="vo"}
+													<tr>
+														<td style="text-align:center;" nowrap="nowrap">
+															<div class="checkbox checkbox-primary">
+																<input name="id[]" class="check_list" type="checkbox" value="{$key}">
+																<label for=""></label>
+															</div>
+														</td>
+														<td nowrap="nowrap">{$key}</td>
+														<td nowrap="nowrap">{$vo}</td>
+														<td nowrap="nowrap">
+															<a class="edit" href="javascript:void(0)" onclick="showForm({$key}, 'edit');" rel="{$key}">编辑</a>&nbsp;&nbsp;
+															<a class="delete" href="javascript:void(0)" onclick="del({$key});" rel="{$key}">删除</a>
+														</td>
+													</tr>
+													{/volist}								
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 增加货币 -->
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">新增货币</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('options/currency',['action'=> 'save'])}" id="log-form">
+                                <input type="hidden" name="currency_id" id="currency_id" value="" />
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">货币</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="value" id="value" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="__OTHER__/xitong/index.js"></script> 
+    <!-- layer --> 
+    <script src="__OTHER__/xitong/layer.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <script type="text/javascript">
+    　　　 $(function(){
+    　　　　    $("#inner-content").slimScroll({ height: '815px' });
+    　　　　})
+
+    	var select = [];
+
+    	//checkbox点击全选
+    	$(".check_all").click(function(){
+    		$("input[class='check_list']").prop('checked', $(this).prop("checked"));//选中
+    		select = [];
+    		$("input[class='check_list']:checked").each(function(){  
+			    select.push($(this).val());//向数组中添加元素  
+			});
+			console.log(select);
+    	})
+
+    	//checkbox单选
+    	$(".check_list").change(function(){
+    		var value = $(this).val();
+    		var index = select.indexOf(value);
+    		//如果数组中存在这个元素，就删除，不存在就添加
+            if(index > -1 ){
+                select.splice(index,1);
+            }else{
+            	select.push(value);
+            }
+
+            console.log(select);
+    	})
+
+    	//添加弹出层
+    	// $("#add").click(function(){
+    	// 	$("#modal-form").modal();
+    	// });
+
+    	// //点击编辑
+    	// function edit(x){
+    	// 	if(!x){
+    	// 		layer.msg('参数错误',{time:1200,shade:0.7});
+    	// 		return false;
+    	// 	}
+    	// 	$("#clue_from_id").val(x);
+    	// 	$("#modal-form").modal();
+    	// }
+    	function showForm(id,action){
+            if(action == 'edit'){
+                $("#currency_id").val(id);
+                $("#log-form").attr("action","{:url('options/currency',['action'=>'update'])}?id=" + id);
+                $.ajax({
+                    type:'post',
+                    url:"{:url('options/currency',['action'=>'edit'])}",
+                    data:{id:id},
+                    beforeSend:function(){
+                        before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                    },
+                    success:function(d){
+                        if(d){
+                            $("#value").val(d);
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                        $("#modal-form").modal();
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                    }
+                })
+            }else{
+                $("#log-form").attr("action","{:url('options/currency',['action'=>'save'])}");
+                $("#currency_id").val("");
+                $("input[name='value']").val("");
+                $("#modal-form").modal();
+            }
+        }
+
+    	//删除
+    	function del(x){
+    		var id = x;
+    		if(!id){
+                swal('操作失败', '请选择一条数据', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('options/currency',['action'=> 'delete'])}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+    	}
+
+    	//批量删除
+    	function batchDel(){
+    		if(!select){
+    			swal('操作失败', '请选择一条信息', 'error');
+                return false;
+    		}
+
+    		swal(
+                {title:"您确定要删除所选信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('options/currency',['action'=> 'delete'])}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+    	}
+    </script>
+</body>
+</html>

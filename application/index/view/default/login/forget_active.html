@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘记密码-Linjoin CRM</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <style>
+        .logo-name{font-size:116px !important;font-weight: normal;}
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">LinJoin</h1>
+            </div>
+            <p>请设置一个新的密码</p>
+            <form class="m-t" role="form" action="" method="post" onsubmit="return active();" id="form">
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="请输入一个新密码" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="请重复上面输入的密码" required autocomplete="off">
+                </div>
+                <input type="hidden" name="token" value="{$token}">
+                <button type="submit" class="btn btn-primary block full-width m-b">下一步</button>
+                <a href="{:url('login/index')}">去登录</a>
+            </form>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <script>var forgetUrl = "{:url('login/forget',['action'=> 'active'])}"</script>
+    <script>
+        function active(){
+            var data = $("#form").serialize();
+            $.ajax({
+                type:'post',
+                url:forgetUrl,
+                data:data,
+                beforeSend:function(){
+                    before = layer.msg('正在处理，请稍后...',{time:0, icon:4, shade:0.7});
+                },
+                success:function(d){
+                    if(d.code == 1){
+                        layer.msg(d.msg,{time:1200,shade:0.7},function(){
+                            window.location.href = d.url;
+                        });
+                    }else{
+                        layer.msg(d.msg,{time:1200,shade:0.7});
+                    }
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试~',{time:1200, shade:0.7});
+                }
+            })
+
+            return false;
+        }
+    </script>
+</body>
+</html>

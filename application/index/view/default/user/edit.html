@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_sitename}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="author" content="">
+<!-- 360浏览器默认使用Webkit内核 -->
+<meta name="renderer" content="webkit">
+<link rel="shortcut icon" href="/favicon.ico">
+<link type="text/css" href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<link type="text/css" href="__OTHER__/xitong/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="__OTHER__/xitong/bootstrap.min.css" rel="stylesheet">
+<link href="__OTHER__/xitong/font-awesome.css" rel="stylesheet">
+<link href="__OTHER__/xitong/font-awesome.min.css" rel="stylesheet">
+<link type="text/css" href="__OTHER__/xitong/hovershow.css" rel="stylesheet">
+<!-- animate -->
+<link rel="stylesheet" href="__OTHER__/xitong/animate.min.css">
+<link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+<link rel="stylesheet" href="__OTHER__/xitong/notification.css">
+<style type="text/css">
+a.active {
+	font-weight: bold;
+	color: #777;
+}
+.nobr {
+	white-space: nowrap;
+}
+#header-top {
+	position: absolute;
+	right: 0px;
+	z-index: 102;
+}
+.sidebar-collapse {
+	z-index: 9999;
+}
+.tooltip {
+	width: 85px;
+	line-height: 36px;
+}
+.tooltip-inner {
+	padding: 3px 12px;
+	text-align: left;
+}
+.table {
+	margin-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+.nav.left-side {
+	display: none;
+}
+}
+.navbar {
+	margin-bottom: 0px;
+}
+.check_list {
+	width: 20px;
+	height: 20px;
+}
+.check_all {
+	width: 20px;
+	height: 20px;
+}
+.check_all {
+	width: 20px;
+	height: 20px;
+}
+input[type=checkbox], input[type=radio] {
+	margin-top: 0px;
+}
+.radio.radio-inline {
+	padding-left: 0px;
+}
+.alert-error {
+	margin: 20px;
+	line-height: 30px;
+}
+.text {
+	color: #000;
+}
+.notification {
+	top: 150px;
+	z-index: 9999;
+}
+.checkbox, .radio {
+	margin: 0 auto;
+}
+/*闪烁效果*/
+.crm_heart a {
+	animation: heart 1s ease infinite;
+}
+ @keyframes heart {
+ 0% {
+color:#FF6D57;
+}
+ 100% {
+color:#93A6B5;
+}
+}
+#side-menu a .fa {
+	width: 15px;
+	text-align: center;
+}
+.wxinfo > p{margin-top: 10px;}
+</style>
+<!-- Toastr style -->
+<link href="__OTHER__/xitong/toastr.min.css" rel="stylesheet">
+<!-- Sweet Alert -->
+<link href="__OTHER__/xitong/sweetalert.css" rel="stylesheet">
+<link href="__OTHER__/xitong/style.css" rel="stylesheet">
+<link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+<!-- Mainly scripts -->
+<script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+<script src="__OTHER__/xitong/bootstrap.min.js"></script>
+<script src="__OTHER__/xitong/moment.min.js"></script>
+<script src="__OTHER__/xitong/jquery.form.js" type="text/javascript"></script>
+<script src="__OTHER__/xitong/jquery.metisMenu.js"></script>
+<script src="__OTHER__/xitong/jquery.slimscroll.min.js"></script>
+<script src="__JS__/plugins/layui/layui.all.js"></script>
+<!-- Toastr -->
+<script src="__OTHER__/xitong/toastr.min.js"></script>
+<script src="__JS__/plugins/layui/ajax-form.js"></script>
+<script src="__OTHER__/xitong/jquery-ui-1.10.0.custom.min.js" type="text/javascript"></script>
+<!-- Sweet alert -->
+<script src="__OTHER__/xitong/sweetalert.min.js"></script>
+<!-- 时间选择控件 -->
+<script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+<!-- 下拉筛选 -->
+<link rel="stylesheet" href="__OTHER__/xitong/bootstrap-select.css">
+<script type="text/javascript" src="__OTHER__/xitong/bootstrap-select.js" charset="UTF-8"></script>
+<!-- select2 -->
+<link href="__OTHER__/xitong/select2.min.css" rel="stylesheet">
+<script src="__OTHER__/xitong/select2.full.min.js"></script>
+<script>
+$(function(){
+	var innerHeight = window.innerHeight;
+	if(innerHeight < 768){
+		innerHeight = 768;
+	}
+	$("#page-wrapper").css("min-height",innerHeight);
+	$(window).resize(function(){
+		var innerHeight = window.innerHeight;
+		if(innerHeight < 768){
+			innerHeight = 768;
+		}
+		$("#page-wrapper").css("min-height",innerHeight);
+	});
+	$(".select2").select2({
+        placeholder: "--请选择--"
+        // allowClear: true
+    });
+
+	setTimeout(() => {
+		$("#left_sidebar_div").height(window.innerHeight-10);
+	}, 1);
+	$(window).resize(function(){
+		$("#left_sidebar_div").height(window.innerHeight-10);
+	})
+});
+</script>
+<style type="text/css"></style>
+<link rel="stylesheet" href="__OTHER__/xitong/layer.css">
+</head>
+
+<body class="navbar   pace-done">
+  <div class="gray-bg" style="background: rgb(230, 233, 240); min-height: 889px;">
+    <style>
+	body{overflow-y:hidden;}
+	.nav-div > li.active{border:0px;background-color: #fff;}
+	.nav-div>li>a{padding:0 0 0 10px;}
+	.nav-div > li > a{padding:0 0 0 10px;font-weight: 300;}
+	.nav-div.nav-tabs-left-div li{width:100%;}
+	.nav-tabs-left-div>li.active>a{
+		font-size: 14px;
+		background-color: #f5f5f5;
+	    padding-left: 10px;
+	    width: 100%;
+	    border-left: 2px solid #03a9f4;
+	    line-height: 32px;
+	    margin-bottom: 3px;
+	    color: #03a9f4;
+	    font-weight: 300;
+	}
+	.li_text{font-size:14px;padding-left:10px;width: 100%;float:left;line-height:32px;margin-bottom:3px;}
+	.li_text:hover{background-color:#f5f5f5;}
+	.li_text_active{float:left;background-color:#f5f5f5;padding-left:10px;width: 100%;border-left:2px solid #03a9f4;line-height:32px;margin-bottom:3px;color:#03a9f4;}
+	.table>tbody>tr>td{border-top:0px;}
+	.table>tfoot>tr>td{border-top:0px;}
+		.top-pos{
+			position: relative;
+		}
+		.top-weixin{
+			width: 200px;
+			height: 200px;
+			position: absolute;
+			top: 0;
+			left: 15px;
+			z-index: 4;
+		}
+		.top-weixin-p1{
+			line-height: 200px;
+			color: #1ab394;
+			font-size: 24px;
+			font-weight: bold;
+			text-align: center;
+		}
+		.top-weixin-sp{
+			width: 30px;
+			height: 30px;
+			display: inline-block;
+			border-radius: 15px;
+			background: #1ab394;
+			font-size: 20px;
+			color: #fff;
+			
+			line-height: 30px;
+			text-align: center;
+		}
+</style>
+    <script>
+$(function(){
+	$(".add_body").height(window.innerHeight-$("#add_body").offset().top-$("#tfoot_div").height()-40);
+	$(window).resize(function(){
+		$(".add_body").height(window.innerHeight-$("#add_body").offset().top-$("#tfoot_div").height()-40);
+	})
+})
+</script>
+    <div class="wrapper wrapper-content ">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="col-sm-2 ibox-title" style="background-color:#fff;">
+            <ul class="nav nav-div nav-tabs-left-div" id="myTab">
+              <li class="li_text active"> <a data-toggle="tab" href="#tab-1" aria-expanded="true">基本信息</a> </li>
+              <li class="li_text"> <a data-toggle="tab" href="#tab-2" aria-expanded="false">修改头像</a> </li>
+              <li class="li_text"> <a data-toggle="tab" href="#tab-3" aria-expanded="false">修改密码</a> </li>
+              <li class="li_text"> <a data-toggle="tab" href="#tab-4" aria-expanded="false">绑定微信</a> </li>
+              <li class="li_text"> <a data-toggle="tab" href="#tab-5" aria-expanded="false">绑定邮箱</a> </li>
+            </ul>
+          </div>
+          <div class="col-sm-10">
+            <div class="table-content clearfix ibox-title tab-content" style="padding-top:0px;">
+              <div id="tab-1" class="tab-pane fade active in">
+                <div class="ibox-content" style="border: none;">
+                  <div class="nav pull-left"> <span style="font-weight:900;line-height:40px;">基本信息</span> </div>
+                </div>
+                <form class="form-inline ajax-form" action="{:url('user/update')}" method="post" style="margin-top:10px;">
+                  <div class="ibox-content add_body " id="add_body" style="border-color: rgb(231, 234, 236); border-width: 1px 0px; height: 685px;">
+                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                      <div class="full-height-scroll" style="overflow: auto; width: auto; height: 100%;">
+                        <table class="table ">
+                          <tbody>
+                          	<tr>
+                              <td class="tdleft">登录账号</td>
+                              <td><input type="text" class="form-control" value="{$info.username}" style="width:280px;" disabled="disabled" readonly></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">员工编号</td>
+                              <td><input type="text" class="form-control" value="{$info.sn}" style="width:280px;" disabled="disabled" readonly></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft" style="width:150px;">真实姓名</td>
+                              <td><input type="text" class="form-control" name="nickname" value="{$info.nickname}" style="width:280px;"></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">性别</td>
+                              <td><div class="radio radio-info radio-inline">
+                                  <input type="radio" name="sex" value="1" id="sex_1" {eq name="info.sex" value="m"}checked{/eq}>
+                                  <label for="sex_1">男&nbsp;</label>
+                                </div>
+                                <div class="radio radio-info radio-inline">
+                                  <input type="radio" name="sex" value="2" id="sex_2" {eq name="info.sex" value="w"}checked{/eq}>
+                                  <label for="sex_2">女</label>
+                                </div></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">家乡</td>
+                              <td><input class="text-input small-input form-control" name="home_address" id="hometown" type="text" value="{$info.home_address}" style="width:280px;"></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">出生日期</td>
+                              <td><input class="text-input small-input form-control" name="birthday" id="birthday" type="text" value="{$info.birthday}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" style="width:280px;" autocomplete="off"></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">入职日期</td>
+                              <td><input class="text-input small-input form-control" name="entry_time" id="entry" type="text" value="{$info.entry_time}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" style="width:280px;" autocomplete="off"></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">自我介绍</td>
+                              <td><textarea name="introduce" class="form-control" style="width:280px;">{$info.introduce}</textarea></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <p style="line-height: 30px;font-weight: bold;">联系方式</p>
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <td class="tdleft">手机号码</td>
+                              <td><input class="text-input small-input form-control" name="phone" id="telephone" value="{$info.phone}" type="text" value="13508944525" style="width:280px;"></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft" style="width:150px;">邮箱</td>
+                              <td><input class="text-input small-input form-control" name="email" type="text" value="{$info.email}" style="width:280px;"></td>
+                            </tr>
+                            <tr>
+                              <td class="tdleft">联系地址</td>
+                              <td><textarea name="contact_address" class="form-control" style="width:280px;">{$info.contact_address}</textarea></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="tfoot_div" class="clearfix">
+                    <div class="clearfix" id="tfoot_page">
+                      <div class="ibox-content" style="border: none;">
+                        <div class="col-sm-offset-2">
+                          <button class="ladda-button btn btn-primary" data-style="zoom-in" type="submit"> <span class="ladda-label">保存</span> <span class="ladda-spinner"></span></button>
+                          <!-- <input name="submit" class="btn btn-primary btn-sm" type="submit" value="取消"/> --> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="tab-2" class="tab-pane fade">
+                <div class="ibox-content" style="border: none;">
+                  <div class="nav pull-left"> <span style="font-weight:900;line-height:40px;">个人头像</span> </div>
+                </div>
+                <form id="form1" enctype="multipart/form-data" action="{:url('user/avatar')}" class="form-horizontal ajax-form" method="post" style="margin-top:10px;" enctype="multipart/form-data">
+                  <input type="hidden" name="avatar" value="" id="avatar-value">
+                  <div class="ibox-content" style="border: none;">
+                    <div class="col-xs-10 col-sm-10 ">
+                      <div class="row">
+                        <div class="col-sm-6" style="margin-bottom: 15px;">
+                          <div class="img-preview img-preview-sm" style="height:200px;">
+                             
+                          	{notempty name="info.avatar"}
+                          	<img src="{$info.avatar}" style="width: 200px;height: 200px;" id="avatar">
+                          	{else/}
+                          	<img src="__OTHER__/xitong/avatar_default.png" style="width: 200px;height: 200px;" id="avatar">
+                          	{/notempty}
+                          </div>
+                          <p style="margin-top:10px;"> 你可以重新选择一张图片，然后上传图片 </p>
+                          <div class="btn-group" style="margin-top: 20px;">
+                            <label title="选择图片" for="inputImage" class="btn btn-primary" id="upload">选择图片</label>
+                            <label title="上传头像" id="download" class="btn btn-primary" onclick="$('#form1').submit();">提交头像</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="tab-3" class="tab-pane fade">
+                <div class="ibox-content" style="border: none;">
+                  <div class="nav pull-left"> <span style="font-weight:900;line-height:40px;">修改密码</span> </div>
+                </div>
+                <form class="form-inline ajax-form" method="post" id="form2" style="margin-top:10px;" action="{:url('user/modifypassword')}">
+                  <div class="ibox-content" style="border:none;">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td class="tdleft" style="width:100px;">旧密码</td>
+                          <td><input type="password" required class="form-control" name="old_password" id="old_password" required></td>
+                        </tr>
+                        <tr>
+                          <td class="tdleft">新密码</td>
+                          <td><input type="password" required class="form-control" name="new_password" id="new_password" required></td>
+                        </tr>
+                        <tr>
+                          <td class="tdleft">重复新密码</td>
+                          <td><input type="password" required class="form-control" name="confirm_password" id="confirm_password" required></td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td><button class="btn btn-primary" type="button" onclick="$('#form2').submit();">确认修改</button></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </form>
+              </div>
+
+              <div id="tab-4" class="tab-pane fade">
+                <div class="ibox-content" style="border: none;">
+                  <div class="nav pull-left"> <span style="font-weight:900;line-height:40px;">绑定微信</span> </div>
+                </div>
+                <div class="ibox-content" style="border: none;">
+                   	<div class="col-xs-10 col-sm-10 ">
+                      <div class="row">
+                        <div class="col-sm-4 top-pos" style="margin-bottom: 15px;">
+
+                          <div class="img-preview img-preview-sm" style="height:200px;{notempty name='info.openid'}opacity:0.03{/notempty}">
+                            
+                          	<img src="http://qr.liantu.com/api.php?text={:request()->domain()}/index.php/index/user/wechatQrcode.html?uid={$_userinfo.id}" style="width: 200px;height: 200px;" id="avatar">
+                          </div>
+                          <div class="top-weixin" {empty name="info.openid"}style="display:none;"{/empty}>
+                             	<div class="top-weixin-1">
+                             		<p class="top-weixin-p1">
+                             		<span class="top-weixin-sp">√</span>
+                             		已绑定
+                             		</p>
+                             		
+                             	</div>
+                          </div>
+                          <p style="margin-top:10px;"> 微信扫一扫上面的二维码即可绑定 </p>
+                        </div>
+                        <div class="col-sm-6 wxinfo" style="margin-bottom: 15px;margin-top: 15px;">
+                          {notempty name="info.openid"}
+                          <img src="{$info.wx_headimgurl}" style="width: 100px;height: 100px;">
+                          <p>微信昵称：{$info.wx_name}</p>
+                          <p>唯一标识符：{$info.openid}</p>
+                          <p>状态：已绑定</p>
+                          <p style="margin-top:13px;"> 以上是您绑定的微信信息，如需更换绑定，请联系管理员 </p>
+                          {/notempty}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              	</div>
+
+              	<div id="tab-5" class="tab-pane fade">
+                <div class="ibox-content" style="border: none;">
+                  <div class="nav pull-left"> <span style="font-weight:900;line-height:40px;">邮箱绑定</span> </div>
+                </div>
+                <form class="form-inline ajax-form" method="post" id="form3" style="margin-top:10px;" action="{:url('user/bindemail')}">
+                  <div class="ibox-content" style="border:none;">
+                    <table class="table">
+                        <tbody class="form-inline">
+                            <tr>
+                                <td class="tdleft" style="width:150px;">IMAP收件主机地址：</td>
+                                <td><input class="form-control" name="host" id="host" type="text" value="{$info.email_config.host|default='imaphm.qiye.163.com'}" placeholder="如imaphm.qiye.163.com" required></td>
+                            </tr>
+                            <tr>
+                                <td class="tdleft" style="width:150px;">SMAP发件主机地址：</td>
+                                <td><input class="form-control" name="send_host" id="send_host" type="text" value="{$info.email_config.send_host|default='smtphm.qiye.163.com'}" placeholder="如smtphm.qiye.163.com" required></td>
+                            </tr>
+                            <tr>
+                                <td class="tdleft">账号：</td>
+                                <td><input class="form-control" name="username" id="username" type="text" value="{$info.email_config.username}" placeholder="如xxxx@linjoin.com" required></td>
+                            </tr>
+                            <tr>
+                                <td class="tdleft">密码：</td>
+                                <td><input class="form-control" name="password" id="password" type="text" value="{$info.email_config.password}" placeholder="123456" required></td>
+                            </tr>
+                            <tr>
+                                <td class="tdleft">收件端口：</td>
+                                <td><input class="form-control" name="port" id="port" type="text" value="{$info.email_config.port|default='993'}" placeholder="如993" required></td>
+                            </tr>
+                            <tr>
+                                <td class="tdleft">发件端口：</td>
+                                <td><input class="form-control" name="send_port" id="send_port" type="text" value="{$info.email_config.send_port|default='994'}" placeholder="如994" required></td>
+                            </tr>
+                            <tr>
+                                <td class="tdleft">发件人昵称：</td>
+                                <td><input class="form-control" name="set_from_name" id="setFromName" value="{$info.email_config.set_from_name}" type="text" placeholder="" required></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td><button class="btn btn-primary" type="button" onclick="$('#form3').submit();">确认修改</button></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+$('#myTab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+
+var uid = "{$_userinfo.id}";
+var isBind = "{$info.openid}";
+	
+//ajax检测微信用户信息
+$(function(){
+	if(uid > 0 && !isBind){
+		ajaxwx = setInterval("ajaxWeixin()", 3000);
+	}
+})
+
+function ajaxWeixin(){
+	var url = "{:url('user/read')}";
+	$.ajax({
+		type:'post',
+		data:{uid:uid},
+		url:url,
+		success:function(d){
+			if(d.id > 0 && d.openid){
+				var str = '';
+				str += '<img src="'+d.wx_headimgurl+'" style="width: 100px;height: 100px;">';
+                str += '<p>微信昵称：'+d.wx_name+'</p>';
+                str += '<p>唯一标识符：'+d.openid+'</p>';
+                str += '<p>状态：已绑定</p>';
+                str += '<p style="margin-top:13px;"> 以上是您绑定的微信信息，如需更换绑定，请联系管理员 </p>';
+                $(".img-preview").css("opacity","0.03");
+                $(".top-weixin").show();
+                $(".wxinfo").html(str);
+                clearInterval(ajaxwx);
+			}else{
+
+			}
+		}
+	})
+}
+
+//执行实例
+var uploadInst = layui.upload.render({
+    elem: '#upload' //绑定元素
+    ,url: "{:url('api/upload/uploadone')}" //上传接口
+    ,before:function(obj){
+        layer.load();
+    }
+    ,done: function(res){
+        layer.closeAll('loading'); //关闭loading
+        //上传完毕回调
+        if(res.code == 200){
+        	$("#avatar").attr("src", "__UPLOADS__/"+res.data.file);
+        	$("#avatar-value").val("__UPLOADS__/"+res.data.file);
+        }else{
+            layer.msg(res.msg);
+        }
+    }
+    ,error: function(){
+        //请求异常回调
+        layer.closeAll('loading'); //关闭loading
+    }
+});
+</script> 
+</div>
+
+<!-- nice-scroll --> 
+<script src="__OTHER__/xitong/jquery.nicescroll.min.js" type="text/javascript"></script>
+
+
+</body>
+</html>

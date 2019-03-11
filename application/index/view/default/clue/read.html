@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/style-1.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="wrapper wrapper-content animated fadeIn">
+			<div class="row">
+				<div class="col-lg-12">
+			  		<div class="title-bar" style="margin-bottom: 10px;padding: 12px 10px 6px 20px;background-color: #fff;border: 1px solid #ccc;margin: 10px;">
+						<div class="row " id="title-show">
+				  			<ul class="nav pull-left" style="margin:0px 10px 0px 20px;">
+								<span>
+									<img src="__IMG__/contract_view_icon.png" style="margin-bottom:9px;" alt="">
+								</span>
+								<span style="font-size:21px;margin-left:5px">&nbsp;&nbsp;&nbsp;ceshi</span>&nbsp;&nbsp;
+				  			</ul>
+				  			<div class="pull-right" style="margin-bottom:10px;margin-right: 20px;">
+				  				<!-- <a href="#" rel="7" id="conversion" class="btn btn-outline btn-info"><i class="icon-repeat i_icon"></i> 转化</a> -->
+				  				<a href="{:url('clue/edit',['id'=>$info.id])}" class="btn btn-info"><i class="icon-pencil"></i> 修改</a>
+				  				<a href="javascript:;" class="btn btn-info" onclick="window.history.back();"><i class="icon-arrow-left"></i> 返回</a> 
+				  			</div>
+						</div>
+			  		</div>
+			  		<div class="tabs-container">
+						<div class="ibox-content" style="background:#fff;margin: 10px;" id="left-content">
+							<ul class="nav nav-tabs" id="left_list" style="height:40px;">
+								<li class="active"><a href="#tab1" data-toggle="tab" type="tab1" aria-expanded="false">基本信息</a></li>
+								<li class=""><a href="#tab2" data-toggle="tab" type="tab2" aria-expanded="false">沟通日志&nbsp;&nbsp;<span class="badge badge-success"></span></a></li>
+								<li class=""><a href="#tab6" data-toggle="tab" type="tab6" aria-expanded="false">负责人日志&nbsp;&nbsp;<span class="badge badge-success"></span></a></li>
+								<li class=""><a href="#tab3" data-toggle="tab" type="tab3" aria-expanded="false">文件</a></li>
+						  	</ul>
+				  			<div class="tab-content">
+								<div class="tab-pane fade active in" id="tab1">
+					  				<div class="panel-body">
+										<div class="form-horizontal view-group ">
+						  					<div class="form-group">
+												<label class="col-lg-2 control-label">创建时间</label>
+												<div class="col-lg-4">
+							  						<p class="form-p"> {$info.create_time}</p>
+												</div>
+												<label class="col-lg-2 control-label">创建人</label>
+												<div class="col-lg-4">
+							  						<p class="form-p"> <a class="role_info" href="javascript:void(0)" rel="1">{$info.getCreateUser.username}</a> </p>
+												</div>
+						  					</div>
+						  					<div class="form-group">
+												<label class="col-lg-2 control-label">负责人</label>
+												<div class="col-lg-4">
+						  							<p class="form-p"> <a class="role_info" href="javascript:void(0)" rel="1">{$info.getUser.username}</a> </p>
+												</div>
+												<label class="col-lg-2 control-label">最后修改时间</label>
+												<div class="col-lg-4">
+							  						<p class="form-p"> {$info.update_time} </p>
+												</div>
+						  					</div>
+						  					<div id="list-show" rel="false">
+												<div class="form-group">
+												  	<label class="col-lg-2 control-label">来源</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#333333">{$clueFrom[$info.from_id]}</span> </p>
+												  	</div>
+												  	<label class="col-lg-2 control-label">联系人姓名</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#333333">{$info.name}</span> </p>
+												  	</div>
+												</div>
+												<div class="form-group">
+												  	<label class="col-lg-2 control-label">公司名</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#05330E">{$info.company}</span> </p>
+												  	</div>
+												  	<label class="col-lg-2 control-label">职位</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#">{$positions[$info['position']]}</span> </p>
+												  	</div>
+												</div>
+												<div class="form-group">
+												  	<label class="col-lg-2 control-label">尊称</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#333333">{$info.sex}</span> </p>
+												  	</div>
+												  	<label class="col-lg-2 control-label">手机</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#333333">{$info.mobile}</span> </p>
+												  	</div>
+												</div>
+												<div class="form-group">
+							  						<label class="col-lg-2 control-label">邮箱</label>
+							  						<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#">{$info.email}</span> </p>
+							  						</div>
+							  						<label class="col-lg-2 control-label">地址</label>
+						  							<div class="col-lg-4">
+														<p class="form-p">
+															[ {$info.getCountry.name?$info.getCountry.name:'未选择'} ] {$info.address}
+														</p>
+						  							</div>
+												</div>
+												<div class="form-group">
+												  	<label class="col-lg-2 control-label">下次联系时间</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#">{$info.next_contact_time}</span> </p>
+												  	</div>
+												  	<label class="col-lg-2 control-label">下次联系内容</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#">{$info.next_contact_content}</span> </p>
+												  	</div>
+												</div>
+												<div class="form-group">
+												  	<label class="col-lg-2 control-label">备注</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#">{$info.note}</span> </p>
+												  	</div>
+												  	<div class="col-lg-6"> </div>
+												</div>
+						  					</div>
+										</div>
+					  				</div>
+								</div>
+								<div class="tab-pane fade back_box" id="tab2">
+					  				<div class="panel-body">
+					  					{notempty name="info.clueLogs"}
+										<div id="log-list">
+											{volist name="info.clueLogs" id="vo"}
+										  	<div class="ibox-content gray-log" data-id="{$vo.id}">
+												<div class="social-feed-separated clearfix">
+											  		<div class="social-feed-box" style="padding: 0;border:none;background: #f2f4f7;margin-bottom: 0px;">
+														<div class="pull-right social-action dropdown"> <span data-toggle="dropdown" class="dropdown-toggle"> <i style="font-size:20px;cursor:pointer" class="fa fa-angle-down"></i> </span>
+														  	<ul class="dropdown-menu m-t-xs">
+																<li><a data-id="{$vo.id}" href="javascript:void(0);" type="rLeadsLog" onclick="delete_confirm(this);">删除</a></li>
+														  	</ul>
+														</div>
+														<div class="social-avatar" style="padding-left: 0;"> 
+															<img alt="image" style="width:35px;height:35px;" class="img-circle" src="__IMG__/avatar_default.png"> 
+															<a class="role_info name-colors" rel="1" href="javascript:void(0);">{$vo.username}</a>&nbsp;&nbsp; 
+															<span class="text-muted">发布了一条快速记录</span>&nbsp;&nbsp;&nbsp; 
+															<span class="text-muted">{$vo.create_time}&nbsp;&nbsp;
+																<a title="沟通类型" href="javascript:void(0);">{$vo.follow_up_txt}</a>
+															</span> 
+														</div>
+														<div class="social-body"> 
+															<span style="word-wrap:break-word;line-height: 21px;color: #000;">{$vo.content}</span> 
+														</div>
+											  		</div>
+												</div>
+										  	</div>
+										  	{/volist}
+										</div>
+										{else/}
+										<div style="background-color:#fff;">
+									  		<div style="text-align:center;color:#E4E4E4;font-size:22px;font-weight:700;padding:15px 0px;"> <img src="__IMG__/exclamation_mark.png" style="margin-top:-3px;">&nbsp;&nbsp;暂无数据 </div>
+										</div>
+										{/notempty}
+					  				</div>
+								</div>
+								<div class="tab-pane fade back_box" id="tab6">
+								  	<div class="panel-body">
+										
+										<table class="table">
+											<thead>
+												<tr>
+													<th>负责人</th>
+													<th>操作时间</th>
+													<th>领取方式</th>
+													<th>变更关系</th>
+												</tr>
+											</thead>
+											<tbody>
+												{volist name="info.userRecorder" id="vo"}
+												<tr>
+													<td>{$vo.new_username}</td>
+													<td>{$vo.create_time}</td>
+													<td>负责人变更</td>
+													<td>{$vo.old_username} -> {$vo.new_username}</td>
+												</tr>
+												{/volist}
+											</tbody>
+										</table>
+								  	</div>
+								</div>
+								<div class="tab-pane fade back_box" id="tab3">
+								  	<div class="panel-body">
+										<div class="header1">
+											<div class="alert alert-success col-sm-10" id="file_info" style="display: none;">
+					                            <span id="file_name"></span>
+					                        </div>
+									  		<div class="pull-right"> 
+									  			<a href="javascript:void(0);" class="add_file btn btn-primary">
+									  				<i class="fa fa-upload"></i>&nbsp;&nbsp;上传
+									  			</a> 
+									  		</div>
+									  		<div style="clear:both;"></div>
+										</div>
+										<table class="table product-table">
+											<thead>
+												<tr>
+													<td>附件名称</td>
+													<td>大小</td>
+													<td>上传人</td>
+													<td>上传时间</td>
+													<td>操作</td>
+												</tr>
+											</thead>
+											<tbody id="file-insert">
+												{notempty name="info.files"}
+												{volist name="info.files" id="vo"}
+												<tr rel="{$vo.id}">
+													<td><a href="javascript:void(0)">{$vo.orign_name}</a></td>
+													<td>{$vo.size}B</td>
+													<td>{$vo.username}</td>
+													<td>{$vo.create_time}</td>
+													<td class="tdleft">
+														<a href="javascript:void(0);" class="file_delete" rel="{$vo.id}" onclick="delete_file({$vo.id})">删除</a>
+														<a href="{:url('files/download',['id'=>$vo.id])}" rel="{$vo.id}" file="{:request()->domain()}/uploads/{$vo.file}" filename="{$vo.orign_name}">下载</a>
+													</td>											
+												</tr>
+												{/volist}
+												{/notempty}						
+											</tbody>
+										</table>
+								  	</div>
+								</div>
+				  			</div>
+						</div>
+			  		</div>
+				</div>
+		  	</div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+    	function delete_confirm(x){
+    		swal({
+                title: "您确定要删除这条日志吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = $(x).attr("data-id");
+            	if(!id){
+            		swal("提示", "不存在此日志", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('clue/deletelog')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:"操作成功", type:"success"},function(){
+            					$(".gray-log[data-id="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", "操作失败", "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+    	function delete_file(x){
+    		swal({
+                title: "您确定要删除这个文件吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = x;
+            	if(!id){
+            		swal("提示", "不存在此文件", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('files/delete')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:d.msg, type:"success"},function(){
+            					$("tr[rel="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", d.msg, "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+    	//执行实例
+        var uploadInst = layui.upload.render({
+            elem: '.add_file' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,accept:'file'
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    //保存数据库
+                    $.ajax({
+                    	type:'post',
+                    	url:"{:url('files/save')}",
+                    	data:{
+                    		from:"{:request()->controller()}",
+                    		orign_name:res.data.orignName,
+                    		file:res.data.file,
+                    		ext:res.data.ext,
+                    		size:res.data.size,
+                    		out_id:"{$info.id}",
+                    		username:"{:session('loginUser.username')}"
+                    	},
+                    	beforeSend:function(){
+                    		before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                    	},
+                    	success:function(d){
+                    		if(d.code == 1){
+                    			var str = '';
+                    			str += '<tr>';
+								str += '<td><a href="javascript:void(0)">'+d.data.orign_name+'</a></td>';
+								str += '<td>'+d.data.size+'B</td>';
+								str += '<td>'+d.data.username+'</td>';
+								str += '<td>'+d.data.create_time+'</td>';
+								str += '<td class="tdleft">';
+								str += '<a href="javascript:void(0);" class="file_delete" rel="'+d.data.id+'" onclick="delete_file('+d.data.id+')">删除</a>&nbsp;';
+								str += '<a href="{:url(\"files/download\")}?id='+d.data.id+'" rel="'+d.data.id+'" file="{:request()->domain()}/uploads/'+d.data.file+'" filename="'+d.data.orign_name+'">下载</a>';
+								str += '</td>';											
+							    str += '</tr>';
+							    $("#file-insert").append(str);
+                    		}
+                    	},
+                    	complete:function(){
+                    		layer.close(before);
+                    	},
+                    	error:function(){
+                    		layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    	}
+                    })
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    </script>
+</body>
+
+</html>

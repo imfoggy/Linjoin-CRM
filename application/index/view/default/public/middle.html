@@ -1,0 +1,47 @@
+<style>
+  .subNav{font-weight: bold;}
+  .li_text:hover{color: #03a9f4}
+</style>
+<div class="col-sm-2" style="background-color: rgb(255, 255, 255);overflow: auto;" id="left_height">
+    <div class="subNavBox" id="inner-content">
+                <div class="subNav currentDd currentDt">用户和权限</div>
+                  <ul class="navContent" style="display:block">
+                      <li> <a href="{:url('department/index')}"><span class="li_text" controller="Department" action="index">组织架构管理</span></a> </li>
+                      <li> <a href="{:url('users/index')}"><span class="li_text" controller="Users" action="index">用户管理</span></a> </li>
+                  </ul>
+                  <div class="subNav currentDd currentDt">业务参数设置</div>
+                  <ul class="navContent" style="display:block">
+                      <li><a href="{:url('product/category',['action'=> 'index'])}"><span class="li_text" controller="Product" action="category">产品分类</span></a></li>
+                      <li><a href="{:url('options/cluefrom',['action'=> 'index'])}"><span class="li_text" controller="Options" action="cluefrom">线索来源</span></a></li>
+                      <li><a href="{:url('options/followup',['action'=> 'index'])}"><span class="li_text" controller="Options" action="followup">跟进类型</span></a></li>
+                      <li><a href="{:url('options/companyproperty',['action'=> 'index'])}"><span class="li_text" controller="Options" action="companyproperty">公司性质</span></a></li>
+                      <li><a href="{:url('options/customerstatus',['action'=> 'index'])}"><span class="li_text" controller="Options" action="customerstatus">客户状态</span></a></li>
+                      <li><a href="{:url('options/customerindustry',['action'=> 'index'])}"><span class="li_text" controller="Options" action="customerindustry">客户行业</span></a></li>
+                      <li><a href="{:url('options/customerfrom',['action'=> 'index'])}"><span class="li_text" controller="Options" action="customerfrom">客户来源</span></a></li>
+                      <li><a href="{:url('options/customeremployee',['action'=> 'index'])}"><span class="li_text" controller="Options" action="customeremployee">员工数</span></a></li>
+                      <li><a href="{:url('options/contactrole',['action'=> 'index'])}"><span class="li_text" controller="Options" action="contactrole">联系人角色</span></a></li>
+                      <li><a href="{:url('options/productunit',['action'=> 'index'])}"><span class="li_text" controller="Options" action="productunit">单位</span></a></li>
+                      <li><a href="{:url('options/currency',['action'=> 'index'])}"><span class="li_text" controller="Options" action="currency">币种</span></a></li>
+                      <li><a href="{:url('options/weight',['action'=> 'index'])}"><span class="li_text" controller="Options" action="weight">重量单位</span></a></li>
+                      <li><a href="{:url('options/positions',['action'=> 'index'])}"><span class="li_text" controller="Options" action="positions">职位</span></a></li>
+                  </ul>
+                  <div class="subNav currentDd currentDt">系统设置</div>
+                  <ul class="navContent" style="display:block">
+                      <li><a href="{:url('system/index')}"><span class="li_text" controller="System" action="index">基本设置</span></a></li>
+                      {eq name="superMan" value="1"}
+                      <li><a href="{:url('superman/index')}"><span class="li_text" controller="Superman" action="index">开通账号</span></a></li>
+                      {/eq}
+                  </ul>
+            </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+    //设置滚动条
+    $("#inner-content").slimScroll({ height: '800px' });
+    //middle组件栏目高亮
+    var curController = "{:request()->controller()}";
+    var action = "{:request()->action()}";
+    $(".li_text").removeClass('li_text_active');
+    $(".li_text[controller="+curController+"][action="+action+"]").addClass('li_text_active');
+  })
+</script>

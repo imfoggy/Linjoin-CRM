@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+		@media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="t-header col-md-12 m-b-sm border-bottom">  
+                            <div class="xian">
+                            	 <div class="col-sm-8">
+									<button type="button" id="loading-example-btn" onclick="window.location.reload();" class="btn btn-w-m btn-info"><i class="fa fa-refresh"></i> 刷新数据</button>
+								</div>
+								<div class="col-sm-4 text-right">
+									<a data-toggle="modal" onclick="showSpecForm();">
+										<button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus"></i> 新增规格</button>
+									</a>
+								</div>
+                            </div>  
+                        </div>
+
+                        <div id="action-list" style="position: relative;z-index: 99;display: none;">
+                            <div class="row  clearfix" id="tictle-hide" style="margin: 0px 0px 2px 0px;margin-bottom: 10px;padding: 0px 10px 0px 20px;background-color: #fff;border: 1px solid #ccc;height: 60px;">
+                                <ul class="breadcrum pull-left" style="position: absolute;top: 24px;width: 100%;">
+                                  <li>已选中&nbsp;<span id="icheck_num">0</span>&nbsp;项</li>
+                                  <li><a id="delete" onclick="batchDelete();"><i class="fa fa-times"></i>&nbsp;批量删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content forum-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>规格列表</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="table-responsive" style="overflow: unset;">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th></th>
+                                                            <th>规格名称</th>
+                                                            <th>规格值</th>
+                                                            <th>产品类别</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {volist name="lists" id="vo"}
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" class="i-checks" name="input[]" value="{$vo.id}">
+                                                            </td>
+                                                            <td>{$vo.name}</td>
+                                                            <td>{$vo.value}</td>
+                                                            <td>{$vo.category.catname}</td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a data-toggle="modal" onclick="showSpecForm({$vo.id}, 'edit');">编辑</a>
+                                                                        </li>
+                                                                        <li><a onclick="deleteSpec({$vo.id});">删除</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {/volist}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="page">{$lists|raw}</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 增加规格弹框 -->
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">新增规格</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('spec/save')}" id="log-form">
+                                <input type="hidden" id="form_spec_id" value="" />
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">规格名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="name" id="spec-name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">产品分类</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" name="product_category_id" id="spec-categoryid" required>
+                                            <option value="" selected>请选择</option>
+                                            {$categoryHtml|raw}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div id="spec-value-input">
+                                    <div class="form-group format-line format-line-1">
+                                        <label class="col-sm-2 control-label">规格值</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control"  name="value[]" autocomplete="off" required>
+                                        </div>
+                                        <label class="col-sm-2  control-label">
+                                            <a class="add-line format" style="font-size: 12px;">[+增加一行]</a>
+                                        </label>
+                                    </div>    
+                                </div>
+
+                                <div class="form-group" id="add_flag">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        // 格式
+        var n = $('.format-line').length;
+        $('#spec-value-input').on('click','.add-line',function() {
+            var a = $('.format-line').length
+            if(a >= 10) {
+                layer.msg('最多添加10个规格', {
+                    time: 1200,
+                    shade: 0.7
+                });
+                return
+            } else {
+                n = n + 1
+                $('.format-line').eq(a - 1).after('<div class="form-group format-line format-line-'+n+'"><label class="col-sm-2 control-label">规格值</label><div class="col-sm-8"><input type="text" name="value[]" id="format_line_'+ n +'" class="form-control" required></div><label class="col-sm-2  control-label"><a class="add-line format" style="font-size: 12px;" onclick="delLine('+n+')">[-移除此行]</a></label></div>')
+            }
+        })
+        function delLine(i) {
+            $('.format-line-'+ i).remove()
+            $('#format_line_'+ i).val('')
+        }
+
+    </script>
+    <script>
+		
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+            }
+        });
+
+        //删除规格
+        function deleteSpec(id){
+            if(!id){
+                swal('操作失败', '请选择一条规格信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这条规格吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('spec/delete')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一条规格信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选规格吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('spec/delete')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 弹出添加规格弹框
+         * @Author Foggy
+         * @Date   2018-10-29
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function showSpecForm(id,action){
+            if(action == 'edit'){
+                $("#form_spec_id").val(id);
+                $("#log-form").attr("action","{:url('spec/update')}?id=" + id);
+                $.ajax({
+                    type:'post',
+                    url:"{:url('spec/edit')}",
+                    data:{id:id},
+                    beforeSend:function(){
+                        before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            //列表展示
+                            $("#spec-name").val(d.data.name);
+                            $("#spec-categoryid").val(d.data.product_category_id);
+                            var str = '';
+                            var a = 1;
+                            $.each(d.data.values,function(i,v){
+                                if(a <= 1){
+                                    str += '<div class="form-group format-line format-line-'+a+'"><label class="col-sm-2 control-label">规格值</label><div class="col-sm-8"><input type="text" name="value[]" id="format_line_'+ a +'" value="'+v.value+'" class="form-control" required></div><label class="col-sm-2  control-label"><a class="add-line format" style="font-size: 12px;">[+增加一行]</a></label></div>';
+                                }else{
+                                    str += '<div class="form-group format-line format-line-'+a+'"><label class="col-sm-2 control-label">规格值</label><div class="col-sm-8"><input type="text" name="value[]" id="format_line_'+ a +'" value="'+v.value+'" class="form-control" required></div><label class="col-sm-2  control-label"><a class="add-line format" style="font-size: 12px;" onclick="delLine('+a+')">[-移除此行]</a></label></div>';
+                                }
+                                a = a + 1;
+                            })
+
+                            $("#spec-value-input").html(str);
+                        }else{
+
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试！',{time:1200,shade:0.7});
+                    }
+                })
+            }else{
+                $("#log-form").attr("action","{:url('spec/save')}");
+                $("#spec-value-input").val("");
+                $("#spec-name").val("");
+                $("#spec-categoryid").val(0);
+                $("input[name='value[]']").val("");
+                $("#spec-value-input .format-line:not(:first)").remove();
+            }
+
+            $("#modal-form").modal();
+        }
+    </script>
+    
+</body>
+
+</html>

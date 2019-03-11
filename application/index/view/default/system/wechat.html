@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/bootstrap.min.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" href="__OTHER__/xitong/hovershow.css" rel="stylesheet">
+    <!-- animate -->
+    <link rel="stylesheet" href="__OTHER__/xitong/animate.min.css">
+    <link rel="stylesheet" href="__OTHER__/xitong/notification.css">
+
+    <!-- Toastr style -->
+    <link href="__OTHER__/xitong/toastr.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__OTHER__/xitong/sweetalert.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!-- Mainly scripts -->
+    <script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+    <script src="__OTHER__/xitong/bootstrap.min.js"></script>
+    <script src="__OTHER__/xitong/moment.min.js"></script>
+    <script src="__OTHER__/xitong/jquery.form.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/jquery.metisMenu.js"></script>
+    <script src="__OTHER__/xitong/jquery.slimscroll.min.js"></script>
+    <!-- Toastr -->
+    <script src="__OTHER__/xitong/toastr.min.js"></script>
+
+    <!-- Sweet alert -->
+    <script src="__OTHER__/xitong/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="__OTHER__/xitong/layer.css" id="layuicss-layer">
+    <style>
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        .table>tbody>tr>td{border-top:0px;}
+        .table>tfoot>tr>td{border-top:0px;}
+        #main_pic_prev{width: 38px;height: 38px;border: 1px dashed #d3d3d6;}
+        .table tbody tr {cursor: Default;}
+    </style>
+    <style>
+        body{
+          overflow-y: hidden;
+        }
+        table tbody tr{cursor:move;}
+        .active {color: #000;}
+        .nav.nav-tabs-left li{width:100%;}
+        .nav-tabs-left>li.active>a{border-top:white;color: #19aa8d !important;background-color:#fff;}
+        
+        /*主要样式*/
+        .subNavBox{width:100%;margin-top:0px;margin-bottom:50px;}
+        .subNav{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        .subNav_text{
+          cursor:pointer;
+          font-size:14px;
+          color:#000;
+          line-height:40px;
+          padding-left:10px;
+        }
+        subNavBox ul{margin-bottom:18px;}
+        .subNav:hover{color:#375264;}
+        .navContent{list-style: none;display: none;padding-left: 13px;}
+        .navContent li a{display:block;width:100%;height:32px;text-align:left;font-size:14px;line-height:32px;color:#000;}
+        .li_text{padding-left:10px;width: 100%;float:left;line-height:32px;margin-bottom:3px;}
+        .li_text:hover{background-color:#f5f5f5;}
+        .li_text_active{float:left;background-color:#f5f5f5;padding-left:10px;width: 100%;border-left:2px solid #03a9f4;line-height:32px;margin-bottom:3px;color:#03a9f4;}
+    </style>
+    <link href="__OTHER__/xitong/cropper.min.css" rel="stylesheet">
+    <script src="__OTHER__/xitong/cropper.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#left_height").height(window.innerHeight-$("#left_height").offset().top-32);
+            $(window).resize(function(){
+                $("#left_height").height(window.innerHeight-$("#left_height").offset().top-32);
+            });
+        })
+    </script>
+</head>
+
+<body class="gray-bg">
+    <div id="wrapper" style="width:113%;margin-left: -13%;">
+        <div id="page-wrapper" class="gray-bg" style="background: rgb(230, 233, 240); min-height: 889px;">
+            <div class="wrapper wrapper-content animated fadeIn">
+                <div class="row">
+                    <div class="col-lg-12">         
+                        {include file="public:middle" /}
+                        <form class="form-horizontal" enctype="multipart/form-data" action="{:url('system/wechat')}" method="post">
+                            <div class="col-sm-10">
+                                <div class="ibox-content add_body" id="add_body" style="height: 740px;">
+                                    <div class="row">
+                                        <div class="col-md-12  add_body" style="height: 703px;">
+                                            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                                                <div class="full-height-scroll" style="overflow: hidden; width: auto; height: 100%;">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="2">基本设置</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="form-inline">
+                                                            <tr>
+                                                                <td class="tdleft" style="width:150px;">系统名称：</td>
+                                                                <td><input class="form-control" name="name" id="name" type="text" value="悟空CRM"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tdleft">系统描述：</td>
+                                                                <td><input class="form-control" name="description" id="description" type="text" value="客户关系管理系统"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tfoot_div" class="clearfix">
+                                    <div class="clearfix" id="tfoot_page">
+                                        <div class="ibox-content" style="border-top:none;">
+                                            <div class="col-sm-offset-2">
+                                                <button type="submit" class="btn btn-primary">保存</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__OTHER__/xitong/index.js"></script> 
+    <!-- layer --> 
+    <script src="__OTHER__/xitong/layer.js"></script> 
+    <script type="text/javascript">
+        $(document).ready(function(){
+            /*退出提示*/
+            $('.logout').click(function () {
+                swal({
+                    title: "确定退出登录?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            window.location="/index.php?m=user&a=logout";
+                        }
+                    }
+                );
+            });
+
+            /*提交失败返回前一页*/
+            var href = "";
+            if(href != '' && href != null){
+                swal({
+                    title: "添加失败!",type: "error",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "返回",
+                    closeOnConfirm: false 
+                }, 
+                function(){
+                    location.href = 'javascript:history.back(-1)';
+                });
+            }
+
+        });
+    </script>
+    <script type="text/javascript">
+    　　　　$(function(){
+    　　　　    $("#inner-content").slimScroll({ height: '815px' });
+    　　　　})
+    </script>
+</body>
+</html>

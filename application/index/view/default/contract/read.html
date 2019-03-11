@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{$_siteName}</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="shortcut icon" href="/favicon.ico">
+<link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="__CSS__/animate.css" rel="stylesheet">
+<link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+<link href="__OTHER__/xitong/style.css" rel="stylesheet">
+<link href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<!-- Sweet Alert -->
+<link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+<link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="wrapper wrapper-content animated fadeIn" style="padding: 0 15px;">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="title-bar">
+          <div class="row " id="title-show">
+            <ul class="nav pull-left" style="margin:0px 10px 0px 20px;">
+              <span> <img src="__IMG__/contract_view_icon.png" style="margin-bottom:9px;" alt=""> </span> <span id="contract-name">{$info.sn}</span>&nbsp;&nbsp; <span class="badge badge-warning" style="color:#fff;padding:5px 20px;margin-top:-8px;background:#F5CA00;">{$_config['contract_status'][$info.status]['text']}</span>
+            </ul>
+            <a href="{:url('contract/edit',['id'=>$info.id])}" class="btn btn-outline btn-default pull-right" style="margin-right: 15px;"><i class="fa fa-pencil"></i>&nbsp;&nbsp;编辑</a> <a href="javascript:void(0)" data-toggle="modal" onclick="showReview({$info.id});"style="margin-right:15px;" class="btn btn-primary pull-right">审核</a> <!-- <a href="javascript:void(0);" id="print" class="btn btn-info pull-right" style="margin-right: 15px;"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;打印</a> --> </div>
+        </div>
+        <div class="tabs-container">
+          <div class="con-md-12">
+            <div class="ibox-content" style="background: rgb(255, 255, 255); min-height: 615.6px;" id="left-content">
+              <ul class="nav nav-tabs" id="left_list" style="height:40px;">
+                <li class="active"><a href="#tab1" data-toggle="tab" type="tab1" aria-expanded="true">基本信息</a></li>
+                <li class=""><a href="#tab2" data-toggle="tab" type="tab2" aria-expanded="false">产品信息</a></li>
+                <li class=""><a href="#tab3" data-toggle="tab" type="tab3" aria-expanded="false">合同附件</a></li>
+              </ul>
+              <div class="tab-content ">
+                <div class="tab-pane active" id="tab1">
+                  <div class="panel-body">
+                    <div style="font-size:13px;font-weight:700;margin:15px auto;"> <span style="border-left:5px solid #19AA8D;padding-left:10px;height:10px;"></span>基本信息 </div>
+                    <div class="form-horizontal view-group ">
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">合同编号</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.sn} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">合同名称</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.name} </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">合同生效时间</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.effect_time} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">合同审批人</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.get_approvers_user.username}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">签约时间</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.sign_time} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">合同签约人</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.get_signatory_user.username}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">来源客户</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.get_customer_user.company} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">合同金额</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.money}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">价格条款</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.price_clause} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">港口</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.price_clause_port}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">付款方式</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$_config['payment'][$info.payment]} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">装运时间</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.shipment_time}</a> </p>
+                        </div>
+                      </div>
+                      {eq name="info.payment" value="2"}
+                      {eq name="info.payment_desc.type" value="2"}
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">信用证方式</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> 远期：{$info.payment_desc.days}天 </p>
+                        </div>
+                      </div>
+                      {else/}
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">信用证方式</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> 即期 </p>
+                        </div>
+                      </div>
+                      {/eq}
+                      {else/}
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">预付款</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.payment_desc.advance_payment} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">尾款</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.payment_desc.final_payment}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">付款时间</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.payment_desc.payment_time} </p>
+                        </div>
+                      </div>
+                      {/eq}
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">发货地址</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.send_address} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">起运港</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.get_start_port_country.name} {$info.start_port}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">目的港</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.get_end_port_country.name} {$info.end_port} </p>
+                        </div>
+                        <label class="col-lg-2 control-label">预计到港日期</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> <a href="javascript:void(0)" rel="1" class="role_info">{$info.arrival_time}</a> </p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">合同描述</label>
+                        <div class="col-lg-4">
+                          <p class="form-p"> {$info.desc} </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="font-size:13px;font-weight:700;margin-top:20px;margin-bottom:15px;"> <span style="border-left:5px solid #19AA8D;padding-left:10px;height:10px;"></span>审核信息 </div>
+                    <div> 
+                      <div class="pull-left" style="margin-left:10px;">
+                        {notempty name="info.get_approvers_user.avatar"}
+                        <img src="{$info.get_approvers_user.avatar}" style="width:45px;height:45px;margin:10px 0 0 10px;border-radius:50px;">
+                        {else/}
+                        <img src="__IMG__/moren.png" style="width:45px;height:45px;margin:10px 0 0 10px;border-radius:50px;">
+                        {/notempty}
+                      </div>
+                      <div class="pull-left" style="margin:10px 0 0 10px;">
+                        <div class="control-label" style="margin-top:2px;font-size:14px;color:#B4B1C2"> {$info.get_approvers_user.username} </div>
+                        <div class="control-label check_badge" style="margin-top:2px;font-size:13px;"> <span style="color:#F5CA00">{$_config['contract_status'][$info.status]['text']}</span></div>
+                      </div>
+                      <div style="clear:both"></div>
+                    </div>
+                    <!-- <div style="margin-top:20px;margin-left:15px;"><a href="javascript:void(0);" id="check_list"><i class="fa fa-history"></i>&nbsp;&nbsp;查看合同审核历史</a></div> -->
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab2">
+                  <div class="panel-body">
+                   	<div class="table-con">
+                    <table class="table table-bordered table_view" id="no-input-border" width="95%" border="0" cellspacing="1" cellpadding="0">
+                      <thead>
+                        <tr>
+                          <td>序号</td>
+                          <td>产品名称</td>
+                          <td>规格</td>
+                          <td>销售价格(元)</td>
+                          <td>数量</td>
+                          <td>单位</td>
+                          <td>小计</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      	{volist name="info.contract_products" id="vo"}
+                        <tr id="row_{$key+1}">
+                          <td>{$key+1}</td>
+                          <td>{$vo.product_name}</td>
+                          <td>{$vo.attrStr}</td>
+                          <td>{$vo.sale_price}</td>
+                          <td>{$vo.number}</td>
+                          <td>{$vo.unitText}</td>
+                          <td>{$vo.total}</td>
+                        </tr>
+                        {/volist}
+                      </tbody>
+                    </table>
+                    </div>
+                    <div style="text-align:center;margin-top:10px;">
+                      <div class="pull-right">销售订单金额(元) :<span style="color:#FF9900;">&nbsp;{$info.sum_price}</span></div>
+                      <div class="pull-right"><i class="fa fa-bookmark" style="color: #19aa8d;"></i>&nbsp;<span style="color:#999;">&nbsp;&nbsp;</span></div>
+                      &nbsp;&nbsp; </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab3">
+                  <div class="panel-body">
+                    <div class="header1">
+                      <div class="alert alert-success col-sm-10" id="file_info" style="display: none;">
+                          <span id="file_name"></span>
+                      </div>
+                      <div class="pull-right"> 
+                          <a href="javascript:void(0);" class="add_file btn btn-primary">
+                            <i class="fa fa-upload"></i>&nbsp;&nbsp;上传
+                          </a> 
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="table-con">
+                    <table class="table product-table">
+                      <thead>
+                        <tr>
+                          <td>附件名称</td>
+                          <td>大小</td>
+                          <td>上传人</td>
+                          <td>上传时间</td>
+                          <td>操作</td>
+                        </tr>
+                      </thead>
+                      <tbody id="file-insert">
+                        {notempty name="info.files"}
+                        {volist name="info.files" id="vo"}
+                        <tr rel="{$vo.id}">
+                          <td><a href="javascript:void(0)">{$vo.orign_name}</a></td>
+                          <td>{$vo.size}B</td>
+                          <td>{$vo.username}</td>
+                          <td>{$vo.create_time}</td>
+                          <td class="tdleft">
+                            <a href="javascript:void(0);" class="file_delete" rel="{$vo.id}" onclick="delete_file({$vo.id})">删除</a>
+                            <a href="{:url('files/download',['id'=>$vo.id])}" rel="{$vo.id}" file="{:request()->domain()}/uploads/{$vo.file}" filename="{$vo.orign_name}">下载</a>
+                          </td>                     
+                        </tr>
+                        {/volist}
+                        {/notempty}           
+                      </tbody>
+                    </table>
+					</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div style="clear:both;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 审核合同弹窗 -->
+    <div id="modal-review" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">审核合同</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('contract/auditing')}" id="log-form">
+                                <input type="hidden" name="contract_id" id="contract_id" value="" />
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">审核结果</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" name="result" required>
+                                            <option value="2">同意</option>
+                                            <option value="3">拒绝</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <!-- <div class="form-group">
+                                    <label class="col-md-2 control-label">下一审批人：</label>
+                                    <div class="col-md-10">　
+                                        <div class="radio radio-info radio-inline" style="float: left;margin-right: 0px;">
+                                            <input type="radio" name="status" value="2" checked lay-ignore>
+                                            <label for="has_sn2" style="margin-right: 15px;padding-left: 0px;"></label>
+                                        </div>
+                                        <select class="form-control" xm-select="approvers" xm-select-search xm-select-radio xm-select-skin="primary">
+                                            <option value="">请选择</option>
+                                            {volist name="users" id="vo"}
+                                            <option value="{$vo.id}">{$vo.username}</option>
+                                            {/volist}
+                                        </select>
+                                        <div class="radio radio-info radio-inline">
+                                            <input type="radio" name="status" value="1" lay-ignore>
+                                            <label for="has_sn1" style="padding-left: 0px;">审批结束</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div> -->
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">备注</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="note" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- 全局js --> 
+<script src="__JS__/jquery.min.js?v=2.1.4"></script> 
+<script src="__JS__/bootstrap.min.js?v=3.3.6"></script> 
+<script src="__JS__/plugins/layui/layui.all.js"></script>
+<script src="__JS__/plugins/layui/ajax-form.js"></script>
+<!-- 自定义js --> 
+<script src="__JS__/content.js?v=1.0.0"></script> 
+<!-- Sweet alert --> 
+<script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script> 
+<script>
+        //审核合同
+        function showReview(x){
+            $("#contract_id").val(x);
+            $("#modal-review").modal('show');   
+        }
+    	function delete_confirm(x){
+    		swal({
+                title: "您确定要删除这条日志吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = $(x).attr("data-id");
+            	if(!id){
+            		swal("提示", "不存在此日志", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('clue/deletelog')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:"操作成功", type:"success"},function(){
+            					$(".gray-log[data-id="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", "操作失败", "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+    	function delete_file(x){
+        swal({
+                title: "您确定要删除这个文件吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+              var id = x;
+              if(!id){
+                swal("提示", "不存在此文件", "error");
+                return false;
+              }
+
+              $.ajax({
+                type:'post',
+                url:"{:url('files/delete')}",
+                data:{id: id},
+                success:function(d){
+                  if(d.code == 1){
+                    swal({title:"提示", text:d.msg, type:"success"},function(){
+                      $("tr[rel="+id+"]").remove();
+                    });
+                  }else{
+                    swal("提示", d.msg, "error");
+                  }
+                },
+                beforeSend:function(){
+                  before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+                },
+                complete:function(){
+                  layer.close(before);
+                },
+                error:function(){
+                  swal("提示", "网络错误，请稍后再试", "error");
+                }
+              })
+            });
+      }
+
+      //执行实例
+        var uploadInst = layui.upload.render({
+            elem: '.add_file' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,accept:'file'
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    //保存数据库
+                    $.ajax({
+                      type:'post',
+                      url:"{:url('files/save')}",
+                      data:{
+                        from:"{:request()->controller()}",
+                        orign_name:res.data.orignName,
+                        file:res.data.file,
+                        ext:res.data.ext,
+                        size:res.data.size,
+                        out_id:"{$info.id}",
+                        username:"{:session('loginUser.username')}"
+                      },
+                      beforeSend:function(){
+                        before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                      },
+                      success:function(d){
+                        if(d.code == 1){
+                          var str = '';
+                          str += '<tr rel="'+d.data.id+'">';
+                str += '<td><a href="javascript:void(0)">'+d.data.orign_name+'</a></td>';
+                str += '<td>'+d.data.size+'B</td>';
+                str += '<td>'+d.data.username+'</td>';
+                str += '<td>'+d.data.create_time+'</td>';
+                str += '<td class="tdleft">';
+                str += '<a href="javascript:void(0);" class="file_delete" rel="'+d.data.id+'" onclick="delete_file('+d.data.id+')">删除</a>&nbsp;';
+                str += '<a href={:url("files/download")}?id='+d.data.id+' file="{:request()->domain()}/uploads/'+d.data.file+'" filename="'+d.data.orign_name+'" rel="'+d.data.id+'">下载</a>';
+                str += '</td>';                     
+                  str += '</tr>';
+                  $("#file-insert").append(str);
+                        }
+                      },
+                      complete:function(){
+                        layer.close(before);
+                      },
+                      error:function(){
+                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                      }
+                    })
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    </script>
+</body>
+</html>

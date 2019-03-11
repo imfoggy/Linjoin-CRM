@@ -1,0 +1,93 @@
+<div class="col-md-3" style="overflow-x:auto;">
+  <div class="ibox-content" id="center_height" style="background-color: rgb(255, 255, 255);">
+    <div style="border-bottom:2px solid #e6e6e6;color: #525252;font-size:14px;margin-bottom:8px;text-align:left;line-height:36px;">部门管理</div>
+    {notempty name="$departmentHtml"}
+    <div style="font-size:13px;background-color:#fff;" id="tree1">
+        <ul>
+        <!-- 如果想要某一个节点打开，就给li标签增加上jstree-open标签 -->
+        {$departmentHtml|raw}
+        </ul>
+    </div>
+    {else/}
+    <div style="background-color:#fff;">
+        <p style="text-align:center;padding-top: 21px;">
+            <a data-toggle="modal" data-target="#Modal" data-backdrop="static" href="javascript:void(0)" onclick="showCreateDepartment(this);" data-id="0">
+                <i class="fa fa-plus"></i>
+                &nbsp;点击创建
+            </a>
+        </p>
+        <p style="text-align:center;padding-top: 10px;">当前部门为空!</p>
+    </div>
+    {/notempty}
+  </div>
+</div>
+
+<script type="text/javascript">
+　　　　$(function(){
+　　　　   $("#center_height").slimScroll({ height: '800px' });
+　　　　})
+</script> 
+<script type="text/javascript">
+/*模态框关闭或打开 先清除内容*/
+$(".modal").on("hide.bs.modal", function() {
+    $(this).removeData("bs.modal");
+});
+$(".modal").on("show.bs.modal", function() {
+    $(this).removeData("bs.modal");
+});
+
+/*左右树结构*/
+$(document).ready(function(){
+    $('#tree1').jstree({
+        'core' : {
+            'check_callback' : false
+        },
+        'plugins' : [ 'types', 'dnd' ],
+        'types' : {
+            'default' : {
+                'icon' : 'fa fa-home'
+            }
+        },
+    });
+    $('#tree2').jstree({
+        'core' : {
+            'check_callback' : false
+        },
+        'plugins' : [ 'types', 'dnd' ],
+        'types' : {
+            'default' : {
+                'icon' : 'fa fa-users'
+            }
+        }
+    });
+
+    $(".jstree-node").on("mouseenter",".jstree-anchor",function(){
+        $(".slide-category").hide();
+        $(this).find('.slide-category').show();
+    })
+
+    $(".tree-href").click(function(){
+        var href = $(this).attr('data-href');
+        if(!href){
+            layer.msg('url错误，请刷新页面后重试',{time:1200,shade:0.7});
+            return false;
+        }
+
+        window.location.href = href;
+    })
+});
+</script>
+<style>
+	.in{
+		border: none;
+	}
+	.arrow{
+		display: none;
+	}
+	.popover-content{
+		padding: 0;
+	}
+	.btn-group{
+		margin-left: 10px;
+	}
+</style>

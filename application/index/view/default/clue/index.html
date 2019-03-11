@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info,#file_info_email{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+        @media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+    </style>
+    <style>
+        .table_user{border:none !important}
+        .table_user tr{height:35px !important;padding:0px !important;}
+        .table_user tr td{border:none !important;height:35px !important;line-height: 35px !important;padding:0px !important;}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="t-header col-md-12 m-b-sm border-bottom">  
+                            <div class="xian">
+                            	 <div class="col-sm-8">
+									<button type="button" id="loading-example-btn" onclick="window.location.reload();" class="btn btn-w-m btn-info"><i class="fa fa-refresh"></i> 刷新数据</button>
+								</div>
+								<div class="col-sm-4 text-right">
+									<a href="{:url('clue/create')}">
+										<button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus"></i> 新增线索</button>
+									</a>
+								</div>
+                            </div>  
+                        </div>
+
+                        <div id="action-list" style="position: relative;z-index: 99;display: none;">
+                            <div class="row  clearfix" id="tictle-hide" style="margin: 0px 0px 2px 0px;margin-bottom: 10px;padding: 0px 10px 0px 20px;background-color: #fff;border: 1px solid #ccc;height: 60px;">
+                                <ul class="breadcrum pull-left" style="position: absolute;top: 24px;width: 100%;">
+                                  <li>已选中&nbsp;<span id="icheck_num">0</span>&nbsp;项</li>
+                                  {eq name="by" value="public"}
+                                  <li><a href="javascript:;" onclick="batchToReceive();">批量领取</a></li>
+                                  <li><a href="javascript:;" onclick="batchDelete();">批量删除</a></li>
+                                  {else/}
+                                  <li><a id="remove" href="javascript:void(0)" onclick="batchToPublic();"><i class="fa fa-users"></i>&nbsp;批量放入线索池</a></li>
+                                  {/eq}
+                                  <!-- <li><a href="javascript:void(0);" class="link excelExport"><i class="fa fa-download"></i>&nbsp;导出</a></li> -->
+                                  <li><a id="delete" href="javascript:void(0)" onclick="batchDelete();"><i class="fa fa-times"></i>&nbsp;删除</a></li>
+                                  <!-- <li> <a class="sendsms" where="ids" href="javascript:void(0)"> <i class="fa fa-comments-o"></i>&nbsp;发送邮件 </a> </li> -->
+                                  <!-- <li class="last_li"><big><a class="fa fa-times pull-right" id="back-show"></a></big></li> -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content forum-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>线索列表</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-sm-3 pull-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="模糊搜索：联系人姓名" name="keywords_username" id="keywords_username" class="input-sm form-control" value="{$username|default=''}"> <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary search"> 搜索</button> </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 m-b-xs pull-right">
+                                                    <select class="input-sm form-control input-s-sm inline" name="level" id="level">
+                                                        <option value="" {eq name="level" value=""}selected{/eq}>全部线索</option>
+                                                        <option value="my" {eq name="level" value="my"}selected{/eq}>我的线索</option>
+                                                        <option value="child" {eq name="level" value="child"}selected{/eq}>下属线索</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive" style="overflow: unset;">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th></th>
+                                                            <th>联系人姓名</th>
+                                                            <th>公司名</th>
+                                                            <th>尊称</th>
+                                                            <th>手机</th>
+                                                            <th>下次联系时间</th>
+                                                            <th>下次联系内容</th>
+                                                            <th>负责人</th>
+                                                            <th>创建人</th>
+                                                            <th>创建时间</th>
+                                                             {eq name="by" value=""}
+                                                            <th>距到期天数</th>
+                                                            <th>操作</th>
+                                                            {/eq}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {volist name="list" id="item"}
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" class="i-checks" name="input[]" value="{$item.id}">
+                                                            </td>
+                                                            <td>{$item.name} <a href="{:url('read',['id'=> $item.id])}" style="color:#337ab7;">（查看）</a></td>
+                                                            <td>{$item.company}</td>
+                                                            <td>{$item.sex}</td>
+                                                            <td>{$item.mobile}</td>
+                                                            <td>{$item.next_contact_time}</td>
+                                                            <td>{$item.next_contact_content}</td>
+                                                            <td><a href="javascript:void(0);" onclick="showUserinfoForm('{$item.get_user.id}')">{$item.get_user.username}</a></td>
+                                                            <td><a href="javascript:void(0);" onclick="showUserinfoForm('{$item.get_create_user.id}')">{$item.get_create_user.username}</a></td>
+                                                            <td>{$item.create_time}</td>
+                                                            {eq name="by" value=""}
+                                                            <td>{$item.diffDays} 天</td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="{:url('clue/edit',['id'=>$item.id])}">编辑</a>
+                                                                        </li>
+                                                                        <li><a href="javascript:void(0)" onclick="deleteClue({$item.id});">删除</a>
+                                                                        </li>
+                                                                        <li class="divider"></li>
+                                                                        <li><a href="javascript:void(0)" data-toggle="modal" onclick="showLogForm({$item.id});">沟通日志</a>
+                                                                        </li>
+                                                                        <li><a href="javascript:void(0)" data-href="{:url('users/principal',['from'=> 'clue', 'infoid'=> $item.id])}" data-toggle="modal" onclick="changeUserForm(this);">更改负责人</a>
+                                                                        </li>
+                                                                        <li><a href="{:url('clue/tocustomer',['id'=> $item.id])}">转为客户</a>
+                                                                        </li>
+                                                                        <!-- <li class="divider"></li> -->
+                                                                        <!-- <li><a href="javascript:void(0)" data-toggle="modal" onclick="email('{$item.email}');">发送邮件</a></li> -->
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                            {/eq}
+                                                        </tr>
+                                                        {/volist}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="page">{$list|raw}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 增加沟通记录弹框 -->
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">新增沟通记录</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal ajax-form" method="post" action="{:url('clue/createlog')}" id="log-form">
+                                <input type="hidden" name="clue_id" id="clue_id" value="" />
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">跟进类型</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control clue-from" name="follow_up_id" required>
+                                            <option value="">请选择</option>
+                                            {volist name="followUp" id="vo"}
+                                            <option value="{$key}">{$vo}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">下次联系时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true});" name="next_contact_time" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">资料上传</label>
+                                    <div class="col-sm-10">
+                                        <button type="button" class="btn btn-w-m btn-primary" id="upload">文件上传</button>
+                                        <span id="file_info"> 已上传文件 <span id="file_name">xxxxx.jpg</span></span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">跟进内容</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="content" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-sm-offset-9">
+                                        <button class="btn btn-primary" type="submit" lay-submit>保存内容</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- Peity -->
+    <script src="__JS__/plugins/peity/jquery.peity.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 时间选择控件 -->
+    <script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script>
+		
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+            }
+        });
+
+        //搜索
+        $(".search").click(function(){
+            var keywords = $.trim($("#keywords_username").val());
+            var level =  $.trim($("#level").val());
+            var url = window.location.href;
+            url = changeURLPar(url, 'username', keywords);
+            url = changeURLPar(url, 'level', level);
+            window.location.href = url;
+        })
+
+        $("#level").change(function(){
+            var level = $("#level").val();
+            var keywords = $.trim($("#keywords_username").val());
+            var url = window.location.href;
+            url = changeURLPar(url, 'level', level);
+            url = changeURLPar(url, 'username', keywords);
+            window.location.href = url;
+        })
+		
+        //删除线索
+        function deleteClue(id){
+            if(!id){
+                swal('操作失败', '请选择一条线索', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这条信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('clue/delete')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一条线索', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选线索吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('clue/delete')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量移动到线索池
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchToPublic(){
+            if(!select){
+                swal('操作失败', '请至少选择一条线索', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要进行此操作么？",
+                text:"确定要把这些选中的线索移动到线索池么？",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('clue/topublic')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量领取线索
+         * @Author Foggy
+         * @Date   2018-10-17
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchToReceive(){
+            if(!select){
+                swal('操作失败', '请至少选择一条线索', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要进行此操作么？",
+                text:"确定要领取这些线索么？",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('clue/toreceive')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:d.msg,type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示',d.msg,'error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        //弹出沟通记录弹出层
+        function showLogForm(x){
+            $("#clue_id").val(x);
+            $("#modal-form").modal('show');   
+        }
+
+        //更改负责人演出层
+        function changeUserForm(x){
+            // $("#user_form_clue_id").val(x);
+            // $("#modal-user").modal('show');
+            var url = $(x).attr("data-href");
+            layer.open({
+                type: 2,
+                title: '更换负责人',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['100%','500px'],
+                content: url //iframe的url
+            });
+        }
+
+        //执行实例
+        var uploadInst = layui.upload.render({
+            elem: '#upload' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,accept:'file'
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    $("#log-form").append('<input type="hidden" name="file" value="'+res.data.file+'">');
+                    $("#log-form").append('<input type="hidden" name="ext" value="'+res.data.ext+'">');
+                    $("#log-form").append('<input type="hidden" name="size" value="'+res.data.size+'">');
+                    $("#log-form").append('<input type="hidden" name="orign_name" value="'+res.data.orignName+'">');
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+
+        //弹出用户信息弹出层
+        function showUserinfoForm(x){
+            var id = x;
+            if(!id){
+                layer.msg('用户参数id错误',{time:1200,shade:0.7});
+                return false;
+            }
+
+            var url = "{:url('users/read')}?id="+id;
+            layer.open({
+                type: 2,
+                title: '用户信息',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['80%','300px'],
+                content: url //iframe的url
+            });
+        }
+    </script>
+    {include file="public:modal" /}
+</body>
+
+</html>

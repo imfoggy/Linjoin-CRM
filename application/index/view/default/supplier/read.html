@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/style-1.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/litebox.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="wrapper wrapper-content animated fadeIn">
+			<div class="row">
+				<div class="col-lg-12">
+			  		<div class="title-bar" style="margin-bottom: 10px;padding: 12px 10px 6px 20px;background-color: #fff;border: 1px solid #ccc;margin: 10px;">
+						<div class="row " id="title-show">
+				  			<ul class="nav pull-left" style="margin:0px 10px 0px 20px;">
+								<span>
+									<img src="__IMG__/contract_view_icon.png" style="margin-bottom:9px;" alt="">
+								</span>
+								<span style="font-size:21px;margin-left:5px">{$info.name}</span>&nbsp;&nbsp;
+				  			</ul>
+				  			<div class="pull-right" style="margin-bottom:10px;margin-right: 20px;">
+				  				<a href="{:url('supplier/edit',['id'=>$info.id])}" class="btn btn-info"><i class="icon-pencil"></i> 修改</a>
+				  				<a href="javascript:;" class="btn btn-info" onclick="window.history.back();"><i class="icon-arrow-left"></i> 返回</a> 
+				  			</div>
+						</div>
+			  		</div>
+			  		<div class="tabs-container">
+						<div class="ibox-content" style="background:#fff;margin: 10px;" id="left-content">
+							<ul class="nav nav-tabs" id="left_list" style="height:40px;">
+								<li class="active"><a href="#tab1" data-toggle="tab" type="tab1" aria-expanded="false">基本信息</a></li>
+								<li class=""><a href="#tab2" data-toggle="tab" type="tab2" aria-expanded="false">产品列表<span class="badge badge-success"></span></a></li>
+                                <li class=""><a href="#tab4" data-toggle="tab" type="tab4" aria-expanded="false">联系人<span class="badge badge-success"></span></a></li>
+								<li class=""><a href="#tab3" data-toggle="tab" type="tab3" aria-expanded="false">文件</a></li>
+						  	</ul>
+				  			<div class="tab-content">
+								<div class="tab-pane fade active in" id="tab1">
+					  				<div class="panel-body">
+										<div class="form-horizontal view-group ">
+						  					<div class="form-group">
+												<label class="col-lg-2 control-label">创建时间</label>
+												<div class="col-lg-4">
+							  						<p class="form-p"> {$info.create_time}</p>
+												</div>
+												<label class="col-lg-2 control-label">创建人</label>
+												<div class="col-lg-4">
+							  						<p class="form-p"> <a class="role_info" href="javascript:void(0)" rel="1">{$info.get_create_user.username}</a> </p>
+												</div>
+						  					</div>
+						  					<div class="form-group">
+												<label class="col-lg-2 control-label">供应商编号</label>
+												<div class="col-lg-4">
+						  							<p class="form-p"> <a class="role_info" href="javascript:void(0)" rel="1">{$info.sn}</a> </p>
+												</div>
+												<label class="col-lg-2 control-label">供应商名称</label>
+												<div class="col-lg-4">
+							  						<p class="form-p"> {$info.name} </p>
+												</div>
+						  					</div>
+						  					<div id="list-show" rel="false">
+												<div class="form-group">
+												  	<label class="col-lg-2 control-label">公司性质</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#333333">{$_config['property'][$info.property_id]}</span> </p>
+												  	</div>
+												  	<label class="col-lg-2 control-label">地址</label>
+												  	<div class="col-lg-4">
+														<p class="form-p"> <span style="color:#05330E">{$info.province}{$info.city}{$info.district}{$info.address}</span> </p>
+												  	</div>
+												</div>
+						  					</div>
+										</div>
+					  				</div>
+								</div>
+								<div class="tab-pane fade back_box" id="tab2">
+					  				<div class="panel-body">
+							            <div class="ibox" style="border: none;">
+							    			<!-- <div class="pull-right" style="padding-bottom: 15px"> 
+							                    <a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="addSku();" id="add_spec">添加产品规格</a>
+							                    <a class="btn btn-primary btn-sm" href="javascript:void(0);" id="multi_spec" enable_spec="0">禁用多规格</a>
+							                </div> -->					                					                    
+							                <table class="table select-table table-bordered">
+							                    <tbody>
+							               			<tr class="tabTh" style="border-right: 1px solid #e7eaec;text-align:center;background-color:#f9fafc;padding:14px;color:#999">
+							                            <td>序号</td>
+							                            <td>图片</td>
+							                            <td>产品编号</td>
+							                            <td>产品名称</td>
+							                            <td>所属分类</td>
+							                            <td>是否有样品</td>
+							                            <td>是否多规格</td>
+							                            <td>成本价</td>
+							                            <td>采购价</td>
+							                            <td>供应商价</td>
+							                            <td>销售价</td>
+							                            <td>状态</td>
+							                        </tr>
+							                    </tbody>
+							                    <tbody>
+							                    	{volist name="info.products" id="item"}
+							                        <tr style="text-align:center;padding:14px;color:#666;border-right: 1px solid #e7eaec;" data-id="{$item.id}" class="sku-line">
+						                                <td>{$item.id}</td>
+						                                <td><a href="__UPLOADS__/{$item.image}" target="_self" class="litebox"><img src="__UPLOADS__/{$item.image}" style="width:80px;height:80px;"></a></td>
+						                                <td>{$item.sn}</td>
+						                                <td>{$item.product_name}</td>
+						                                <td>{$item.category_name}</td>
+						                                <td>{$_config['is_sample'][$item['is_sample']]}</td>
+						                                <td>{$_config['is_sku'][$item['is_sku']]}</td>
+						                                <td>{$item.cost_price}</td>
+						                                <td>{$item.procurement_price}</td>
+						                                <td>{$item.supplier_price}</td>
+						                                <td>{$item.sale_price}</td>
+						                                <td class="sku-status" style="color:{$_config['status'][$item['status']]['color']}">{$_config['status'][$item['status']]['name']}</td>
+							                        </tr>
+							                        {/volist}				                        
+						                        </tbody>
+							                </table>					            
+							            </div> 
+							        </div>
+								</div>
+
+                                <div class="tab-pane fade back_box" id="tab4">
+                                    <div class="panel-body">
+                                        <div class="ibox" style="border: none;">                                                                        
+                                            <table class="table select-table table-bordered">
+                                                <tbody>
+                                                    <tr class="tabTh" style="border-right: 1px solid #e7eaec;text-align:center;background-color:#f9fafc;padding:14px;color:#999">
+                                                        <td>序号</td>
+                                                        <td>姓名</td>
+                                                        <td>角色</td>
+                                                        <td>职位</td>
+                                                        <td>手机</td>
+                                                        <td>邮箱</td>
+                                                        <td>微信</td>
+                                                        <td>skype</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody>
+                                                    {volist name="info.contacts" id="item"}
+                                                    <tr style="text-align:center;padding:14px;color:#666;border-right: 1px solid #e7eaec;" data-id="{$item.id}" class="sku-line">
+                                                        <td>{$item.id}</td>
+                                                        <td>{$item.name}</td>
+                                                        <td>{$_config['customer_contact_role'][$item['contact_role_id']]}</td>
+                                                        <td>{$_config['position'][$item['position']]}</td>
+                                                        <td>{$item.phone}</td>
+                                                        <td>{$item.email}</td>
+                                                        <td>{$item.wechat}</td>
+                                                        <td>{$item.skype}</td>
+                                                    </tr>
+                                                    {/volist}                                       
+                                                </tbody>
+                                            </table>                                
+                                        </div> 
+                                    </div>
+                                </div>
+						
+								<div class="tab-pane fade back_box" id="tab3">
+								  	<div class="panel-body">
+										<div class="header1">
+									  		<div class="pull-right"> 
+									  			<a href="javascript:void(0);" class="add_file btn btn-primary">
+									  				<i class="fa fa-upload"></i>&nbsp;&nbsp;上传
+									  			</a> 
+									  		</div>
+									  		<div style="clear:both;"></div>
+										</div>
+										<table class="table product-table">
+											<thead>
+												<tr>
+													<td>附件名称</td>
+													<td>大小</td>
+													<td>上传人</td>
+													<td>上传时间</td>
+													<td>操作</td>
+												</tr>
+											</thead>
+											<tbody id="file-insert">
+												{notempty name="info.files"}
+												{volist name="info.files" id="vo"}
+												<tr rel="{$vo.id}">
+													<td><a href="javascript:void(0)">{$vo.orign_name}</a></td>
+													<td>{$vo.size}B</td>
+													<td>{$vo.username}</td>
+													<td>{$vo.create_time}</td>
+													<td class="tdleft">
+														<a href="javascript:void(0);" class="file_delete" rel="{$vo.id}" onclick="delete_file({$vo.id})">删除</a>
+														<a href="{:url('files/download',['id'=>$vo.id])}" rel="{$vo.id}" file="{:request()->domain()}/uploads/{$vo.file}" filename="{$vo.orign_name}">下载</a>
+													</td>											
+												</tr>
+												{/volist}
+												{/notempty}						
+											</tbody>
+										</table>
+								  	</div>
+								</div>
+				  			</div>
+						</div>
+			  		</div>
+				</div>
+		  	</div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="__OTHER__/xitong/images-loaded.min.js" type="text/javascript"></script>
+    <script src="__OTHER__/xitong/litebox.min.js" type="text/javascript"></script>
+    <script>
+    	$(function(){
+    		//初始化图片查看插件
+            $('.litebox').liteBox({
+                revealSpeed: 400,
+                background: 'rgba(0,0,0,.8)',
+                overlayClose: true,
+                escKey: true,
+                navKey: true,
+                errorMessage: '图片加载失败.'
+            });
+    	})
+    </script>
+    <script>
+    	function delete_confirm(x){
+    		swal({
+                title: "您确定要删除这条日志吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = $(x).attr("data-id");
+            	if(!id){
+            		swal("提示", "不存在此日志", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('customer/deletelog')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:"操作成功", type:"success"},function(){
+            					$(".gray-log[data-id="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", "操作失败", "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+    	function delete_file(x){
+    		swal({
+                title: "您确定要删除这个文件吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+            	var id = x;
+            	if(!id){
+            		swal("提示", "不存在此文件", "error");
+            		return false;
+            	}
+
+            	$.ajax({
+            		type:'post',
+            		url:"{:url('files/delete')}",
+            		data:{id: id},
+            		success:function(d){
+            			if(d.code == 1){
+            				swal({title:"提示", text:d.msg, type:"success"},function(){
+            					$("tr[rel="+id+"]").remove();
+            				});
+            			}else{
+            				swal("提示", d.msg, "error");
+            			}
+            		},
+            		beforeSend:function(){
+            			before = layer.msg('正在处理，请稍后', {icon:16,time:0,shade:0.5});
+            		},
+            		complete:function(){
+            			layer.close(before);
+            		},
+            		error:function(){
+            			swal("提示", "网络错误，请稍后再试", "error");
+            		}
+            	})
+            });
+    	}
+
+    	//执行实例
+        var uploadInst = layui.upload.render({
+            elem: '.add_file' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,accept:'file'
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    //保存数据库
+                    $.ajax({
+                    	type:'post',
+                    	url:"{:url('files/save')}",
+                    	data:{
+                    		from:"{:request()->controller()}",
+                    		orign_name:res.data.orignName,
+                    		file:res.data.file,
+                    		ext:res.data.ext,
+                    		size:res.data.size,
+                    		out_id:"{$info.id}",
+                    		username:"{:session('loginUser.username')}"
+                    	},
+                    	beforeSend:function(){
+                    		before = layer.msg('正在处理，请稍后...',{time:0,shade:0.7,icon:4});
+                    	},
+                    	success:function(d){
+                    		if(d.code == 1){
+                    			var str = '';
+                    			str += '<tr>';
+								str += '<td><a href="javascript:void(0)">'+d.data.orign_name+'</a></td>';
+								str += '<td>'+d.data.size+'B</td>';
+								str += '<td>'+d.data.username+'</td>';
+								str += '<td>'+d.data.create_time+'</td>';
+								str += '<td class="tdleft">';
+								str += '<a href="javascript:void(0);" class="file_delete" rel="'+d.data.id+'" onclick="delete_file('+d.data.id+')">删除</a>&nbsp;';
+                                str += '<a href="{:url(\"files/download\")}?id='+d.data.id+'" rel="'+d.data.id+'" file="{:request()->domain()}/uploads/'+d.data.file+'" filename="'+d.data.orign_name+'">下载</a>';
+								str += '</td>';											
+							    str += '</tr>';
+							    $("#file-insert").append(str);
+                    		}
+                    	},
+                    	complete:function(){
+                    		layer.close(before);
+                    	},
+                    	error:function(){
+                    		layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    	}
+                    })
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    </script>
+</body>
+
+</html>

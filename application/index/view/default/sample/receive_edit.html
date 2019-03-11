@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+
+    <style>
+        .clue-from{height: 100%;}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>编辑收样</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal ajax-form layui-form" method="post" action="{:url('sample/receive',['action'=> 'update', 'id'=>$info.id])}">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">所属供应商</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control clue-from" xm-select="boss" xm-select-search xm-select-radio xm-select-skin="primary">
+                                        <option value="">请选择</option>
+                                        {volist name="suppliers" id="vo"}
+                                        <option value="{$vo.id}">{$vo.name}</option>
+                                        {/volist}
+                                    </select>
+                                    <input type="hidden" name="supplier_id" id="supplier_id" value="{$info.supplier_id}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发件人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="send_username" value="{$info.send_username}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发件地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="send_address" value="{$info.send_address}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发件联系电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="send_phone" value="{$info.send_phone}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">样品名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="class_name" value="{$info.class_name}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">型号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="model_name" value="{$info.model_name}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">重量</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="weight" value="{$info.weight}">
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control clue-from" name="weight_unit_id" lay-ignore style="padding-left: 0px;">
+                                        <option value="">请选择单位</option>
+                                        {volist name="weightUnit" id="vo"}
+                                        <option value="{$key}" {eq name="info.weight_unit_id" value="$key"}selected{/eq}>{$vo}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">件数</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="number" value="{$info.number}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">快递公司</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="express" value="{$info.express}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">快递付款方式</label>
+                                <div class="col-md-6" style="width: 60%">　
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" name="express_pay_type" value=0 {if condition="$info.express_pay_type==0"}checked{/if} lay-ignore>
+                                        <label for="has_sn1">寄方付</label></div>
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" name="express_pay_type" value=1 {if condition="$info.express_pay_type==1"}checked{/if} lay-ignore>
+                                        <label for="has_sn2" style="margin-right: 15px;">收方付</label></div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">收样人</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control clue-from" xm-select="receive_user" xm-select-search xm-select-radio xm-select-skin="primary">
+                                        <option value="">请选择</option>
+                                        {volist name="users" id="vo"}
+                                        <option value="{$vo.id}">{$vo.username}</option>
+                                        {/volist}
+                                    </select>
+                                    <input type="hidden" name="receive_user_id" id="receive_user_id" value="{$info.receive_user_id}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">收样日期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" autocomplete="off" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true});" name="receive_time" value="{$info.receive_time}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">附加信息</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="note">{$info.note}</textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit" lay-submit>确定</button>
+                                    <button class="btn btn-white" onclick="window.history.back();return false;">返回</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <!-- layer --> 
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/layuiformSelects-v3.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- 进度条插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- 地区选择 -->
+    <script src="__JS__/plugins/distpicker/distpicker.data.js"></script>
+    <script src="__JS__/plugins/distpicker/distpicker.js"></script>
+    <!-- 时间选择控件 -->
+    <script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            layui.formSelects.value('boss', ["{$info.supplier_id}"]);
+            layui.formSelects.value('receive_user', ["{$info.receive_user_id}"]);
+        });
+        $("#distpicker").distpicker({
+            province: "山东省",
+            city: "淄博市",
+            district: "淄川区"
+        });
+        layui.formSelects.render({
+            name: 'boss',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                //console.log(arr);
+                $("#supplier_id").val(arr['0'].val);
+            }
+        })
+        layui.formSelects.render({
+            name: 'receive_user',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                //console.log(arr);
+                $("#receive_user_id").val(arr['0'].val);
+            }
+        })
+    </script>
+</body>
+
+</html>

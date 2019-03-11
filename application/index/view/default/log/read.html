@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linjoin CRM Log Report</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+	<style>
+		.demos-title{text-align: center;font-size: 24px;color: #097d84}
+		.demos-date{text-align: center;font-size: 14px;}
+	</style>
+</head>
+<body>
+	<header class="demos-header">
+    	<h4 class="demos-title">{$userinfo.username}的日报</h4>
+    	<h6 class="demos-date">{:request()->date}</h6>
+    </header>
+    {volist name="lists" id="vo"}
+	<div class="weui-cell">
+	    <div class="weui-cell__bd">
+	        <p>{$key+1}、{$vo.content}</p>
+	    </div>
+	</div>
+	{/volist}
+</body>
+</html>

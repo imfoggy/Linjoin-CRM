@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_sitename}</title>
+    <meta name="description" content="{$_siteDesc}">
+
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <!-- {include file="public:mail_left" /} -->
+            <div class="col-sm-12 animated fadeInRight">
+                <div class="mail-box-header">
+                    <div class="mail-tools tooltip-demo m-t-md">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-white btn-sm" onclick="prev();"><i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button class="btn btn-white btn-sm">第<span id="cp">1</span>页（共{$total}条数据）</button>
+                            <button class="btn btn-white btn-sm" onclick="next();"><i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <a class="btn btn-primary" href="{:url('email/write')}">写信</a>
+                        &nbsp;
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="刷新邮件列表" onclick="refresh();"><i class="fa fa-refresh"></i> 刷新</button>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为已读" onclick="setSeen();"><i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为红旗" onclick="setFlagged();"><i class="fa fa-bookmark"></i>
+                        </button>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="取消标记" onclick="cancelFlagged();"><i class="fa fa-bookmark-o"></i>
+                        </button>
+                        <!-- <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="取消标记" onclick="setDraft();"><i class="fa fa-bookmark-o"></i>
+                        </button> -->
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="删除邮件" onclick="deleteEmail();"><i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mail-box">
+
+                    <table class="table table-hover table-mail">
+                        <tbody id="email-body">
+                            <!-- <tr class="read">
+                                <td class="check-mail">
+                                    <input type="checkbox" class="i-checks">
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">淘宝网</a> <span class="label label-danger pull-right">AD</span>
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">亲，双11来啦！帮你挑货，还送你4999元红包！仅此一次！</a>
+                                </td>
+                                <td class=""><i class="fa fa-paperclip"></i>
+                                </td>
+                                <td class="text-right mail-date">上午6:48</td>
+                            </tr>
+                            <tr class="unread">
+                                <td class="check-mail">
+                                    <input type="checkbox" class="i-checks">
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">淘宝网</a> <span class="label label-danger pull-right">AD</span>
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">亲，双11来啦！帮你挑货，还送你4999元红包！仅此一次！</a>
+                                </td>
+                                <td class=""><i class="fa fa-paperclip"></i>
+                                </td>
+                                <td class="text-right mail-date">上午6:48</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="1" id="currentPage">
+    <input type="hidden" value="{$total}" id="total">
+    <input type="hidden" value="15" id="perpage">
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+
+    <script>
+        function refresh(){
+            window.location.reload();
+        }
+
+        /**
+         * 上一页
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function prev(){
+            //获取到总条数
+            var total = parseInt($("#total").val());
+            var currentPage = parseInt($("#currentPage").val());
+            //获取到分页大小
+            var perpage = parseInt($("#perpage").val());
+            var prevPage = currentPage - 1;
+            if(prevPage <= 0){
+                $("#currentPage").val(1);
+            }else{
+                $("#currentPage").val(prevPage);
+            }
+
+            getData();
+        }
+
+        /**
+         * 下一页
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {Function}        [description]
+         */
+        function next(){
+            //获取到总条数
+            var total = parseInt($("#total").val());
+            var currentPage = parseInt($("#currentPage").val());
+            //获取到分页大小
+            var perpage = parseInt($("#perpage").val());
+            var maxPage = Math.ceil(total / perpage);
+            var prevPage = currentPage + 1;
+            if(prevPage > maxPage){
+                $("#currentPage").val(maxPage);
+            }else{
+                $("#currentPage").val(prevPage);
+            }
+
+            getData();
+        }
+
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            getData();
+        });
+
+        /**
+         * 获取数据
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function getData(){
+            var page = parseInt($("#currentPage").val());
+            $.ajax({
+                type:'post',
+                url:"{:url('email/receive')}",
+                data:{page:page},
+                beforeSend:function(){
+                    $("#email-body").html('');
+                    before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                },
+                success:function(d){
+                    if(d.length > 0){
+                        var str = '';
+                        $.each(d, function(i,v){
+                            if(v.mydata.seen == 1){
+                                var seen = 'read';
+                            }else{
+                                var seen = 'unread';
+                            }
+                            str += '<tr class="'+seen+'">';
+                            str += '<td class="check-mail">';
+                            str += '<input type="checkbox" class="i-checks email-lists" value="'+v.mydata.msgno+'">';
+                            str += '</td>';
+                            str += '<td class="mail-ontact"><a href={:url("email/read")}?msgid='+v.mydata.msgno+'>'+v.mydata.fromname+'</a>';
+                            if(v.mydata.seen === 0){
+                                str += '<span class="label label-danger pull-right">未读</span>';
+                            }
+                            str += '</td>';
+                            str += '<td class="mail-subject"><a href={:url("email/read")}?msgid='+v.mydata.msgno+'>'+v.mydata.title+'</a></td>';
+                            str += '<td class="">';
+                            if(v.attach.length > 0){
+                                str += '<i class="fa fa-paperclip"></i>';
+                            }
+                            if(v.mydata.flagged > 0){
+                                str += '<i class="fa fa-bookmark" style="color:red;"></i>';
+                            }
+                            str += '</td>';
+                            str += '<td class="text-right mail-date">'+v.mydata.receiveTime+'</td>';
+                            str += '</tr>';
+                        })
+                        $("#cp").text(page);
+                        $("#email-body").html(str);
+                    }else{
+                        layer.msg(d.msg,{time:2500,shade:0.7});
+                    }
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试...',{time:1200,shade:0.7});
+                }
+            })
+        }
+
+        /**
+         * 标记为已读
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         */
+        function setSeen(){
+            var s = $("input[type=checkbox]:checked");
+            var len = s.length;
+            var elem = new Array();
+            if(len > 0){
+                $.each(s,function(i,v){
+                    elem.push($(v).val());
+                })
+
+                $.ajax({
+                    type:'post',
+                    data:{msgids:elem},
+                    url:"{:url('email/setseen')}",
+                    beforeSend:function(){
+                        before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            layer.msg(d.msg,{time:1300,shade:0.7},function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg(d.msg,{time:1200,shade:0.7});
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    }
+                })
+            }
+        }
+
+        /**
+         * 标记为未读
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         */
+        function setFlagged(){
+            var s = $("input[type=checkbox]:checked");
+            var len = s.length;
+            var elem = new Array();
+            if(len > 0){
+                $.each(s,function(i,v){
+                    elem.push($(v).val());
+                })
+
+                $.ajax({
+                    type:'post',
+                    data:{msgids:elem},
+                    url:"{:url('email/setflagged')}",
+                    beforeSend:function(){
+                        before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            layer.msg(d.msg,{time:1300,shade:0.7},function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg(d.msg,{time:1200,shade:0.7});
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    }
+                })
+            }
+        }
+
+        /**
+         * 取消标记
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         */
+        function cancelFlagged(){
+            var s = $("input[type=checkbox]:checked");
+            var len = s.length;
+            var elem = new Array();
+            if(len > 0){
+                $.each(s,function(i,v){
+                    elem.push($(v).val());
+                })
+
+                $.ajax({
+                    type:'post',
+                    data:{msgids:elem},
+                    url:"{:url('email/cancelflagged')}",
+                    beforeSend:function(){
+                        before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            layer.msg(d.msg,{time:1300,shade:0.7},function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg(d.msg,{time:1200,shade:0.7});
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    }
+                })
+            }
+        }
+
+        /**
+         * 标记为草稿箱
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         */
+        function setDraft(){
+            var s = $("input[type=checkbox]:checked");
+            var len = s.length;
+            var elem = new Array();
+            if(len > 0){
+                $.each(s,function(i,v){
+                    elem.push($(v).val());
+                })
+
+                $.ajax({
+                    type:'post',
+                    data:{msgids:elem},
+                    url:"{:url('email/draft')}",
+                    beforeSend:function(){
+                        before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            layer.msg(d.msg,{time:1300,shade:0.7},function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg(d.msg,{time:1200,shade:0.7});
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    }
+                })
+            }
+        }
+
+        /**
+         * 删除邮件
+         * @Author Foggy
+         * @Date   2018-12-14
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         */
+        function deleteEmail(){
+            var s = $("input[type=checkbox]:checked");
+            var len = s.length;
+            var elem = new Array();
+            if(len > 0){
+                $.each(s,function(i,v){
+                    elem.push($(v).val());
+                })
+
+                $.ajax({
+                    type:'post',
+                    data:{msgids:elem},
+                    url:"{:url('email/delete')}",
+                    beforeSend:function(){
+                        before = layer.msg('正在请求数据，请稍后...',{time:0,shade:0.7,icon:16});
+                    },
+                    success:function(d){
+                        if(d.code == 1){
+                            layer.msg(d.msg,{time:1300,shade:0.7},function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg(d.msg,{time:1200,shade:0.7});
+                        }
+                    },
+                    complete:function(){
+                        layer.close(before);
+                    },
+                    error:function(){
+                        layer.msg('网络错误，请稍后再试',{time:1200,shade:0.7});
+                    }
+                })
+            }
+        }
+    </script>
+</body>
+</html>

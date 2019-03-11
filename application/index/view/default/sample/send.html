@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+        @media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+        
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="t-header col-md-12 m-b-sm border-bottom">  
+                            <div class="xian">
+                                 <div class="col-sm-8">
+                                    <button type="button" id="loading-example-btn" onclick="window.location.reload();" class="btn btn-w-m btn-info"><i class="fa fa-refresh"></i> 刷新数据</button>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <a href="{:url('sample/send',['action'=>'create'])}">
+                                        <button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus"></i> 新增发样</button>
+                                    </a>
+                                </div>
+                            </div>  
+                        </div>
+
+                        <div id="action-list" style="position: relative;z-index: 99;display: none;">
+                            <div class="row  clearfix" id="tictle-hide" style="margin: 0px 0px 2px 0px;margin-bottom: 10px;padding: 0px 10px 0px 20px;background-color: #fff;border: 1px solid #ccc;height: 60px;">
+                                <ul class="breadcrum pull-left" style="position: absolute;top: 24px;width: 100%;">
+                                  <li>已选中&nbsp;<span id="icheck_num">0</span>&nbsp;项</li>
+                                  <li><a href="javascript:;" onclick="batchDelete();">批量删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content forum-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>发样列表</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-sm-3 pull-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="模糊搜索：品名" name="keywords_class_name" id="keywords_class_name" class="input-sm form-control" value="{$className|default=''}"> <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary search"> 搜索</button> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive" style="overflow: unset;">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th></th>
+                                                            <th>品名</th>
+                                                            <th>型号</th>
+                                                            <th>重量x数量</th>
+                                                            <th>收件人</th>
+                                                            <th>收件人地址</th>
+                                                            <th>联系电话</th>
+                                                            <th>快递公司</th>
+                                                            <th>发样人</th>
+                                                            <th>发样日期</th>
+                                                            <th>创建时间</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {volist name="lists" id="item"}
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" class="i-checks" name="input[]" value="{$item.id}">
+                                                            </td>
+                                                            <td>{$item.class_name}</td>
+                                                            <td>{$item.model_name}</td>
+                                                            <td>{$item.weight}{$weightUnit[$item['weight_unit_id']]}x{$item.number}</td>
+                                                            <td>{$item.receive_username}</td>
+                                                            <td>{$item.receive_address}</td>
+                                                            <td>{$item.receive_phone}</td>
+                                                            <td>{$item.express}({$item.express_pay_type})</td>
+                                                            <td>{$item.send_user.username}</td>
+                                                            <td>{$item.send_time}</td>
+                                                            <td>{$item.create_time}</td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="{:url('send',['action'=> 'edit','id'=>$item.id])}">编辑</a>
+                                                                        </li>
+                                                                        <li><a href="javascript:void(0)" onclick="deleteSample({$item.id});">删除</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {/volist}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="page">{$lists|raw}</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+    <!-- Peity -->
+    <script src="__JS__/plugins/peity/jquery.peity.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 时间选择控件 -->
+    <script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script>
+        
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+            }
+        });
+
+        //搜索
+        $(".search").click(function(){
+            var keywords = $.trim($("#keywords_class_name").val());
+            var url = window.location.href;
+            // if(url.indexOf('?') < 0){
+            //     var delimiter = '?';
+            // }else{
+            //     var delimiter = '&';
+            // }
+            // if(keywords == ''){
+            //     layer.msg('请输入搜索关键字',{time:1200,shade:0.7});
+            //     return false;
+            // }
+            url = changeURLPar(url, 'class_name', keywords);
+            //var url = url + delimiter + 'username=' + keywords;
+            // console.log(url);return;
+            window.location.href = url;
+        })
+        
+        //删除样品
+        function deleteSample(id){
+            if(!id){
+                swal('操作失败', '请选择一条信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这条信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('send',['action'=>'delete'])}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一条信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('send',['action'=> 'delete'])}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        //执行实例
+        var uploadInst = layui.upload.render({
+            elem: '#upload' //绑定元素
+            ,url: "{:url('api/upload/uploadone')}" //上传接口
+            ,before:function(obj){
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading'); //关闭loading
+                //上传完毕回调
+                if(res.code == 200){
+                    $("#file_info").show();
+                    $("#file_name").text(res.data.orignName);
+                    $("#log-form").append('<input type="hidden" name="file" value="'+res.data.file+'">');
+                    $("#log-form").append('<input type="hidden" name="ext" value="'+res.data.ext+'">');
+                    $("#log-form").append('<input type="hidden" name="size" value="'+res.data.size+'">');
+                    $("#log-form").append('<input type="hidden" name="orign_name" value="'+res.data.orignName+'">');
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    </script>
+    
+</body>
+
+</html>

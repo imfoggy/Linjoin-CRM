@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+		@media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="t-header col-md-12 m-b-sm border-bottom">  
+                            <div class="xian">
+                            	 <div class="col-sm-8">
+									<button type="button" id="loading-example-btn" onclick="window.location.reload();" class="btn btn-w-m btn-info"><i class="fa fa-refresh"></i> 刷新数据</button>
+								</div>
+								<div class="col-sm-4 text-right">
+									<a href="{:url('supplier/create')}">
+										<button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus"></i> 新增供应商</button>
+									</a>
+								</div>
+                            </div>  
+                        </div>
+
+                        <div id="action-list" style="position: relative;z-index: 99;display: none;">
+                            <div class="row  clearfix" id="tictle-hide" style="margin: 0px 0px 2px 0px;margin-bottom: 10px;padding: 0px 10px 0px 20px;background-color: #fff;border: 1px solid #ccc;height: 60px;">
+                                <ul class="breadcrum pull-left" style="position: absolute;top: 24px;width: 100%;">
+                                  <li>已选中&nbsp;<span id="icheck_num">0</span>&nbsp;项</li>
+                                  <!-- <li><a href="javascript:void(0);" class="link excelExport"><i class="fa fa-download"></i>&nbsp;导出</a></li> -->
+                                  <li><a id="delete" href="javascript:void(0)" onclick="batchDelete();"><i class="fa fa-times"></i>&nbsp;批量删除</a></li>
+                                  <!-- <li> <a class="sendsms" where="ids" href="javascript:void(0)"> <i class="fa fa-comments-o"></i>&nbsp;发送邮件 </a> </li> -->
+                                  <!-- <li class="last_li"><big><a class="fa fa-times pull-right" id="back-show"></a></big></li> -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content forum-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>供应商列表</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-sm-3 pull-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="模糊搜索：供应商姓名" name="keywords_username" id="keywords_username" class="input-sm form-control" value="{$username|default=''}"> <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary search"> 搜索</button> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive" style="overflow: unset;">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th></th>
+                                                            <th>供应商编号</th>
+                                                            <th>供应商名称</th>
+                                                            <th>公司性质</th>
+                                                            <th>地址</th>
+                                                            <th>创建时间</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {volist name="lists" id="item"}
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" class="i-checks" name="input[]" value="{$item.id}">
+                                                            </td>
+                                                            <td><a href="{:url('supplier/read',['id'=>$item.id])}" style="color:#23b7e5">{$item.sn}</a></td>
+                                                            <td><a href="{:url('supplier/read',['id'=>$item.id])}" style="color:#23b7e5">{$item.name}</a></td>
+                                                            <td>{$_config['property'][$item['property_id']]}</td>
+                                                            <td>{$item.province}{$item.city}{$item.district}{$item.address}</td>
+                                                            <td>{$item.create_time}</td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="{:url('edit',['id'=> $item.id])}">编辑</a>
+                                                                        </li>
+                                                                        <li><a href="javascript:void(0)" onclick="deleteSupplier({$item.id});">删除</a>
+                                                                        </li>
+                                                                        <li class="divider"></li>
+                                                                        <li><a data-href="{:url('supplier_contact/index',['supplier_id'=> $item.id])}" onclick="showContact(this);">联系人管理</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {/volist}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="page">{$list|raw}</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+    <!-- Peity -->
+    <script src="__JS__/plugins/peity/jquery.peity.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 时间选择控件 -->
+    <script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script>
+		
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+            }
+        });
+
+        //搜索
+        $(".search").click(function(){
+            var keywords = $.trim($("#keywords_username").val());
+            var url = window.location.href;
+            // if(url.indexOf('?') < 0){
+            //     var delimiter = '?';
+            // }else{
+            //     var delimiter = '&';
+            // }
+            // if(keywords == ''){
+            //     layer.msg('请输入搜索关键字',{time:1200,shade:0.7});
+            //     return false;
+            // }
+            url = changeURLPar(url, 'username', keywords);
+            //var url = url + delimiter + 'username=' + keywords;
+            // console.log(url);return;
+            window.location.href = url;
+        })
+		
+        //删除线索
+        function deleteSupplier(id){
+            if(!id){
+                swal('操作失败', '请选择一条供应商信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这条信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('supplier/delete')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一条供应商信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('supplier/delete')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        //显示联系人
+        function showContact(x){
+            var url = $(x).attr("data-href");
+            layer.open({
+                type: 2,
+                title: '联系人列表',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['91%','500px'],
+                content: url //iframe的url
+            }); 
+        }
+    </script>
+    
+</body>
+
+</html>

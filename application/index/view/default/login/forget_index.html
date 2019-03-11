@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘记密码-Linjoin CRM</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <style>
+        .logo-name{font-size:116px !important;font-weight: normal;}
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">LinJoin</h1>
+            </div>
+            <p>请在下面的输入框中输入您的邮箱地址，我们会给您的邮箱地址发送一封邮件，您可以在收到邮件后，点击邮件中的链接地址来重置密码</p>
+            <form class="m-t" role="form" action="{:url('login/index')}" method="post" onsubmit="return sendemail();">
+                <div class="form-group">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="请输入您的邮箱地址" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">下一步</button>
+            </form>
+            <a href="{:url('login/index')}">去登录</a>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <script>var forgetUrl = "{:url('login/forget',['action'=> 'sendemail'])}"</script>
+    <script>
+        function sendemail(){
+            var email = $.trim($("#email").val());
+            $.ajax({
+                type:'post',
+                url:forgetUrl,
+                data:{email: email},
+                beforeSend:function(){
+                    before = layer.msg('正在处理，请稍后...',{time:0, icon:4, shade:0.7});
+                },
+                success:function(d){
+                    if(d.code == 1){
+                        layer.msg(d.msg,{time:1200,shade:0.7});
+                    }else{
+                        layer.msg(d.msg,{time:1200,shade:0.7});
+                    }
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试~',{time:1200, shade:0.7});
+                }
+            })
+
+            return false;
+        }
+    </script>
+</body>
+</html>

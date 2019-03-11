@@ -1,0 +1,204 @@
+<style>
+    .fa{width: 15px;text-align: center;}
+</style>
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs" style="font-size:20px;">
+                                <i class="fa fa-sitemap"></i>
+                                <strong class="font-bold">{$_siteName}</strong>
+                            </span>
+                        </span>
+                    </a>
+                </div>
+                <div class="logo-element">{$_siteName}
+                </div>
+            </li>
+            <!-- <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span class="ng-scope">分类</span>
+            </li> -->
+            <li>
+                <a href="{:url('index/index')}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">CRM主页</span>
+                </a>
+            </li>
+            <li class="line dk"></li>
+            <!-- <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span class="ng-scope">分类</span>
+            </li> -->
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-user"></i> 
+                    <span class="nav-label">客户</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('clue/index')}">
+                            <i class="fa fa-code-fork"></i>
+                            <span class="nav-label">线索</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('clue/index',['by'=>'public'])}">
+                            <i class="fa fa-object-group"></i>
+                            <span class="nav-label">线索池</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('customer/index')}">
+                            <i class="fa fa-user"></i>
+                            <span class="nav-label">客户</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('customer/index',['by'=>'public'])}">
+                            <i class="fa fa-users"></i>
+                            <span class="nav-label">客户池</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('contact/index')}">
+                            <i class="fa fa-phone-square"></i>
+                            <span class="nav-label">客户联系人</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-user-secret"></i> 
+                    <span class="nav-label">供应商</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('supplier/index')}">
+                            <i class="fa fa-user-secret"></i>
+                            <span class="nav-label">供应商</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('supplier_contact/index')}">
+                            <i class="fa fa-phone-square"></i>
+                            <span class="nav-label">供应商联系人</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-shopping-cart"></i> 
+                    <span class="nav-label">产品</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('product/index')}">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="nav-label">产品</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('spec/index')}">
+                            <i class="fa fa-sliders"></i>
+                            <span class="nav-label">规格分类</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-send"></i> 
+                    <span class="nav-label">收发样</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('sample/receive')}">
+                            <i class="fa fa-sign-in"></i>
+                            <span class="nav-label">收样</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('sample/send')}">
+                            <i class="fa fa-sign-out"></i>
+                            <span class="nav-label">发样</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-sticky-note"></i> 
+                    <span class="nav-label">合同</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('contract/index',['type'=> 1])}">
+                            <i class="fa fa-file-text-o"></i>
+                            <span class="nav-label">采购合同</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('contract/index',['type'=> 2])}">
+                            <i class="fa fa-sticky-note"></i>
+                            <span class="nav-label">销售合同</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('contract/create')}">
+                            <i class="fa fa-clipboard"></i>
+                            <span class="nav-label">添加合同</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-envelope"></i> 
+                    <span class="nav-label">邮件中心</span>
+                    <span class="fa arrow"></span>
+                    <!-- <span class="label label-warning pull-right">16</span> -->
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('email/mailbox')}">
+                            <i class="fa fa-inbox"></i>
+                            <span class="nav-label">收件箱</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:url('email/write')}">
+                            <i class="fa fa-sign-in"></i>
+                            <span class="nav-label">发送邮件</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html">
+                    <i class="fa fa-cog"></i> 
+                    <span class="nav-label">系统设置</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:url('system/index')}">
+                            <i class="fa fa-gears"></i>
+                            <span class="nav-label">系统设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

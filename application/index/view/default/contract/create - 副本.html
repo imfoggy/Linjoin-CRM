@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_sitename}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="author" content="Linjoin CRM">
+<!-- 360浏览器默认使用Webkit内核 -->
+<meta name="renderer" content="webkit">
+<link rel="shortcut icon" href="/favicon.ico">
+<link type="text/css" href="__OTHER__/xitong/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<link type="text/css" href="__OTHER__/xitong/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="__OTHER__/xitong/bootstrap.min.css" rel="stylesheet">
+<link href="__OTHER__/xitong/font-awesome.css" rel="stylesheet">
+<link href="__OTHER__/xitong/font-awesome.min.css" rel="stylesheet">
+<link type="text/css" href="__OTHER__/xitong/hovershow.css" rel="stylesheet">
+<!-- animate -->
+<link rel="stylesheet" href="__OTHER__/xitong/animate.min.css">
+<link rel="stylesheet" href="__OTHER__/xitong/notification.css">
+<!-- Toastr style -->
+<link href="__OTHER__/xitong/toastr.min.css" rel="stylesheet">
+<!-- Sweet Alert -->
+<link href="__OTHER__/xitong/sweetalert.css" rel="stylesheet">
+<link href="__OTHER__/xitong/style.css" rel="stylesheet">
+<link href="__OTHER__/xitong/awesome-bootstrap-checkbox.css" rel="stylesheet">
+<link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+<!-- Mainly scripts -->
+<script src="__OTHER__/xitong/jquery-2.1.1.js"></script>
+<script src="__OTHER__/xitong/bootstrap.min.js"></script>
+<script src="__OTHER__/xitong/moment.min.js"></script>
+<script src="__OTHER__/xitong/jquery.form.js" type="text/javascript"></script>
+<script src="__OTHER__/xitong/jquery.metisMenu.js"></script>
+<script src="__OTHER__/xitong/jquery.slimscroll.min.js"></script>
+<script src="__JS__/plugins/layui/layui.all.js"></script>
+<script src="__JS__/layuiformSelects-v3.js"></script>
+<script src="__JS__/plugins/layui/ajax-form.js"></script>
+<script src="__JS__/content.js?v=1.0.0"></script>
+<!-- 时间选择控件 -->
+<script src="__JS__/plugins/My97DatePicker/WdatePicker.js"></script>
+<!-- Toastr -->
+<script src="__OTHER__/xitong/toastr.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="__OTHER__/xitong/pace.min.js"></script>
+<!-- jQuery UI -->
+<script src="__OTHER__/xitong/jquery-ui-1.10.0.custom.min.js" type="text/javascript"></script>
+<!-- Sweet alert -->
+<script src="__OTHER__/xitong/sweetalert.min.js"></script>
+<!-- Jquery Validate -->
+<script src="__OTHER__/xitong/jquery.validate.min.js"></script>
+<script src="__OTHER__/xitong/messages_zh.min.js"></script>
+<script src="__OTHER__/xitong/bootstrap-tooltip.js"></script>
+<!-- 下拉筛选 -->
+<script type="text/javascript" src="__OTHER__/xitong/bootstrap-select.js" charset="UTF-8"></script>
+<script src="__OTHER__/xitong/select2.full.min.js"></script>
+<style>
+	#browser li{
+		float: left;
+		margin-right: 15px;
+	}
+    .radio.radio-inline{float: left;}
+	@media (max-width:762px){
+		body{
+			overflow: auto !important;
+		}
+		.gray-bg{
+			max-height: auto !important;
+		}
+	}
+	@media (min-width: 992px){
+			.col-md-6 {
+				width: 52%;
+			}
+		.width-50{
+			width: 48%;
+		}
+		}
+	body{
+			overflow: auto !important;
+		}
+	
+  .transfer3,.transfer4{display: none;}
+</style>
+</head>
+
+<body class="navbar  pace-done" style="overflow: hidden;">
+<div id="wrapper">
+  <div id="" class="gray-bg" style="background: rgb(230, 233, 240); min-height: 889px;"> 
+    <div class="wrapper wrapper-content animated fadeIn">
+      <form class="form-horizontal ajax-form" id="form" role="form" action="{:url('contract/save')}" method="post" enctype="multipart/form-data">
+        <div class="ibox-content add_body" id="add_body" style="height:;">
+          <div class="row" style="overflow: auto;height: 100%;">
+            <div class="col-md-6 add_body" style="padding-right: 0px; height:775px;">
+              <div class="slimScrollDiv" style="position: relative; overflow:auto; width: auto; height: 100%;">
+                <div class="full-height-scroll" style="overflow-x: hidden; width: auto; height: 100%;overflow-y: auto;">
+                  <div class="row">
+                    <div class="col-md-12 add_body_title">
+                      <div class="all-inline"> <span class="sq-tag"></span>
+                        <div class="text-tag"> <span>基础信息</span> </div>
+                      </div>
+                    </div>
+                    <div class="col-md-11 add_body_form" style="margin:20px 0 0 20px;">
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同类型：</label>
+                        <div class="col-md-6">
+                            <select class="form-control required" id="type" name="contract[type]" aria-required="true" lay-ignore required="required">
+                                <option value="1" {eq name='type' value='1'}selected{/eq}>采购合同</option>
+                                <option value="2" {eq name='type' value='2'}selected{/eq}>销售合同</option>
+                            </select>
+                        </div>
+                        <span style="color:red">*</span>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同编号：</label>
+                        <div class="col-md-6">
+                          <input type="text" id="sn" name="contract[sn]" rel="require" class="form-control checkit" value="" required>
+                        </div>
+                        <span style="color:red">*</span>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同名称：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" aria-required="true" type="text" name="contract[name]" value="" id="contract_name" required>
+                        </div>
+                        <span style="color:red">*</span>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同签约人：</label>
+                        <div class="col-md-6">
+                            <select class="form-control" xm-select="signatory" xm-select-search xm-select-radio xm-select-skin="primary">
+                                <option value="">请选择</option>
+                                {volist name="users" id="vo"}
+                                <option value="{$vo.id}">{$vo.username}</option>
+                                {/volist}
+                            </select>
+                            <input type="hidden" name="contract[signatory_userid]" id="signatory_userid" value="">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同审批人：</label>
+                        <div class="col-md-6">
+                            <select class="form-control" xm-select="approvers" xm-select-search xm-select-radio xm-select-skin="primary">
+                                <option value="">请选择</option>
+                                {volist name="users" id="vo"}
+                                <option value="{$vo.id}">{$vo.username}</option>
+                                {/volist}
+                            </select>
+                            <input type="hidden" name="contract[approvers_userid]" id="approvers_userid" value="">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">来源客户：</label>
+                        <div class="col-md-6">
+                            <select class="form-control" xm-select="customer" xm-select-search xm-select-radio xm-select-skin="primary" lay-verify="required">
+                                <option value>请选择</option>
+                                {volist name="customers" id="vo"}
+                                <option value="{$vo.id}">{$vo.company}</option>
+                                {/volist}
+                            </select>
+                            <input type="hidden" name="contract[from_customer_id]" id="from_customer_id" value="">
+                        </div>
+                        <span style="color:red">*</span>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">币种：</label>
+                        <div class="col-md-6">
+                            <select class="form-control required" id="currency_id" name="contract[currency_id]" aria-required="true" lay-ignore required="required">
+                                {volist name="_config.currency_config" id="vo"}
+                                <option value="{$key}">{$vo}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                        <span style="color:red">*</span>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同金额(元)：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" type="text" id="money" name="contract[money]" value="" placeholder="0.00" required="required">
+                        </div>
+                        <span style="color:red">*</span>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">签约时间：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" input_type="time" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" name="contract[sign_time]" id="sign_time" type="text" value="" autocomplete="off" aria-required="true">
+                          <span id="due_timeTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span> </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同生效时间：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" type="text" id="effect_time" name="contract[effect_time]" value="" autocomplete="off">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">贸易术语：</label>
+                        <div class="col-md-6">　
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[price_clause]" value="FOB" lay-ignore>
+                                <label for="has_sn1">FOB</label>
+                            </div>
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[price_clause]" value="CIF" checked="checked" lay-ignore>
+                                <label for="has_sn2" style="margin-right: 15px;">CIF</label>
+                            </div>
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[price_clause]" value="CFR" checked="checked" lay-ignore>
+                                <label for="has_sn2" style="margin-right: 15px;">CFR</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">港口：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" type="text" id="price_clause_port" name="contract[price_clause_port]" value="" placeholder="请填写港口信息">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">付款方式：</label>
+                        <div class="col-md-6">　
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[payment]" value="1" checked="checked" lay-ignore>
+                                <label for="has_sn1">T/T</label>
+                            </div>
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[payment]" value="2" lay-ignore>
+                                <label for="has_sn2" style="margin-right: 15px;">L/C</label>
+                            </div>
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[payment]" value="3" lay-ignore>
+                                <label for="has_sn2" style="margin-right: 15px;">D/A</label>
+                            </div>
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" name="contract[payment]" value="4" lay-ignore>
+                                <label for="has_sn2" style="margin-right: 15px;">D/P</label>
+                            </div>
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <script>
+                          $(function(){
+                            $("input[name='contract[payment]']").change(function(){
+                                v = $(this).val();
+                                if(v == 1){
+                                    $(".transfer").show();
+                                    $(".transfer3 , .transfer4 , .credit").hide();
+                                }else if(v == 2){
+                                    $(".transfer , .transfer3 , .transfer4").hide();
+                                    $(".credit").show();
+                                }else if(v == 3){
+                                    $(".transfer , .credit , .transfer4").hide();
+                                    $(".transfer3").show();
+                                }else if(v == 4){
+                                    $(".transfer , .transfer3 , .credit").hide();
+                                    $(".transfer4").show();
+                                }
+                            })
+                          })
+                      </script>
+                      <div class="transfer">
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">预付款：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" aria-required="true" type="text" id="advance_payment" name="contract[payment1][advance_payment]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">尾款：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" aria-required="true" type="text" id="final_payment" name="contract[payment1][final_payment]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">付款时间：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" type="text" id="payment_time" name="contract[payment1][payment_time]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                      </div>
+                      <div class="credit" style="display: none;">
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">信用证方式：</label>
+                            <div class="col-md-6">　
+                                <div class="radio radio-info radio-inline" style="float: left;">
+                                    <input type="radio" name="contract[payment2][type]" value="1" checked="checked" lay-ignore>
+                                    <label for="has_sn1">即期</label>
+                                </div>
+                                <div class="radio radio-info radio-inline" style="float: left;">
+                                    <input type="radio" name="contract[payment2][type]" value="2" lay-ignore>
+                                    <label for="has_sn2" style="margin-right: 15px;">远期</label>
+                                </div>
+                                <input type="text" name="contract[payment2][days]" value="" lay-ignore class="form-control required" style="float: left;width: 25%;font-size: 12px;" placeholder="天">
+                                <span class="radio radio-info radio-inline" style="float: left;padding-left: 5px;">
+                                    天
+                                </span>
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                      </div>
+                      <div class="transfer3">
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">预付款：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" aria-required="true" type="text" id="advance_payment" name="contract[payment3][advance_payment]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">尾款：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" aria-required="true" type="text" id="final_payment" name="contract[payment3][final_payment]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">付款时间：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" type="text" id="payment_time" name="contract[payment3][payment_time]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                      </div>
+                      <div class="transfer4">
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">预付款：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" aria-required="true" type="text" id="advance_payment" name="contract[payment4][advance_payment]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">尾款：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" aria-required="true" type="text" id="final_payment" name="contract[payment4][final_payment]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">付款时间：</label>
+                            <div class="col-md-6">
+                              <input class="form-control required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" type="text" id="payment_time" name="contract[payment4][payment_time]" value="" autocomplete="off">
+                            </div>
+                            <!-- <span style="color:red">*</span> -->
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">装运时间：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" type="text" id="shipment_time" name="contract[shipment_time]" value="" autocomplete="off">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">发货地址：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" aria-required="true" type="text" id="send_address" name="contract[send_address]" value="" autocomplete="off">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">起运港：</label>
+                        <div class="col-md-6">
+                            <select class="form-control required" id="start_port_country" name="contract[start_port_country]" aria-required="true" lay-ignore style="width:35%;float: left;">
+                                <option value="">--请选择--</option>
+                                {volist name="countries" id="vo"}
+                                <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                            <input class="form-control required" aria-required="true" type="text" id="start_port" name="contract[start_port]" value="" autocomplete="off" style="width:65%;float: left;">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">目的港：</label>
+                        <div class="col-md-6">
+                          <select class="form-control required" id="end_port_country" name="contract[end_port_country]" aria-required="true" lay-ignore style="width:35%;float: left;">
+                                <option value="">--请选择--</option>
+                                {volist name="countries" id="vo"}
+                                <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                            <input class="form-control required" aria-required="true" type="text" id="end_port" name="contract[end_port]" autocomplete="off" style="width:65%;float: left;">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">预计到港日期：</label>
+                        <div class="col-md-6">
+                          <input class="form-control required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true});" type="text" id="arrival_time" name="contract[arrival_time]" value="" autocomplete="off">
+                        </div>
+                        <!-- <span style="color:red">*</span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">合同描述：</label>
+                        <div class="col-md-8">
+                          <textarea rows="5" class="form-control " id="description" name="contract[desc]"></textarea>
+                          <span id="descriptionTip" style="float: left;line-height: 32px;margin-left: 5%;color:red;"></span> </div>
+                      </div>
+                    </div>
+                    <div class="col-md-11 add_body_form" style="margin:20px 0 0 20px;"> </div>
+                    <div class="col-md-1 pull-right"> </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 add_body width-50" style="padding-left: 0px; height: 703px;">
+              <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                <div class="full-height-scroll" style="overflow: hidden; width: auto; height: 100%;">
+                  <div class="col-md-12 add_body_title">
+                    <div class="pull-left">
+                      <div class="all-inline"> <span class="sq-tag"></span>
+                        <div class="text-tag"> <span>产品信息</span> </div>
+                      </div>
+                    </div>
+                    <div class="pull-right">
+                     <a href="javascript:void(0)" class="addproduct btn btn-primary" data-toggle="modal" onclick="changeUserForm(0);">请选择产品</a> 
+                   </div>
+                  </div>
+                  <div class="col-md-12 ibox-content" style="border:0px;">
+                    <div class="panel-body" style="padding:0px;">
+                      <table class="table table-bordered" id="no-input-border" width="95%" border="0" cellspacing="1" cellpadding="0">
+                        <thead class="product_thead">
+                          <tr style="background-color:#FFFFFF;text-align:center;">
+                            <td>&nbsp;</td>
+                            <td>产品名称</td>
+                            <td>规格</td>
+                            <td>售价(元)</td>
+                            <td>数量</td>
+                            <td>单位</td>
+                            <td>小计</td>
+                          </tr>
+                        </thead>
+                        <tfoot style="display: none;">
+                          <tr class="">
+                            <td colspan="10" style="color:#999;text-align:center"><span>暂无产品信息，请添加产品！</span></td>
+                          </tr>
+                        </tfoot>
+                        <tbody id="add_products">
+                          <!-- <tr id="row_2">
+                            <td style="text-align:center;"><a href="javascript:void(0)" class="reduce_one"><i class="icon-minus"></i></a></td>
+                            <td><input type="hidden" name="business[product][2][product_info_id]" id="product_info_id_2" class="cproduct_info_id" value="2">
+                              <input type="text" class="form-control" readonly id="product_name_2" style="border:none;!important" value="测试产品"></td>
+                            <td>颜色:红色 尺寸:S</td>
+                            <td><input type="text" class="form-control product_discount_rate" name="business[product][2][discount_rate]" id="product_discount_rate_2" onkeyup="" value="0.00"></td>
+                            <td><input type="text" class="form-control amount" name="business[product][2][amount]" id="product_amount_2" onkeyup="" value="1"></td>
+                            <td><input type="text" style="border:none;!important" name="business[product][2][unit]" readonly class="form-control" value="个"></td>
+                            <td><input type="text" class="form-control subtotal" name="business[product][2][subtotal]" id="product_subtotal_2" style="border:none;!important" readonly rel="2"></td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="tfoot_div" class="clearfix">
+          <div class="clearfix" id="tfoot_page">
+            <div class="ibox-content" style="border-top: none;">
+              <div class="col-sm-offset-6">
+                <button type="submit" id="save_submit" class="btn btn-primary">保存合同</button>
+                <button class="btn btn-white" onclick="window.history.back();return false;">返回</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="" style="display:none;" id="dialog-validate" title="TEST_RESULTS"> HAVE_THE_FOLLOWING_PRODUCTS_ARE_SIMILAR_TO_THE_PRODUCT_NAME
+      <div id="search_content"></div>
+    </div>
+    <script type="text/javascript">
+
+    $(function(){
+        layui.formSelects.render({
+            name: 'signatory',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                //console.log(arr);
+                if(arr[0]){
+                    $("#signatory_userid").val(arr['0'].val);
+                }
+            }
+        })
+        layui.formSelects.render({
+            name: 'approvers',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                //console.log(arr);
+                if(arr[0]){
+                    $("#approvers_userid").val(arr['0'].val);
+                }
+            }
+        })
+        layui.formSelects.render({
+            name: 'customer',
+            on:function(data,arr){
+                //arr就是已经选择的数据
+                //console.log(arr);
+                if(arr[0]){
+                    $("#from_customer_id").val(arr['0'].val);
+                }
+            }
+        })
+    })
+
+	function product_info_count_zero() {
+		if ($('#add_products tr').length < 1) {
+			$('tfoot').show();
+		} else {
+			$('tfoot').hide();
+		}
+	}
+
+	var now_rows = 1;
+	var total_row_id = 1;
+	//减少一条信息
+	$(document).on('click','.reduce_one',function(){
+		var row_id = $(this).parent().parent().attr('id');
+		row_val = row_id.substr(4);
+		if($('#product_info_id_'+row_val).val() == ''){
+			$('#'+row_id).remove();
+		}else{
+			swal({
+				title: "温馨提示",
+				text: "您确定要移除该商品吗?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "是的，我要移除！",
+	       		cancelButtonText:'让我再考虑一下…',
+				closeOnConfirm:false,
+	        	closeOnCancel:false
+	        }, 
+	        function(isConfirm){
+				if (isConfirm) {
+					$('#'+row_id).remove();
+					//swal("移除成功！", "您已经移除了该商品信息！", "success");
+					product_info_count_zero();
+				} else {
+					// return false;
+					//swal("已取消","您取消了移除操作！","error");
+				}
+				swal.close();
+			});
+		}
+		// now_rows --;
+	});
+
+	//根据选项计算价格 END
+</script>   
+   </div>
+</div>
+<!--使用-->
+
+
+<div id="modal-products" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">添加产品</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group" style="padding-left: 15px;line-height: 32px;">
+                            <div class="col-sm-3" style="width: 17%;">
+                            产品筛选：
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="form-control clue-from" id="product_category_id" required>
+                                    <option value="0">请选择</option>
+                                    {$categoryHtml|raw}
+                                </select>
+                            </div>                                
+                            <div class="col-sm-4">
+                                <input type="text" placeholder="模糊搜索：产品名称" name="keywords_product_name" id="keywords_product_name" class="input-sm form-control">
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="btn btn-primary pull-left search-product">搜索</span>
+                            </div>
+                        </div>                          
+                       <div class="result clearfix nicescroll" style="line-height: 32px; margin: 5px 15px; height: auto; overflow: hidden; outline: none;width: 100%" id="res" tabindex="0">
+							<input type="hidden" name="customer_id" value="">
+							<div style="float:left;" rel="1" style="margin-top: 5px;">已选产品 :</div>
+						</div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="ibox-content" style="max-height: 300px;overflow: auto;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>产品名</th>
+                                                <th>规格</th>
+                                                <th>产品类型</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="product-lists">
+                                            <!-- {volist name="products" id="vo"}
+                                            <tr>
+                                                <td><input type="checkbox" name="product_id" class="product_id check-product" data-name="{$vo.product.product_name}" value="{$vo.id}"></td>
+                                                <td>{$vo.product.product_name}</td>
+                                                <td>颜色：红色 尺寸：s</td>
+                                                <td>{$vo.product.category_name}</td>
+                                            </tr>
+                                            {/volist} -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 col-sm-offset-9">
+                                <button class="btn btn-primary confirm-choose">确定选择</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__OTHER__/xitong/jquery.nicescroll.min.js" type="text/javascript"></script> 
+<script type="text/javascript">
+    $(".file").hover(
+        function(){
+            $(this).css('color','#3399CC');
+        },
+        function(){
+            $(this).css('color','');
+        }
+    );
+
+    //检查已选择产品 如果存在则删除
+    function checkDelRes(pid){
+        var res_id =  new Array();
+        $(".se_product").each(function(){
+            //res_id.push($(this).attr('rel'));
+            if(pid == $(this).attr('rel')) $(this).remove();
+        });
+    }
+    //检查产品是否存在 返回false or true；
+    function checkRes(pid){
+        var res = false;
+        $(".se_product").each(function(){
+            if(pid == $(this).attr('rel')) res = true;
+        });
+        return res;
+
+    }
+
+    $("#product-lists").on('click','.check-product',function(){
+        var vid = $(this).val();
+        var ischecked = $("input[name='product_id'][value="+vid+"]").is(':checked');
+        var name = $(this).attr('data-name');
+        var unit = $(this).attr('data-unit');
+        var attr = $(this).attr('data-attr');
+        var sale_price = $(this).attr('data-sale-price');
+        var product_id = $(this).attr('data-product-id');
+        if(ischecked == true){
+            $('#res').append('<div class="se_product" rel="'+vid+'">'+name+'<input type="hidden" name="products['+vid+'][id]" value="'+vid+'"/><input type="hidden" name="products['+vid+'][name]" value="'+name+'"><input type="hidden" name="products['+vid+'][attr]" value="'+attr+'"><input type="hidden" name="products['+vid+'][unit]" value="'+unit+'"><input type="hidden" name="products['+vid+'][sale_price]" value="'+sale_price+'"><i class="fa fa-remove remove" data-id="'+vid+'"></i></div>');
+            $("#add_products").append('<tr id="row_'+vid+'"><td style="text-align:center;"><a href="javascript:void(0)" class="reduce_one"><i class="icon-minus"></i></a></td><td><input type="hidden" name="product['+vid+'][skuid]" id="product_info_id_'+vid+'" class="cproduct_info_id" value="'+vid+'"><input type="hidden" name="product['+vid+'][product_id]" value="'+product_id+'"><input type="text" class="form-control" readonly id="product_name_'+vid+'" style="border:none;!important" value="'+name+'"></td><td>'+attr+'</td><td><input type="text" class="form-control product_discount_rate" name="product['+vid+'][sale_price]" id="product_discount_rate_'+vid+'" onkeyup="" value="'+sale_price+'"></td><td><input type="text" class="form-control amount" name="product['+vid+'][number]" id="product_amount_'+vid+'" onkeyup="" value="1"></td><td><input type="text" style="border:none;!important" readonly class="form-control" value="'+unit+'"></td><td><input type="text" class="form-control" name="product['+vid+'][total]" id="product_subtotal_'+vid+'" rel="'+vid+'" required></td></tr>');
+        }else{
+            $(".se_product[rel="+vid+"]").remove();
+            $("input[name='product_id'][value="+vid+"]").prop("checked",false);
+            $("#row_"+vid).remove();
+        }
+    })
+
+    //移除标签
+    $("#res").on('click', '.remove', function(){
+        var id = $(this).attr('data-id');
+        $(".se_product[rel="+id+"]").remove();
+        $("input[name='product_id'][value="+id+"]").prop("checked",false);
+        $("#row_"+id).remove();
+    })
+
+    //更改负责人演出层  使用
+    function changeUserForm(x){
+        $(".search-product").click();
+    }
+
+    $(".search-product").click(function(){
+        var categoryid = $("#product_category_id").val();
+        var searchProductName = $("#keywords_product_name").val();
+        $.ajax({
+            type:'post',
+            data:{categoryid:categoryid, searchProductName:searchProductName},
+            url:"{:url('contract/getProductSku')}",
+            beforeSend:function(){
+                before = layer.msg('获取数据中，请稍后...',{time:0,shade:0.7,icon:4});
+            },
+            success:function(d){
+                $("#product-lists").html('');
+                $(".se_product").remove();
+                if(d.length > 0){
+                    var str = '';
+                    $.each(d,function(i,v){
+                        str += '<tr>';
+                        str += '<td><input type="checkbox" name="product_id" class="product_id check-product" data-name="'+v.product.product_name+'" data-attr="'+v.attrStr+'" data-sale-price="'+v.sale_price+'" value="'+v.id+'" data-unit="'+v.product.unitText+'" data-product-id="'+v.product_id+'"></td>';
+                        str += '<td>'+v.product.product_name+'</td>';
+                        str += '<td>'+v.attrStr+'</td>';
+                        str += '<td>'+v.product.category_name+'</td>';
+                        str += '</tr>';
+                    })
+
+                    $("#product-lists").html(str);
+                }
+            },
+            complete:function(){
+                $(".btn.disabled").removeClass('disabled');
+                $("#modal-products").modal('show');
+                layer.close(before);
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试...',{time:1200,shade:0.7});
+            }
+        })
+    })
+
+    $(".confirm-choose").click(function(){
+        $("#modal-products").modal('hide');
+    })
+//计算金额
+function countTotal() {
+    var numObj = $('.input-num');
+    var priceObj = $('.input-price');
+    var order_money = 0;
+    var order_num   = 0;
+     $.each(numObj, function (i, e) {
+         var _num = $(e).val();
+         var _price = $(priceObj[i]).val();
+         var _total = parseFloat((_num * _price));
+
+
+         $(e).parents('tr').find('.goods_total_price').html(_total.toFixed(2));
+         order_money += _total;
+     })
+     
+     console.log(order_money.toFixed(2));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{$_siteName}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css" rel="stylesheet">
+    <link href="__CSS__/phone.css" rel="stylesheet">
+    <link href="__OTHER__/xitong/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .t-header{background: #ffffff;height: 60px;line-height: 60px;}
+        .text-right{text-align: right;}
+        .page{text-align: center;}
+        #file_info,#file_info_email{display: none;}
+        .row{margin-left: 0px;margin-right: 0px;}
+        /*.modal-dialog{width:700px;}*/
+		@media (max-width:1152px){
+            .forum-container{
+                padding: 10px 0 0 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+                <div class="col-sm-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="t-header col-md-12 m-b-sm border-bottom">  
+                            <div class="xian">
+                            	 <div class="col-sm-8">
+									<button type="button" id="loading-example-btn" onclick="window.location.reload();" class="btn btn-w-m btn-info"><i class="fa fa-refresh"></i> 刷新数据</button>
+								</div>
+								<div class="col-sm-4 text-right">
+									<a href="{:url('contact/create')}">
+										<button type="button" class="btn btn-w-m btn-primary"><i class="fa fa-plus"></i> 新增联系人</button>
+									</a>
+								</div>
+                            </div>  
+                        </div>
+
+                        <div id="action-list" style="position: relative;z-index: 99;display: none;">
+                            <div class="row  clearfix" id="tictle-hide" style="margin: 0px 0px 2px 0px;margin-bottom: 10px;padding: 0px 10px 0px 20px;background-color: #fff;border: 1px solid #ccc;height: 60px;">
+                                <ul class="breadcrum pull-left" style="position: absolute;top: 24px;width: 100%;">
+                                  <li>已选中&nbsp;<span id="icheck_num">0</span>&nbsp;项</li>
+                                  <!-- <li><a href="javascript:void(0);" class="link excelExport"><i class="fa fa-download"></i>&nbsp;导出</a></li> -->
+                                  <li><a id="delete" href="javascript:void(0)" onclick="batchDelete();"><i class="fa fa-times"></i>&nbsp;删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content forum-container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>联系人列表</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-sm-3 pull-right">
+                                                    <div class="input-group">
+                                                        <input type="text" placeholder="模糊搜索：联系人姓名" name="keywords_username" id="keywords_username" class="input-sm form-control" value="{$username|default=''}" style="height: 30px;">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary search"> 搜索</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive" style="overflow: unset;">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th></th>
+                                                            <th>姓名</th>
+                                                            <th>关联的客户</th>
+                                                            <th>角色</th>
+                                                            <th>尊称</th>
+                                                            <th>职位</th>
+                                                            <th>手机</th>
+                                                            <th>邮箱</th>
+                                                            <th>Skype</th>
+                                                            <!-- <th>省</th>
+                                                            <th>市</th>
+                                                            <th>区/县</th> -->
+                                                            <th>国家</th>
+                                                            <th>详细地址</th>
+                                                            <th>创建时间</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {volist name="lists" id="vo"}
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" class="i-checks" name="input[]" value="1">
+                                                            </td>
+                                                            <td>{$vo.name}<a href="{:url('read',['id'=> $vo.id])}" style="color:#337ab7;">（查看）</a></td>
+                                                            <td>{$vo.customer.company}<a href="{:url('customer/read',['id'=> $vo.customer.id])}" style="color:#337ab7;">（查看）</a></td>
+                                                            <td>{$_config['contactRole'][$vo.contact_role_id]}</td>
+                                                            <td>{$_config['sex'][$vo.sex]}</td>
+                                                            <td>{$vo.position}</td>
+                                                            <td>{$vo.phone}</td>
+                                                            <td>{$vo.email}</td>
+                                                            <td>{$vo.skype}</td>
+                                                            <!-- <td>{$vo.province}</td>
+                                                            <td>{$vo.city}</td>
+                                                            <td>{$vo.district}</td> -->
+                                                            <td>{$vo.getCountry.name}</td>
+                                                            <td>{$vo.address}</td>
+                                                            <td>{$vo.create_time}</td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">操作 <span class="caret"></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="{:url('edit',['id'=> $vo.id])}">编辑</a>
+                                                                        </li>
+                                                                        <li><a href="javascript:void(0)" onclick="deleteContact({$vo.id});">删除</a>
+                                                                        </li>
+                                                                        <li class="divider"></li>
+                                                                        <!-- <li><a href="javascript:void(0)" data-toggle="modal" onclick="email('{$vo.email}');">发送邮件</a></li> -->
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {/volist}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="page">{$list|raw}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+		
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        var select = [];
+        $("input:checkbox[name='input[]']").on('ifChecked', function(event){
+            var value = $(this).val();
+            if(select.indexOf(value) < 0 ){
+                select.push(value);
+            }
+            //console.log(select);
+            $("#icheck_num").text(select.length);
+            $("#action-list").show();
+        });
+
+        $("input:checkbox[name='input[]']").on('ifUnchecked', function(event){
+            var value = $(this).val();
+            var index = select.indexOf(value);
+            if (index > -1) {
+                select.splice(index, 1);
+            }
+            $("#icheck_num").text(select.length);
+            //console.log(select);
+            if(select.length <= 0){
+                $("#action-list").hide()
+            }
+        });
+
+        //搜索
+        $(".search").click(function(){
+            var keywords = $.trim($("#keywords_username").val());
+            var url = window.location.href;
+            // if(url.indexOf('?') < 0){
+            //     var delimiter = '?';
+            // }else{
+            //     var delimiter = '&';
+            // }
+            // if(keywords == ''){
+            //     layer.msg('请输入搜索关键字',{time:1200,shade:0.7});
+            //     return false;
+            // }
+            url = changeURLPar(url, 'username', keywords);
+            //var url = url + delimiter + 'username=' + keywords;
+            // console.log(url);return;
+            window.location.href = url;
+        })
+
+        //删除线索
+        function deleteContact(id){
+            if(!id){
+                swal('操作失败', '请选择一条联系人信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除这条信息吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('contact/delete')}",
+                            data:{id: id},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+
+        /**
+         * 批量删除
+         * @Author Foggy
+         * @Date   2018-10-16
+         * @WeChat [vita_hacker]
+         * @Email  [x_foggy@163.com]
+         * @return {[type]}          [description]
+         */
+        function batchDelete(){
+            if(!select){
+                swal('操作失败', '请选择一条联系人信息', 'error');
+                return false;
+            }
+            swal(
+                {title:"您确定要删除所选联系人吗",
+                text:"删除后将无法恢复，请谨慎操作！",
+                type:"warning",
+                showCancelButton:true,
+                confirmButtonColor:"#DD6B55",
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"取消",
+                closeOnConfirm:false,
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                       $.ajax({
+                            type:'post',
+                            url:"{:url('contact/delete')}",
+                            data:{id: select},
+                            beforeSend:function(){
+                                before = layer.msg('正在处理，请稍后...',{time:0,icon:4,shade:0.5});
+                            },
+                            success:function(d){
+                                if(d.code == 1){
+                                    swal({title:'提示', text:'删除成功',type:'success'},function(){
+                                        window.location.reload();
+                                    })
+                                }else{
+                                    swal('提示','操作失败','error');
+                                }
+                            },
+                            complete:function(){
+                                layer.close(before);
+                            },
+                            error:function(){
+                                layer.msg('网络错误',{shade:0.7});
+                            }
+                       })
+                    }
+                }
+            )
+        }
+    </script>
+    {include file="public:modal" /}
+</body>
+
+</html>

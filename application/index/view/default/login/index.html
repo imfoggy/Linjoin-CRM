@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录-领众CRM</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <style>
+        .logo-name{font-size:116px !important;font-weight: normal;}
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">LinJoin</h1>
+            </div>
+            <h3>欢迎使用领众CRM</h3>
+            <form class="m-t" role="form" action="{:url('Login/index')}" method="post" onsubmit="return login();">
+                <div class="form-group">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="用户名" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="密码" required>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+            </form>
+            <a href="{:url('login/forget')}">忘记密码</a>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <!-- 第三方插件 -->
+    <script src="__JS__/plugins/pace/pace.min.js"></script>
+    <script>var loginUrl = "{:url('Login/index')}"</script>
+    <script>
+        function login(){
+            var username = $.trim($("#username").val());
+            var password = $.trim($("#password").val());
+            $.ajax({
+                type:'post',
+                url:loginUrl,
+                data:{username: username, password: password},
+                beforeSend:function(){
+                    before = layer.msg('正在处理，请稍后...',{time:0, icon:4, shade:0.7});
+                },
+                success:function(d){
+                    if(d.code == 200){
+                        layer.msg(d.msg,{time:1200,shade:0.7},function(){
+                            window.location.href = d.nextUrl;
+                        });
+                    }else{
+                        layer.msg(d.msg,{time:1200,shade:0.7});
+                    }
+                },
+                complete:function(){
+                    layer.close(before);
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试~',{time:1200, shade:0.7});
+                }
+            })
+
+            return false;
+        }
+    </script>
+</body>
+</html>

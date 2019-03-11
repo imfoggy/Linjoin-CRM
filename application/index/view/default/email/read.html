@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$_siteName}</title>
+    <meta name="description" content="{$_siteDesc}">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__JS__/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <!-- {include file="public:mail_left" /} -->
+            <div class="col-sm-12 animated fadeInRight">
+                <div class="mail-box-header">
+                    <div class="pull-right tooltip-demo">
+                        <a class="btn btn-primary" href="{:url('email/write')}">写信</a>
+                        &nbsp;
+                        <a href="{:url('email/write',['msgid'=>$info.header.msgno])}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="回复"><i class="fa fa-reply"></i> 回复</a>
+                    </div>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                        <h3><span class="font-noraml">主题： </span>{$info.header.title}</h3>
+                        <h5 style="margin-top: 25px;">
+                            <span class="pull-right font-noraml">{$info.header.receiveTime}</span>
+                            <span class="font-noraml">发件人： </span>{$info.header.fromemail}
+                        </h5>
+                    </div>
+                </div>
+                <div class="mail-box">
+
+
+                    <div class="mail-body">
+                        {$info.content|raw}
+                    </div>
+                    {notempty name="info.header.attach"}
+                    <div class="mail-attachment">
+                        <p>
+                            <span><i class="fa fa-paperclip"></i> {$info.header.attachNumber} 个附件 - </span>
+                            <!-- <a href="mail_detail.html#">下载全部</a> -->
+                        </p>
+
+                        <div class="attachment" style="margin-top: 10px;">
+                            {volist name="info.header.attach" id="vo"}
+                            <div class="file-box">
+                                <div class="file">
+                                    <a>
+                                        <span class="corner"></span>
+
+                                        <div class="icon">
+                                            <i class="fa fa-file"></i>
+                                        </div>
+                                        <div class="file-name">
+                                            {$vo} <a href="{:url('email/downloadattach',['msgid'=>$info['header']['msgno']])}">下载</a>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            {/volist}
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    {/notempty}
+                    <div class="mail-body text-right tooltip-demo">
+                        <a class="btn btn-sm btn-white" href="{:url('email/write',['msgid'=>$info.header.msgno])}"><i class="fa fa-reply"></i> 回复</a>
+                        <span class="btn btn-sm btn-white" onclick="window.history.back();"> 返回</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+    <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="__JS__/content.js?v=1.0.0"></script>
+    <!-- iCheck -->
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <script src="__JS__/plugins/layui/layui.all.js"></script>
+    <script src="__JS__/plugins/layui/ajax-form.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>
